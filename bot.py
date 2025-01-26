@@ -9,9 +9,9 @@ from pymongo import MongoClient
 import re
 
 HANDLER = "."
-API_ID = ("API_ID")
-API_HASH = ("API_HASH")
-BOT_TOKEN = ("BOT_TOKEN")
+API_ID = os.environ.get("API_ID")
+API_HASH = os.environ.get("API_HASH")
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
 MONGO_URI = os.getenv('MONGO_URI', "mongodb+srv://Lakshay3434:Tony123@cluster0.agsna9b.mongodb.net/?retryWrites=true&w=majority")
 
 if not MONGO_URI:
