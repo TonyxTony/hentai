@@ -34,7 +34,7 @@ server = Flask(__name__)
 def home():
     return "Bot is running"
 
-@app.on_message(filters.chat(-1002136935704) & filters.bot)
+@app.on_message(filters.chat(-1002136935704) & filters.user(572621020))
 async def capture_pokemon_data(client, message):
     try:
         if message.reply_to_message and message.reply_to_message.photo:
