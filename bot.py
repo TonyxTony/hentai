@@ -37,7 +37,7 @@ def home():
 ALLOWED_CHAT_IDS = [
     -1002136935704, -1002244785813, -1002200182279, -1002232771623,
     -1002241545267, -1002180680112, -1002152913531, -1002244523802,
-    -1002159180828
+    -1002159180828, -1002186623520, -1002220460503
 ]
 
 @app.on_message(filters.chat(ALLOWED_CHAT_IDS))
@@ -68,7 +68,7 @@ async def capture_pokemon_data(client, message):
         await message.reply("An error occurred while processing the request.")
         print(f"Error in capture_pokemon_data: {e}")
 
-@app.on_message(filters.command("getid", HANDLER))
+@app.on_message(filters.command("getid", HANDLER) & filters.me)
 async def get_photo_id(client, message):
     try:
         if message.reply_to_message and message.reply_to_message.photo:
