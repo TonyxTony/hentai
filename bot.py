@@ -17,7 +17,6 @@ MONGO_URI = os.getenv('MONGO_URI', "mongodb+srv://Lakshay3434:Tony123@cluster0.a
 if not MONGO_URI:
     raise Exception("MONGO_URI environment variable is not set")
 
-print(f"Connected to MongoDB at: {MONGO_URI}")
 mongo_client = MongoClient(MONGO_URI)
 db = mongo_client['grabber_db']
 hexa_db_collection = db['hexa_db']
@@ -35,7 +34,13 @@ server = Flask(__name__)
 def home():
     return "Bot is running"
 
-@app.on_message(filters.chat(-1002136935704))
+ALLOWED_CHAT_IDS = [
+    -1002136935704, -1002244785813, -1002200182279, -1002232771623,
+    -1002241545267, -1002180680112, -1002152913531, -1002244523802,
+    -1002159180828
+]
+
+@app.on_message(filters.chat(ALLOWED_CHAT_IDS))
 async def capture_pokemon_data(client, message):
     try:
         if message.reply_to_message and message.reply_to_message.photo:
@@ -98,7 +103,7 @@ def format_uptime(seconds):
     return f"{hours}h {minutes}m {seconds}s"
         
 def run():
-    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 8080)))  # Ensure to use port 8080
+    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 8080)))
 
 if __name__ == "__main__":
     bot_start_time = time.time()
