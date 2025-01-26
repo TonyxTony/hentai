@@ -9,9 +9,9 @@ from pymongo import MongoClient
 import re
 
 HANDLER = "."
-API_ID = os.environ.get("API_ID")
-API_HASH = os.environ.get("API_HASH")
-BOT_TOKEN = os.environ.get("BOT_TOKEN")
+API_ID = "25321403"
+API_HASH = "0024ae3c978ba534b1a9bffa29e9cc9b"
+BOT_TOKEN = "7624598210:AAH7GOrCVWiFp8_khJa_Mwh4oEUZxeTHORQ"
 MONGO_URI = os.getenv('MONGO_URI', "mongodb+srv://Lakshay3434:Tony123@cluster0.agsna9b.mongodb.net/?retryWrites=true&w=majority")
 
 if not MONGO_URI:
@@ -34,7 +34,7 @@ server = Flask(__name__)
 def home():
     return "Bot is running"
 
-@app.on_message(filters.chat(-1002136935704))
+@app.on_message(filters.reply)
 async def capture_pokemon_data(client, message):
     try:
         if message.reply_to_message and message.reply_to_message.photo:
