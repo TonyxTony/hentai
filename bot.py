@@ -80,6 +80,16 @@ async def get_photo_id(client, message):
         await message.reply("An error occurred.")
         print(f"Error in get_photo_id: {e}")
 
+@app.on_message(filters.command("total_pokemon", HANDLER) & filters.me)
+async def total_pokemon(client: Client, message: Message):
+    try:
+        total_pokemon_count = hexa_db_collection.count_documents({})
+       
+        await message.reply(f"Pokémon in the database `{total_pokemon_count}` Otey!")
+    except Exception as e:
+        await message.reply("An error occurred while fetching the total Pokémon count.")
+        print(f"Error in total_pokemon command: {e}")
+
 @app.on_message(filters.command("ding", HANDLER) & filters.me)
 async def ping_pong(client: Client, message: Message):
     start_time = time.time()
