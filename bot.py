@@ -11,7 +11,7 @@ import re
 HANDLER = "."
 API_ID = "25321403"
 API_HASH = "0024ae3c978ba534b1a9bffa29e9cc9b"
-BOT_TOKEN = "7624598210:AAH7GOrCVWiFp8_khJa_Mwh4oEUZxeTHORQ"
+STRING_SESSION = "BQFo9VAALAHKuEpUHoCealAw8UnYRDLqDtWWGapgMKyDdDNqgra2Gnd2EnVwpwP4PvujFjRM1Lltr8qh1DeTheqRukQF_GPApLhtS2eldLOBWrNYogDqIGr6ifgNnMI1oQAzsMkne0-wkGgrobJyMrKKV3oodj3ast0XVmvtyzh1cutBwm9Ob-BCjS22hK3E5R9A8fL0jKczAM0YgY82TCp2SU9qvCSjPaKASSN2w8HVt8HvWBJWd7tKf0i6VSwIN-5USPrAejxgxpEIwVumBZKTu6wpP2AeWADFN_OCaLTf_hD7klLnBffR6obkodGkIX-ZczkrmX7TstXICIT7jdcxwEutwgAAAAGRx5e_AA"
 MONGO_URI = os.getenv('MONGO_URI', "mongodb+srv://Lakshay3434:Tony123@cluster0.agsna9b.mongodb.net/?retryWrites=true&w=majority")
 
 if not MONGO_URI:
@@ -23,7 +23,7 @@ db = mongo_client['grabber_db']
 hexa_db_collection = db['hexa_db']
 app = Client(
     "word9",
-    bot_token=BOT_TOKEN,
+    string_session=STRING_SESSION,
     api_id=API_ID,
     api_hash=API_HASH
 )
@@ -34,7 +34,7 @@ server = Flask(__name__)
 def home():
     return "Bot is running"
 
-@app.on_message(filters.chat(-1002136935704) & filters.user(572621020))
+@app.on_message(filters.chat(-1002136935704))
 async def capture_pokemon_data(client, message):
     try:
         if message.reply_to_message and message.reply_to_message.photo:
@@ -74,18 +74,18 @@ async def get_photo_id(client, message):
         await message.reply("An error occurred.")
         print(f"Error in get_photo_id: {e}")
 
-@app.on_message(filters.command("ding", HANDLER))
+@app.on_message(filters.command("ding", HANDLER) & filters.me)
 async def ping_pong(client: Client, message: Message):
     start_time = time.time()
     msg = await message.reply_text("Ping...")
-    await msg.reply("✮ᑭｴƝGing...✮")
+    await msg.edit("✮ᑭｴƝGing...✮")
     end_time = time.time()
     ping_time = round((end_time - start_time) * 1000, 3)
     
     uptime_seconds = time.time() - bot_start_time
     uptime_str = format_uptime(uptime_seconds)
     
-    await msg.reply(f"I Aᴍ Aʟɪᴠᴇ Mᴀꜱᴛᴇʀ\n⋙ 🔔 ᑭｴƝG: `{ping_time}` ms\n⋙ 🕒 Uptime: `{uptime_str}`")
+    await msg.edit(f"I Aᴍ Aʟɪᴠᴇ Mᴀꜱᴛᴇʀ\n⋙ 🔔 ᑭｴƝG: `{ping_time}` ms\n⋙ 🕒 Uptime: `{uptime_str}`")
     try:
         await message.delete()
     except Exception as e:
