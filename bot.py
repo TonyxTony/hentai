@@ -3,6 +3,7 @@ import os
 import time
 from threading import Thread
 from flask import Flask
+from pyrogram.types import Message
 import asyncio
 from pymongo import MongoClient
 import re
@@ -34,7 +35,7 @@ server = Flask(__name__)
 def home():
     return "Bot is running"
 
-# List of allowed chats
+# Convert allowed_chats set to a list
 allowed_chats = [
     -1002220303971, -1002220460503, -1002244785813, -1002200182279, -1002241545267, 
     -1002180680112, -1002152913531, -1002232771623, -1002244523802, -1002159180828
@@ -58,11 +59,6 @@ async def handle_hexa_bot(client, message):
     
     except Exception as e:
         print(f"Error handling hexa_bot: {e}")
-        # Gracefully handle any issues with the peer ID or other errors
-        try:
-            await message.reply("An error occurred while processing the image.")
-        except Exception as msg_error:
-            print(f"Error replying to the message: {msg_error}")
 
 @app.on_message(filters.chat(allowed_chats))
 async def capture_pokemon_data(client, message):
@@ -89,13 +85,22 @@ async def capture_pokemon_data(client, message):
                         )
                         await message.reply(f"Stored `{file_unique_id}` with Pokémon name `{pokemon_name}` in DB!")
     except Exception as e:
+        await message.reply("An error occurred while processing the request.")
         print(f"Error in capture_pokemon_data: {e}")
-        try:
-            await message.reply("An error occurred while processing the Pokémon data.")
-        except Exception as msg_error:
-            print(f"Error replying to the message: {msg_error}")
 
-# Function to send guess command to allowed chats
+@app.on_message(filters.command("chats", HANDLER) & filters.chat(allowed_chats) & filters.user([7530506703, 6600178606]))
+async def list_auto_response_groups(client, message):
+    try:
+        response_text = f"Auto-response enabled for {len(allowed_chats)} group(s):\n"
+        for chat_id in allowed_chats:
+            chat_info = await client.get_chat(chat_id)
+            response_text += f"• {chat_info.title} (Chat ID: `{chat_id}`)\n"
+        await message.reply(response_text)
+    except Exception as e:
+        print(f"Error listing auto-response groups: {e}")
+
+is_sending = False
+
 @app.on_message(filters.command("starthexa", HANDLER) & filters.chat(allowed_chats) & filters.user([7530506703, 6600178606]))
 async def send_guess_command(client, message):
     global is_sending
@@ -108,17 +113,13 @@ async def send_guess_command(client, message):
         await message.reply("Hexa now started. Guess...!")
         while is_sending:
             for chat_id in allowed_chats:
-                try:
-                    await client.send_message(chat_id, "/guess@HeXamonbot")
-                    await asyncio.sleep(3)
-                except Exception as e:
-                    print(f"Error sending message to {chat_id}: {e}")
+                await client.send_message(chat_id, "/guess@HeXamonbot")
+                await asyncio.sleep(3)
             await asyncio.sleep(5)
     
     except Exception as e:
         await message.reply("An error occurred while sending the command.")
-
-# Function to stop sending guess command to allowed chats
+    
 @app.on_message(filters.command("stophexa", HANDLER) & filters.chat(allowed_chats) & filters.user([7530506703, 6600178606]))
 async def stop_send_guess_command(client, message):
     global is_sending
@@ -130,7 +131,7 @@ async def stop_send_guess_command(client, message):
     await message.reply("Hexa process is stopped Otey!")
 
 @app.on_message(filters.command("ding", HANDLER) & filters.me)
-async def ping_pong(client, message):
+async def ping_pong(client: Client, message: Message):
     start_time = time.time()
     msg = await message.reply_text("Ping...")
     await msg.edit("✮ᑭｴƝGing...✮")
