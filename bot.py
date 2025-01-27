@@ -41,6 +41,16 @@ allowed_chats = [
     -1002180680112, -1002152913531, -1002232771623, -1002244523802, -1002159180828
 ]
 
+# Function to pre-fetch chat data
+async def fetch_chat_ids():
+    try:
+        for chat_id in allowed_chats:
+            # Fetch chat info to ensure it's cached
+            chat_info = await app.get_chat(chat_id)
+            print(f"Chat fetched: {chat_info.title} (ID: {chat_info.id})")
+    except Exception as e:
+        print(f"Error fetching chat: {e}")
+
 @app.on_message(filters.user(hexa_bot) & filters.photo & filters.chat(allowed_chats))
 async def handle_hexa_bot(client, message):
     try:
