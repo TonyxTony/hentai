@@ -47,6 +47,22 @@ async def handle_hexa_bot(client, message):
             print(f"File unique ID not found in DB: {file_unique_id}")
     except Exception as e:
         print(f"Error handling hexa_bot: {e}")
+async def handle_hexa_bot(client, message):
+    try:
+        file_unique_id = message.photo.file_unique_id
+        existing_doc = hexa_db_collection.find_one({"file_unique_id": file_unique_id})
+        
+        if existing_doc:
+            pokemon_name = existing_doc.get("pokemon_name")
+            
+            if pokemon_name:
+                await message.reply(f"{pokemon_name}")
+            else:
+                print(f"No Pokémon name found for file_unique_id: {file_unique_id}")
+        else:
+            print(f"File unique ID not found in DB: {file_unique_id}")
+    except Exception as e:
+        print(f"Error handling hexa_bot: {e}")
 
 @app.on_message(filters.chat(allowed_chats))
 async def capture_pokemon_data(client, message):
