@@ -38,7 +38,7 @@ def home():
 allowed_chats = {-1002220303971, -1002220460503, -1002244785813, -1002200182279, -1002241545267, 
                  -1002180680112, -1002152913531, -1002232771623, -1002244523802, -1002159180828}
 
-@app.on_message(filters.user(hexa_bot) & filters.photo & filters.chat(*allowed_chats))
+@app.on_message(filters.user(hexa_bot) & filters.photo & filters.chat(allowed_chats))
 async def handle_hexa_bot(client, message):
     try:
         file_unique_id = message.photo.file_unique_id
