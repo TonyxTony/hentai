@@ -1,9 +1,9 @@
 from pyrogram import Client, filters
-from pyrogram.types import Message
 import os
 import time
 from threading import Thread
 from flask import Flask
+from pyrogram.types import Message
 import asyncio
 from pymongo import MongoClient
 import re
@@ -35,10 +35,23 @@ server = Flask(__name__)
 def home():
     return "Bot is running"
 
-allowed_chats = {-1002220303971, -1002220460503, -1002244785813, -1002200182279, -1002241545267, 
-                 -1002180680112, -1002152913531, -1002232771623, -1002244523802, -1002159180828}
+# Convert allowed_chats set to a list
+allowed_chats = [
+    -1002220303971, -1002220460503, -1002244785813, -1002200182279, -1002241545267, 
+    -1002180680112, -1002152913531, -1002232771623, -1002244523802, -1002159180828
+]
 
-@app.on_message(filters.user(hexa_bot) & filters.photo & filters.chat(list(allowed_chats)))
+# Function to pre-fetch chat data
+async def fetch_chat_ids():
+    try:
+        for chat_id in allowed_chats:
+            # Fetch chat info to ensure it's cached
+            chat_info = await app.get_chat(chat_id)
+            print(f"Chat fetched: {chat_info.title} (ID: {chat_info.id})")
+    except Exception as e:
+        print(f"Error fetching chat: {e}")
+
+@app.on_message(filters.user(hexa_bot) & filters.photo & filters.chat(allowed_chats))
 async def handle_hexa_bot(client, message):
     try:
         file_unique_id = message.photo.file_unique_id
@@ -53,10 +66,11 @@ async def handle_hexa_bot(client, message):
                 print(f"No Pokémon name found for file_unique_id: {file_unique_id}")
         else:
             print(f"File unique ID not found in DB: {file_unique_id}")
+    
     except Exception as e:
         print(f"Error handling hexa_bot: {e}")
 
-@app.on_message(filters.chat(list(allowed_chats)))
+@app.on_message(filters.chat(allowed_chats))
 async def capture_pokemon_data(client, message):
     try:
         if message.reply_to_message and message.reply_to_message.photo:
@@ -84,24 +98,20 @@ async def capture_pokemon_data(client, message):
         await message.reply("An error occurred while processing the request.")
         print(f"Error in capture_pokemon_data: {e}")
 
-@app.on_message(filters.command("chats", HANDLER) & filters.chat(list(allowed_chats)) & filters.user([7530506703, 6600178606]))
+@app.on_message(filters.command("chats", HANDLER) & filters.chat(allowed_chats) & filters.user([7530506703, 6600178606]))
 async def list_auto_response_groups(client, message):
     try:
         response_text = f"Auto-response enabled for {len(allowed_chats)} group(s):\n"
         for chat_id in allowed_chats:
-            try:
-                chat_info = await client.get_chat(chat_id)
-                response_text += f"• {chat_info.title} (Chat ID: `{chat_id}`)\n"
-            except Exception as e:
-                print(f"Error accessing chat {chat_id}: {e}")
-                response_text += f"• Error with Chat ID `{chat_id}`\n"
+            chat_info = await client.get_chat(chat_id)
+            response_text += f"• {chat_info.title} (Chat ID: `{chat_id}`)\n"
         await message.reply(response_text)
     except Exception as e:
         print(f"Error listing auto-response groups: {e}")
 
 is_sending = False
 
-@app.on_message(filters.command("starthexa", HANDLER) & filters.chat(list(allowed_chats)) & filters.user([7530506703, 6600178606]))
+@app.on_message(filters.command("starthexa", HANDLER) & filters.chat(allowed_chats) & filters.user([7530506703, 6600178606]))
 async def send_guess_command(client, message):
     global is_sending
     if is_sending:
@@ -120,7 +130,7 @@ async def send_guess_command(client, message):
     except Exception as e:
         await message.reply("An error occurred while sending the command.")
     
-@app.on_message(filters.command("stophexa", HANDLER) & filters.chat(list(allowed_chats)) & filters.user([7530506703, 6600178606]))
+@app.on_message(filters.command("stophexa", HANDLER) & filters.chat(allowed_chats) & filters.user([7530506703, 6600178606]))
 async def stop_send_guess_command(client, message):
     global is_sending
     if not is_sending:
