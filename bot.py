@@ -1,10 +1,8 @@
-from pyrogram import Client, filters
 import os
 import time
-from threading import Thread
-from flask import Flask
-from pyrogram.types import Message
 import asyncio
+from pyrogram import Client, filters
+from pyrogram.errors import PeerIdInvalid
 from pymongo import MongoClient
 import re
 
@@ -17,8 +15,7 @@ hexa_bot = 572621020
 
 if not mongo_uri:
     raise Exception("MONGO_URI environment variable is not set")
-    
-print(f"Connected to MongoDB at: {mongo_uri}")
+
 mongo_client = MongoClient(mongo_uri)
 db = mongo_client['grabber_db']
 hexa_db_collection = db['hexa_db']
@@ -30,28 +27,10 @@ app = Client(
     session_string=SESSION
 )
 
-server = Flask(__name__)
-@server.route("/")
-def home():
-    return "Bot is running"
+allowed_chats = {-1002220303971, -1002220460503, -1002244785813, -1002200182279, -1002241545267, 
+                 -1002180680112, -1002152913531, -1002232771623, -1002244523802, -1002159180828}
 
-# Convert allowed_chats set to a list
-allowed_chats = [
-    -1002220303971, -1002220460503, -1002244785813, -1002200182279, -1002241545267, 
-    -1002180680112, -1002152913531, -1002232771623, -1002244523802, -1002159180828
-]
-
-# Function to pre-fetch chat data
-async def fetch_chat_ids():
-    try:
-        for chat_id in allowed_chats:
-            # Fetch chat info to ensure it's cached
-            chat_info = await app.get_chat(chat_id)
-            print(f"Chat fetched: {chat_info.title} (ID: {chat_info.id})")
-    except Exception as e:
-        print(f"Error fetching chat: {e}")
-
-@app.on_message(filters.user(hexa_bot) & filters.photo & filters.chat(allowed_chats))
+@app.on_message(filters.user(hexa_bot) & filters.photo & filters.chat(*allowed_chats))
 async def handle_hexa_bot(client, message):
     try:
         file_unique_id = message.photo.file_unique_id
@@ -66,7 +45,6 @@ async def handle_hexa_bot(client, message):
                 print(f"No Pokémon name found for file_unique_id: {file_unique_id}")
         else:
             print(f"File unique ID not found in DB: {file_unique_id}")
-    
     except Exception as e:
         print(f"Error handling hexa_bot: {e}")
 
@@ -123,13 +101,16 @@ async def send_guess_command(client, message):
         await message.reply("Hexa now started. Guess...!")
         while is_sending:
             for chat_id in allowed_chats:
-                await client.send_message(chat_id, "/guess@HeXamonbot")
-                await asyncio.sleep(3)
+                try:
+                    await client.send_message(chat_id, "/guess@HeXamonbot")
+                    await asyncio.sleep(3)
+                except PeerIdInvalid as e:
+                    print(f"Invalid Peer ID: {chat_id}")
+                    continue
             await asyncio.sleep(5)
-    
     except Exception as e:
         await message.reply("An error occurred while sending the command.")
-    
+
 @app.on_message(filters.command("stophexa", HANDLER) & filters.chat(allowed_chats) & filters.user([7530506703, 6600178606]))
 async def stop_send_guess_command(client, message):
     global is_sending
@@ -141,7 +122,7 @@ async def stop_send_guess_command(client, message):
     await message.reply("Hexa process is stopped Otey!")
 
 @app.on_message(filters.command("ding", HANDLER) & filters.me)
-async def ping_pong(client: Client, message: Message):
+async def ping_pong(client, message):
     start_time = time.time()
     msg = await message.reply_text("Ping...")
     await msg.edit("✮ᑭｴƝGing...✮")
@@ -161,7 +142,7 @@ def format_uptime(seconds):
     hours, remainder = divmod(int(seconds), 3600)
     minutes, seconds = divmod(remainder, 60)
     return f"{hours}h {minutes}m {seconds}s"
-        
+
 def run():
     server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 8080)))  # Ensure to use port 8080
 
