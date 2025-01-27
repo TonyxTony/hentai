@@ -9,9 +9,9 @@ from pymongo import MongoClient
 import re
 
 HANDLER = "."
-API_ID = "25321403"
-API_HASH = "0024ae3c978ba534b1a9bffa29e9cc9b"
-SESSION = "BQFo9VAALAHKuEpUHoCealAw8UnYRDLqDtWWGapgMKyDdDNqgra2Gnd2EnVwpwP4PvujFjRM1Lltr8qh1DeTheqRukQF_GPApLhtS2eldLOBWrNYogDqIGr6ifgNnMI1oQAzsMkne0-wkGgrobJyMrKKV3oodj3ast0XVmvtyzh1cutBwm9Ob-BCjS22hK3E5R9A8fL0jKczAM0YgY82TCp2SU9qvCSjPaKASSN2w8HVt8HvWBJWd7tKf0i6VSwIN-5USPrAejxgxpEIwVumBZKTu6wpP2AeWADFN_OCaLTf_hD7klLnBffR6obkodGkIX-ZczkrmX7TstXICIT7jdcxwEutwgAAAAGRx5e_AA"
+API_ID = "25560748"
+API_HASH = "ebd241a08fddca1c5b686a7a29a2d5d3"
+SESSION = "BQGGBqwAAec0L47cMvuiYPzioN1mgJJpqUYpp-dfeK_z0ssxVkzex6j2oNRHmf5waGvClNHjjK376L6YcHeLVa3ZCEwJcNd2w9Y-XlSr0nSl6UKftnBzi4dDZjvfb1oNzZuDpYLBaVyl2uYz0h7-Qq8TSadQZHDtvtHStCkVxIHiot20UQ1nJC9yzYqSjNumYP2_0dEyapdFQZy6X0RiYjlkFHhqLEPkha9mG2o-O4skot_IUWmW2ycGsBHlsAyK5spN9eCTQYim1oAV8tRcNoUbZb3iqdz6Ng6bKJLmiopWhPy3K6xV-SPmRUoWwmG0mc6CZqo5IVx5hYtedF3C2D4rMgOwDAAAAAGsm527AA"
 mongo_uri = os.getenv('MONGO_URI', "mongodb+srv://Lakshay3434:Tony123@cluster0.agsna9b.mongodb.net/?retryWrites=true&w=majority")
 hexa_bot = 572621020
 
@@ -170,7 +170,7 @@ async def remove_auto_response_group(client, message):
     except Exception as e:
         print(f"Error removing auto-response group: {e}")
 
-@app.on_message(filters.command("auto", HANDLER) & filters.user([7530506703, 6600178606]))
+@app.on_message(filters.command("auto", HANDLER) & filters.user([7530506703, 6600178606]) & filters.me)
 async def toggle_auto_reply(client, message):
     global auto_reply_enabled
     try:
@@ -222,7 +222,7 @@ async def send_guess_command(client, message):
         while is_sending:
             for chat_id in auto_response_groups:
                 await client.send_message(chat_id, "/guess@HeXamonbot")
-                await asyncio.sleep(3)
+                await asyncio.sleep(2)
             await asyncio.sleep(5)
     
     except Exception as e:
