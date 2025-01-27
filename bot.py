@@ -3,7 +3,6 @@ import os
 import time
 from threading import Thread
 from flask import Flask
-from pyrogram.types import Message
 import asyncio
 from pymongo import MongoClient
 import re
@@ -89,8 +88,12 @@ async def list_auto_response_groups(client, message):
     try:
         response_text = f"Auto-response enabled for {len(allowed_chats)} group(s):\n"
         for chat_id in allowed_chats:
-            chat_info = await client.get_chat(chat_id)
-            response_text += f"• {chat_info.title} (Chat ID: `{chat_id}`)\n"
+            try:
+                chat_info = await client.get_chat(chat_id)
+                response_text += f"• {chat_info.title} (Chat ID: `{chat_id}`)\n"
+            except Exception as e:
+                print(f"Error accessing chat {chat_id}: {e}")
+                response_text += f"• Error with Chat ID `{chat_id}`\n"
         await message.reply(response_text)
     except Exception as e:
         print(f"Error listing auto-response groups: {e}")
