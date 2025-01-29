@@ -41,6 +41,7 @@ from pyrogram import Client, filters
 import os
 import time
 
+import re
 from pyrogram import Client, filters
 import os
 
@@ -67,12 +68,20 @@ async def forward_and_edit_photo(client, message):
             if reply_message:
                 # Check if the reply contains the phrase "Nobody guessed correctly."
                 if "Nobody guessed correctly." in reply_message.text:
-                    # Get the full text from the reply
+                    # Extract the full text from the reply
                     full_text = reply_message.text
 
-                    # Step 4: Edit the forwarded photo with the full text from the reply
-                    await forwarded_message.edit(caption=full_text)
-                    print(f"Photo caption edited with: {full_text}")
+                    # Step 4: Extract the Pokémon name from the reply using regex (removing bold formatting)
+                    pokemon_name_match = re.search(r"The pokemon was \*\*(.*?)\*\*", full_text)
+                    if pokemon_name_match:
+                        pokemon_name = pokemon_name_match.group(1).strip()
+
+                        # Step 5: Edit the forwarded photo with the full text from the reply
+                        new_caption = f"{full_text} (Pokémon: {pokemon_name})"
+                        await forwarded_message.edit(caption=new_caption)
+                        print(f"Photo caption edited with: {new_caption}")
+                    else:
+                        print("Pokémon name not found in the reply.")
                 else:
                     print("Reply does not contain the expected phrase.")
             else:
