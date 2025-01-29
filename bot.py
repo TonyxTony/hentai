@@ -41,24 +41,39 @@ from pyrogram import Client, filters
 import os
 import time
 
+from pyrogram import Client, filters
+import os
+import time
+
 @app.on_message(filters.user(hexa_bot) & filters.photo)
 async def forward_photo_to_hexa_channel(client, message):
     try:
+        # Download the photo from hexa_bot
         file_path = await message.download()
+
+        # Send the photo to @Hexa_DB channel
         forwarded_message = await client.send_photo(chat_id="@Hexa_DB", photo=file_path)
 
+        # Wait for a reply in the same chat (channel) with the symbol "Nobody guessed correctly."
         async def wait_for_reply():
+            # Define the filter to get a reply to the forwarded photo in @Hexa_DB channel
             reply_message = await client.wait_for(
-                filters.user(hexa_bot) & filters.reply_to_message(forwarded_message) & filters.text,
-                timeout=60
+                filters.chat("@Hexa_DB") & filters.reply_to_message(forwarded_message) & filters.text,
+                timeout=60  # Wait for up to 60 seconds
             )
             if reply_message:
-                pokemon_text = reply_message.text
-                # Edit the forwarded photo with the Pokémon name in the caption
-                await forwarded_message.edit(caption=f"{pokemon_text}")
-                print(f"Photo edited with Pokémon info: {pokemon_text}")
+                # Check if the reply contains the phrase "Nobody guessed correctly."
+                if "Nobody guessed correctly." in reply_message.text:
+                    # Get the text from the reply (Pokémon name or message)
+                    pokemon_text = reply_message.text
+
+                    # Edit the forwarded photo with the text from the reply
+                    await forwarded_message.edit(caption=f"{pokemon_text}")
+                    print(f"Photo edited with reply: {pokemon_text}")
+                else:
+                    print("Reply does not contain the phrase 'Nobody guessed correctly.'")
             else:
-                print("No reply from hexa_bot within the timeout period.")
+                print("No reply within the timeout period.")
 
         # Call the function to wait for the reply
         await wait_for_reply()
