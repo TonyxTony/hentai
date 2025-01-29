@@ -43,35 +43,38 @@ import time
 
 from pyrogram import Client, filters
 import os
-import time
 
 @app.on_message(filters.user(hexa_bot) & filters.photo)
-async def forward_photo_to_hexa_channel(client, message):
+async def forward_and_edit_photo(client, message):
     try:
-        # Download the photo from hexa_bot
+        # Step 1: Download the photo from hexa_bot
         file_path = await message.download()
 
-        # Send the photo to @Hexa_DB channel
+        # Step 2: Send the photo to @Hexa_DB and keep track of the forwarded message
         forwarded_message = await client.send_photo(chat_id="@Hexa_DB", photo=file_path)
 
-        # Wait for a reply in the same chat (channel) with the symbol "Nobody guessed correctly."
+        # Save the chat_id where the photo was forwarded
+        forwarded_chat_id = forwarded_message.chat.id
+        
+        # Step 3: Wait for a reply in the same chat (channel) with the phrase "Nobody guessed correctly."
         async def wait_for_reply():
-            # Define the filter to get a reply to the forwarded photo in @Hexa_DB channel
+            # Define the filter to get the reply in @Hexa_DB channel to the forwarded photo
             reply_message = await client.wait_for(
-                filters.chat("@Hexa_DB") & filters.reply_to_message(forwarded_message) & filters.text,
-                timeout=60  # Wait for up to 60 seconds
+                filters.chat(forwarded_chat_id) & filters.reply_to_message(forwarded_message) & filters.text,
+                timeout=60  # Wait for a reply within 60 seconds
             )
+            
             if reply_message:
                 # Check if the reply contains the phrase "Nobody guessed correctly."
                 if "Nobody guessed correctly." in reply_message.text:
-                    # Get the text from the reply (Pokémon name or message)
-                    pokemon_text = reply_message.text
+                    # Get the full text from the reply
+                    full_text = reply_message.text
 
-                    # Edit the forwarded photo with the text from the reply
-                    await forwarded_message.edit(caption=f"{pokemon_text}")
-                    print(f"Photo edited with reply: {pokemon_text}")
+                    # Step 4: Edit the forwarded photo with the full text from the reply
+                    await forwarded_message.edit(caption=full_text)
+                    print(f"Photo caption edited with: {full_text}")
                 else:
-                    print("Reply does not contain the phrase 'Nobody guessed correctly.'")
+                    print("Reply does not contain the expected phrase.")
             else:
                 print("No reply within the timeout period.")
 
