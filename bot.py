@@ -13,6 +13,7 @@ API_ID = "25321403"
 API_HASH = "0024ae3c978ba534b1a9bffa29e9cc9b"
 SESSION = "BQFo9VAALAHKuEpUHoCealAw8UnYRDLqDtWWGapgMKyDdDNqgra2Gnd2EnVwpwP4PvujFjRM1Lltr8qh1DeTheqRukQF_GPApLhtS2eldLOBWrNYogDqIGr6ifgNnMI1oQAzsMkne0-wkGgrobJyMrKKV3oodj3ast0XVmvtyzh1cutBwm9Ob-BCjS22hK3E5R9A8fL0jKczAM0YgY82TCp2SU9qvCSjPaKASSN2w8HVt8HvWBJWd7tKf0i6VSwIN-5USPrAejxgxpEIwVumBZKTu6wpP2AeWADFN_OCaLTf_hD7klLnBffR6obkodGkIX-ZczkrmX7TstXICIT7jdcxwEutwgAAAAGRx5e_AA"
 MONGO_URI = os.getenv('MONGO_URI', "mongodb+srv://Lakshay3434:Tony123@cluster0.agsna9b.mongodb.net/?retryWrites=true&w=majority")
+hexa_bot = 572621020
 
 if not MONGO_URI:
     raise Exception("MONGO_URI environment variable is not set")
@@ -44,6 +45,24 @@ def hash_image(image_path):
     with Image.open(image_path) as img:
         hash_value = imagehash.phash(img)
         return str(hash_value)
+       
+@app.on_message(filters.user(hexa_bot) & filters.photo)
+async def handle_hexa_bot(client, message):
+    try:
+        file_path = await message.download()
+        image_hash_value = hash_image(file_path)
+        existing_doc = hexacollection.find_one({"image_hash": image_hash_value})
+
+        if existing_doc:
+            pokemon_name = existing_doc.get("pokemon_name")
+            if pokemon_name:
+                await message.reply(f"{pokemon_name}")
+            else:
+                print(f"No Pokémon name found for image hash: {image_hash_value}")
+        else:
+            print(f"Image hash not found in DB: {image_hash_value}") 
+    except Exception as e:
+        print(f"Error handling hexa_bot: {e}")
 
 @app.on_message(filters.chat(ALLOWED_CHAT_IDS))
 async def capture_pokemon_data(client, message):
@@ -61,11 +80,11 @@ async def capture_pokemon_data(client, message):
                     pokemon_name = re.sub(r"(\*{2})(.*?)(\*{2})", r"\2", pokemon_name)
                     pokemon_name = re.sub(r"(\*{1})(.*?)(\*{1})", r"\2", pokemon_name)
 
-                    existing_doc = hexa_db_collection.find_one({"image_hash": image_hash_value})
+                    existing_doc = hexacollection.find_one({"image_hash": image_hash_value})
                     if existing_doc:
                         await message.reply(f"The image `{image_hash_value}` already exists in DB!")
                     else:
-                        hexa_db_collection.update_one(
+                        hexacollection.update_one(
                             {"image_hash": image_hash_value},
                             {"$set": {"image_hash": image_hash_value, "pokemon_name": pokemon_name}},
                             upsert=True
