@@ -41,20 +41,19 @@ auto_response_groups = {}
 @app.on_message(filters.user(hexa_bot) & filters.photo)
 async def handle_hexa_bot(client, message):
     try:
-        if auto_reply_enabled and message.chat.id in auto_response_groups:
-            file_unique_id = message.photo.file_unique_id
-            existing_doc = hexa_db_collection.find_one({"file_unique_id": file_unique_id})
+        file_unique_id = message.photo.file_unique_id
+        existing_doc = hexa_db_collection.find_one({"file_unique_id": file_unique_id})
 
-            if existing_doc:
-                pokemon_name = existing_doc.get("pokemon_name")
+        if existing_doc:
+            pokemon_name = existing_doc.get("pokemon_name")
 
-                if pokemon_name:
-                    await message.reply(f"{pokemon_name}")
-                else:
-                    print(f"No Pokémon name found for file_unique_id: {file_unique_id}")
+            if pokemon_name:
+                await message.reply(f"{pokemon_name}")
             else:
-                print(f"File unique ID not found in DB: {file_unique_id}")
-    
+                print(f"No Pokémon name found for file_unique_id: {file_unique_id}")
+        else:
+            print(f"File unique ID not found in DB: {file_unique_id}")
+
     except Exception as e:
         print(f"Error handling hexa_bot: {e}")
 
