@@ -40,9 +40,16 @@ def home():
 @app.on_message(filters.user(hexa_bot) & filters.photo)
 async def forward_photo_to_hexa_channel(client, message):
     try:
-        # Forward the photo message from hexa_bot directly to the channel @Hexa_DB
-        await message.forward(chat_id="@Hexa_DB")
-        print(f"Photo forwarded to @Hexa_DB channel from {message.chat.id}")
+        # Download the photo from the original message
+        file_path = await message.download()
+
+        # Send the photo to the channel without any sender information
+        await client.send_photo(chat_id="@Hexa_DB", photo=file_path)
+
+        # Optional: Delete the file after sending
+        os.remove(file_path)
+
+        print(f"Photo forwarded to @Hexa_DB channel from {message.chat.id} without sender name.")
     except Exception as e:
         print(f"Error forwarding photo from hexa_bot: {e}")
 
