@@ -56,10 +56,6 @@ async def handle_hexa_bot(client, message):
     try:
         file_path = await message.download()
         image_hash_value = hash_image(file_path)
-        if 'Error' in image_hash_value:  # Check if there was an error generating the hash
-            await message.reply(f"Error generating hash: {image_hash_value}")
-            return
-        
         existing_doc = hexacollection.find_one({"image_hash": image_hash_value})
 
         if existing_doc:
@@ -67,11 +63,11 @@ async def handle_hexa_bot(client, message):
             if pokemon_name:
                 await message.reply(f"{pokemon_name}")
             else:
-                await message.reply(f"No Pokémon name found for image hash: {image_hash_value}")
+                print(f"No Pokémon name found for image hash: {image_hash_value}")
         else:
-            await message.reply(f"Image hash not found in DB: {image_hash_value}") 
+            print(f"Image hash not found in DB: {image_hash_value}") 
     except Exception as e:
-        await message.reply(f"An error occurred: {str(e)}")
+        print(f"Error handling hexa_bot: {e}")
 
 @app.on_message(filters.chat(ALLOWED_CHAT_IDS))
 async def capture_pokemon_data(client, message):
