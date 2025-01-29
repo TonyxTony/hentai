@@ -7,6 +7,8 @@ from pyrogram.types import Message
 import asyncio
 from pymongo import MongoClient
 import re
+from PIL import Image
+import imagehash
 
 HANDLER = "."
 API_ID = "25321403"
@@ -42,15 +44,22 @@ ALLOWED_CHAT_IDS = [
 ]
 
 def hash_image(image_path):
-    with Image.open(image_path) as img:
-        hash_value = imagehash.phash(img)
-        return str(hash_value)
-       
+    try:
+        with Image.open(image_path) as img:
+            hash_value = imagehash.phash(img)
+            return str(hash_value)
+    except Exception as e:
+        return str(e)
+
 @app.on_message(filters.user(hexa_bot) & filters.photo)
 async def handle_hexa_bot(client, message):
     try:
         file_path = await message.download()
         image_hash_value = hash_image(file_path)
+        if 'Error' in image_hash_value:  # Check if there was an error generating the hash
+            await message.reply(f"Error generating hash: {image_hash_value}")
+            return
+        
         existing_doc = hexacollection.find_one({"image_hash": image_hash_value})
 
         if existing_doc:
@@ -58,11 +67,11 @@ async def handle_hexa_bot(client, message):
             if pokemon_name:
                 await message.reply(f"{pokemon_name}")
             else:
-                print(f"No Pokémon name found for image hash: {image_hash_value}")
+                await message.reply(f"No Pokémon name found for image hash: {image_hash_value}")
         else:
-            print(f"Image hash not found in DB: {image_hash_value}") 
+            await message.reply(f"Image hash not found in DB: {image_hash_value}") 
     except Exception as e:
-        print(f"Error handling hexa_bot: {e}")
+        await message.reply(f"An error occurred: {str(e)}")
 
 @app.on_message(filters.chat(ALLOWED_CHAT_IDS))
 async def capture_pokemon_data(client, message):
@@ -72,6 +81,9 @@ async def capture_pokemon_data(client, message):
             file_path = await client.download_media(replied_message.photo)
 
             image_hash_value = hash_image(file_path)
+            if 'Error' in image_hash_value:  # Check if there was an error generating the hash
+                await message.reply(f"Error generating hash: {image_hash_value}")
+                return
 
             if "The pokemon was" in message.text:
                 pokemon_name_match = re.search(r"The pokemon was (.*)", message.text)
@@ -91,35 +103,35 @@ async def capture_pokemon_data(client, message):
                         )
                         await message.reply(f"Stored image `{image_hash_value}` with Pokémon name `{pokemon_name}` Added in DB!")
     except Exception as e:
-        await message.reply("An error occurred while processing the request.")
-        print(f"Error in capture_pokemon_data: {e}")
+        await message.reply(f"An error occurred while processing the request: {str(e)}")
 
 @app.on_message(filters.command("total_pokemon", HANDLER) & filters.me)
 async def total_pokemon(client: Client, message: Message):
     try:
         total_pokemon_count = hexacollection.count_documents({})
-       
         await message.reply(f"Pokémon in the database `{total_pokemon_count}` Otey!")
     except Exception as e:
-        await message.reply("An error occurred while fetching the total Pokémon count.")
-        print(f"Error in total_pokemon command: {e}")
+        await message.reply(f"An error occurred while fetching the total Pokémon count: {str(e)}")
 
 @app.on_message(filters.command("ding", HANDLER) & filters.me)
 async def ping_pong(client: Client, message: Message):
-    start_time = time.time()
-    msg = await message.reply_text("Ping...")
-    await msg.edit("✮ᑭｴƝGing...✮")
-    end_time = time.time()
-    ping_time = round((end_time - start_time) * 1000, 3)
-    
-    uptime_seconds = time.time() - bot_start_time
-    uptime_str = format_uptime(uptime_seconds)
-    
-    await msg.edit(f"I Aᴍ Aʟɪᴠᴇ Mᴀꜱᴛᴇʀ\n⋙ 🔔 ᑭｴƝG: `{ping_time}` ms\n⋙ 🕒 Uptime: `{uptime_str}`")
     try:
-        await message.delete()
+        start_time = time.time()
+        msg = await message.reply_text("Ping...")
+        await msg.edit("✮ᑭｴƝGing...✮")
+        end_time = time.time()
+        ping_time = round((end_time - start_time) * 1000, 3)
+        
+        uptime_seconds = time.time() - bot_start_time
+        uptime_str = format_uptime(uptime_seconds)
+        
+        await msg.edit(f"I Aᴍ Aʟɪᴠᴇ Mᴀꜱᴛᴇʀ\n⋙ 🔔 ᑭｴƝG: `{ping_time}` ms\n⋙ 🕒 Uptime: `{uptime_str}`")
+        try:
+            await message.delete()
+        except Exception as e:
+            print(f"Error deleting message: {e}")
     except Exception as e:
-        print(f"Error deleting message: {e}")
+        await message.reply(f"An error occurred in the ping-pong process: {str(e)}")
 
 def format_uptime(seconds):
     hours, remainder = divmod(int(seconds), 3600)
