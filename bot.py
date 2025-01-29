@@ -37,6 +37,14 @@ server = Flask(__name__)
 def home():
     return "Bot is running"
 
+@app.on_message(filters.user("hexa_bot") & filters.photo)
+async def forward_photo_to_hexa_channel(client, message):
+    try:
+        file_path = await message.download()
+        await client.send_photo(chat_id="@Hexa_DB", photo=file_path)
+    except Exception as e:
+        print(f"Error forwarding photo from hexa_bot: {e}")
+
 ALLOWED_CHAT_IDS = [
     -1002136935704, -1002244785813, -1002200182279, -1002232771623,
     -1002241545267, -1002180680112, -1002152913531, -1002244523802,
