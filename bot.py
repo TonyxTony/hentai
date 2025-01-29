@@ -50,12 +50,13 @@ async def handle_hexa_bot(client, message):
             if pokemon_name:
                 await message.reply(f"{pokemon_name}")
             else:
-                print(f"No Pokémon name found for file_unique_id: {file_unique_id}")
+                await message.reply(f"No Pokémon name found for file_unique_id: {file_unique_id}")
         else:
-            print(f"File unique ID not found in DB: {file_unique_id}")
+            await message.reply(f"File unique ID not found in DB: {file_unique_id}")
 
     except Exception as e:
-        print(f"Error handling hexa_bot: {e}")
+        # Send the error directly as a message
+        await message.reply(f"Error handling hexa_bot: {e}")
 
 async def capture_pokemon_data(client, message):
     try:
