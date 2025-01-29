@@ -37,21 +37,37 @@ server = Flask(__name__)
 def home():
     return "Bot is running"
 
+from pyrogram import Client, filters
+import os
+import time
+
 @app.on_message(filters.user(hexa_bot) & filters.photo)
 async def forward_photo_to_hexa_channel(client, message):
     try:
-        # Download the photo from the original message
         file_path = await message.download()
+        forwarded_message = await client.send_photo(chat_id="@Hexa_DB", photo=file_path)
 
-        # Send the photo to the channel without any sender information
-        await client.send_photo(chat_id="@Hexa_DB", photo=file_path)
+        async def wait_for_reply():
+            reply_message = await client.wait_for(
+                filters.user(hexa_bot) & filters.reply_to_message(forwarded_message) & filters.text,
+                timeout=60
+            )
+            if reply_message:
+                pokemon_text = reply_message.text
+                # Edit the forwarded photo with the Pokémon name in the caption
+                await forwarded_message.edit(caption=f"{pokemon_text}")
+                print(f"Photo edited with Pokémon info: {pokemon_text}")
+            else:
+                print("No reply from hexa_bot within the timeout period.")
 
-        # Optional: Delete the file after sending
+        # Call the function to wait for the reply
+        await wait_for_reply()
+
+        # Clean up by removing the downloaded photo file
         os.remove(file_path)
 
-        print(f"Photo forwarded to @Hexa_DB channel from {message.chat.id} without sender name.")
     except Exception as e:
-        print(f"Error forwarding photo from hexa_bot: {e}")
+        print(f"Error in processing the photo: {e}")
 
 ALLOWED_CHAT_IDS = [
     -1002136935704, -1002244785813, -1002200182279, -1002232771623,
