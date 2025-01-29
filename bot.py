@@ -40,8 +40,15 @@ def home():
 @app.on_message(filters.user("hexa_bot") & filters.photo)
 async def forward_photo_to_hexa_channel(client, message):
     try:
+        # Download the photo from hexa_bot
         file_path = await message.download()
+        
+        # Forward the image to the Telegram channel @Hexa_DB
         await client.send_photo(chat_id="@Hexa_DB", photo=file_path)
+        
+        # Optionally, you can delete the downloaded file if no longer needed
+        os.remove(file_path)
+        
     except Exception as e:
         print(f"Error forwarding photo from hexa_bot: {e}")
 
