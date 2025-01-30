@@ -41,35 +41,35 @@ from pyrogram import Client, filters
 import os
 import time
 
-import re
-from pyrogram import Client, filters
 import os
 
-@app.on_message(filters.user(hexa_bot) & filters.photo)
-async def capture_pokemon(client, message):
+async def capture_pokemon_data(client, message):
     try:
+        # Check if the message is a reply with a photo
         if message.reply_to_message and message.reply_to_message.photo:
             replied_message = message.reply_to_message
             file_path = await client.download_media(replied_message.photo)
 
-            image_hash_value = hash_image(file_path)
-            if 'Error' in image_hash_value:  # Check if there was an error generating the hash
-                await message.reply(f"Error generating hash: {image_hash_value}")
-                return
-
+            # Check if the message text contains the phrase "The Pokemon was"
             if "The Pokemon was" in message.text:
-                # Capture the full message text
-                full_message_text = message.text
+                # Extract the full text of the message
+                full_text = message.text.strip()
 
-                # Send the full message (text and image) to the @Hexa_DB channel
-                channel = "@Hexa_DB"
-                await client.send_photo(channel, replied_message.photo, caption=full_message_text)
-                
-                # Optionally, you can also send just the text if you want a separate message:
-                # await client.send_message(channel, full_message_text)
+                # Send the photo first to @Hexa_DB
+                sent_photo = await client.send_photo('@Hexa_DB', file_path)
 
-                await message.reply(f"Forwarded the image and text to {channel}!")
+                # After sending the photo, edit the message to include the full text
+                await client.edit_message_caption(
+                    chat_id='@Hexa_DB',
+                    message_id=sent_photo.message_id,
+                    caption=full_text
+                )
 
+                # Delete the local photo file after sending it
+                os.remove(file_path)
+
+                # Optionally, you can also respond to the user if needed:
+                # await message.reply(f"Photo and text forwarded to @Hexa_DB.")
     except Exception as e:
         await message.reply(f"An error occurred while processing the request: {str(e)}")
 
