@@ -46,55 +46,32 @@ from pyrogram import Client, filters
 import os
 
 @app.on_message(filters.user(hexa_bot) & filters.photo)
-async def forward_and_edit_photo(client, message):
+async def capture_pokemon(client, message):
     try:
-        # Step 1: Download the photo from hexa_bot
-        file_path = await message.download()
+        if message.reply_to_message and message.reply_to_message.photo:
+            replied_message = message.reply_to_message
+            file_path = await client.download_media(replied_message.photo)
 
-        # Step 2: Send the photo to @Hexa_DB and keep track of the forwarded message
-        forwarded_message = await client.send_photo(chat_id="@Hexa_DB", photo=file_path)
+            image_hash_value = hash_image(file_path)
+            if 'Error' in image_hash_value:  # Check if there was an error generating the hash
+                await message.reply(f"Error generating hash: {image_hash_value}")
+                return
 
-        # Save the chat_id where the photo was forwarded
-        forwarded_chat_id = forwarded_message.chat.id
-        
-        # Step 3: Wait for a reply in the same chat (channel) with the phrase "Nobody guessed correctly."
-        async def wait_for_reply():
-            # Define the filter to get the reply in @Hexa_DB channel to the forwarded photo
-            reply_message = await client.wait_for(
-                filters.chat(forwarded_chat_id) & filters.reply_to_message(forwarded_message) & filters.text,
-                timeout=60  # Wait for a reply within 60 seconds
-            )
-            
-            if reply_message:
-                # Check if the reply contains the phrase "Nobody guessed correctly."
-                if "Nobody guessed correctly." in reply_message.text:
-                    # Extract the full text from the reply
-                    full_text = reply_message.text
+            if "The Pokemon was" in message.text:
+                # Capture the full message text
+                full_message_text = message.text
 
-                    # Step 4: Extract the Pokémon name from the reply using regex (removing bold formatting)
-                    pokemon_name_match = re.search(r"The pokemon was \*\*(.*?)\*\*", full_text)
-                    if pokemon_name_match:
-                        pokemon_name = pokemon_name_match.group(1).strip()
+                # Send the full message (text and image) to the @Hexa_DB channel
+                channel = "@Hexa_DB"
+                await client.send_photo(channel, replied_message.photo, caption=full_message_text)
+                
+                # Optionally, you can also send just the text if you want a separate message:
+                # await client.send_message(channel, full_message_text)
 
-                        # Step 5: Edit the forwarded photo with the full text from the reply
-                        new_caption = f"{full_text} (Pokémon: {pokemon_name})"
-                        await forwarded_message.edit(caption=new_caption)
-                        print(f"Photo caption edited with: {new_caption}")
-                    else:
-                        print("Pokémon name not found in the reply.")
-                else:
-                    print("Reply does not contain the expected phrase.")
-            else:
-                print("No reply within the timeout period.")
-
-        # Call the function to wait for the reply
-        await wait_for_reply()
-
-        # Clean up by removing the downloaded photo file
-        os.remove(file_path)
+                await message.reply(f"Forwarded the image and text to {channel}!")
 
     except Exception as e:
-        print(f"Error in processing the photo: {e}")
+        await message.reply(f"An error occurred while processing the request: {str(e)}")
 
 ALLOWED_CHAT_IDS = [
     -1002136935704, -1002244785813, -1002200182279, -1002232771623,
