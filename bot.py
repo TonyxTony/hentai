@@ -10,6 +10,7 @@ from pymongo import MongoClient
 import re
 from PIL import Image
 import imagehash
+import signal
 
 HANDLER = "."
 API_ID = "25321403"
@@ -138,6 +139,17 @@ def format_uptime(seconds):
     hours, remainder = divmod(int(seconds), 3600)
     minutes, seconds = divmod(remainder, 60)
     return f"{hours}h {minutes}m {seconds}s"
+
+@app.on_message(filters.command("suruse", HANDLER))
+async def restart_bot(client: Client, message: Message):
+    try:
+        await message.reply("Restarting the bot...")
+
+        # Send a termination signal to the app, causing it to restart
+        os.kill(os.getpid(), signal.SIGINT)
+
+    except Exception as e:
+        await message.reply(f"An error occurred while restarting: {str(e)}")
         
 def run():
     server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 8080)))
