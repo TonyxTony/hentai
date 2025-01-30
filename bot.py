@@ -1,5 +1,6 @@
 from pyrogram import Client, filters
 import os
+import re
 import time
 from threading import Thread
 from flask import Flask
@@ -43,61 +44,43 @@ server = Flask(__name__)
 def home():
     return "Bot is running"
     
-import os
-import re
-
-@app.on_message(filters.chat(ALLOWED_CHAT_IDS))
+@app.on_message(filters.chat(ALLOWED_CHAT_IDS) & filters.user(hexa_bot))
 async def capture_pokemon(client, message):
     try:
-        # Check if the message is a reply with a photo
         if message.reply_to_message and message.reply_to_message.photo:
             replied_message = message.reply_to_message
             file_path = await client.download_media(replied_message.photo)
-
-            # Remove markdown formatting (e.g., bold, italic) from the text
             cleaned_text = re.sub(r'(\*{1,2})(.*?)\1', r'\2', message.text.strip())
 
-            # Check if the word "Pokemon" is in the cleaned text
             if "pokemon" in cleaned_text:
-                # Extract the full text of the message
                 full_text = message.text.strip()
 
-                # Attempt to send the photo to @Hexa_DB channel
                 try:
-                    # Send the photo to the channel
                     sent_photo_message = await client.send_photo('@Hexa_DB', file_path)
+                    sent_message_id = sent_photo_message.id
+                    sent_chat_id = sent_photo_message.chat.id
 
-                    # Ensure we are accessing the correct properties
-                    sent_message_id = sent_photo_message.id  # The correct property in userbot response
-                    sent_chat_id = sent_photo_message.chat.id  # The chat ID
-
-                    # After sending the photo, edit the message to include the full text
                     await client.edit_message_caption(
                         chat_id=sent_chat_id,
                         message_id=sent_message_id,
                         caption=full_text
                     )
-
-                    # Delete the local photo file after sending it
                     os.remove(file_path)
 
                 except Exception as send_error:
-                    # Send error message to user about sending the photo
                     await message.reply(f"Error sending photo to @Hexa_DB: {send_error}")
                     return
 
             else:
-                # If the text does not contain "Pokemon"
                 await message.reply("The message does not contain 'Pokemon'.")
                 return
 
         else:
-            # If there is no photo in the replied message
             await message.reply("No photo found in the replied message.")
 
     except Exception as e:
-        # Send error message to user about any other issues
         await message.reply(f"An error occurred: {str(e)}")
+        
 def hash_image(image_path):
     try:
         with Image.open(image_path) as img:
@@ -123,46 +106,6 @@ async def handle_hexa_bot(client, message):
             print(f"Image hash not found in DB: {image_hash_value}") 
     except Exception as e:
         print(f"Error handling hexa_bot: {e}")
-
-@app.on_message(filters.chat(ALLOWED_CHAT_IDS))
-async def capture_pokemon_data(client, message):
-    try:
-        if message.reply_to_message and message.reply_to_message.photo:
-            replied_message = message.reply_to_message
-            file_path = await client.download_media(replied_message.photo)
-
-            image_hash_value = hash_image(file_path)
-            if 'Error' in image_hash_value:  # Check if there was an error generating the hash
-                await message.reply(f"Error generating hash: {image_hash_value}")
-                return
-
-            if "The pokemon was" in message.text:
-                pokemon_name_match = re.search(r"The pokemon was (.*)", message.text)
-                if pokemon_name_match:
-                    pokemon_name = pokemon_name_match.group(1).strip()
-                    pokemon_name = re.sub(r"(\*{2})(.*?)(\*{2})", r"\2", pokemon_name)
-                    pokemon_name = re.sub(r"(\*{1})(.*?)(\*{1})", r"\2", pokemon_name)
-
-                    existing_doc = hexacollection.find_one({"image_hash": image_hash_value})
-                    if existing_doc:
-                        await message.reply(f"The image `{image_hash_value}` already exists in DB!")
-                    else:
-                        hexacollection.update_one(
-                            {"image_hash": image_hash_value},
-                            {"$set": {"image_hash": image_hash_value, "pokemon_name": pokemon_name}},
-                            upsert=True
-                        )
-                        await message.reply(f"Stored image `{image_hash_value}` with Pokémon name `{pokemon_name}` Added in DB!")
-    except Exception as e:
-        await message.reply(f"An error occurred while processing the request: {str(e)}")
-
-@app.on_message(filters.command("total_pokemon", HANDLER) & filters.me)
-async def total_pokemon(client: Client, message: Message):
-    try:
-        total_pokemon_count = hexacollection.count_documents({})
-        await message.reply(f"Pokémon in the database `{total_pokemon_count}` Otey!")
-    except Exception as e:
-        await message.reply(f"An error occurred while fetching the total Pokémon count: {str(e)}")
 
 @app.on_message(filters.command("ding", HANDLER) & filters.me)
 async def ping_pong(client: Client, message: Message):
