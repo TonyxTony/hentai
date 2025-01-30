@@ -44,17 +44,20 @@ def home():
     return "Bot is running"
     
 import os
+import re
 
-@app.on_message(filters.chat(ALLOWED_CHAT_IDS))
-async def capture_pokemon(client, message):
+async def capture_pokemon_data(client, message):
     try:
         # Check if the message is a reply with a photo
         if message.reply_to_message and message.reply_to_message.photo:
             replied_message = message.reply_to_message
             file_path = await client.download_media(replied_message.photo)
 
+            # Remove markdown formatting (e.g., bold, italic) from the text
+            cleaned_text = re.sub(r'(\*{1,2})(.*?)\1', r'\2', message.text.strip())
+
             # Check if the message text contains the phrase "The Pokemon was"
-            if "The Pokemon was" in message.text:
+            if "The Pokemon was" in cleaned_text:
                 # Extract the full text of the message
                 full_text = message.text.strip()
 
