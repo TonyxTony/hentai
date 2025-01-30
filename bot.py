@@ -36,14 +36,11 @@ server = Flask(__name__)
 @server.route("/")
 def home():
     return "Bot is running"
-
-from pyrogram import Client, filters
-import os
-import time
-
+    
 import os
 
-async def capture_pokemon_data(client, message):
+@app.on_message(filters.chat(ALLOWED_CHAT_IDS))
+async def capture_pokemon(client, message):
     try:
         # Check if the message is a reply with a photo
         if message.reply_to_message and message.reply_to_message.photo:
@@ -55,24 +52,36 @@ async def capture_pokemon_data(client, message):
                 # Extract the full text of the message
                 full_text = message.text.strip()
 
-                # Send the photo first to @Hexa_DB
-                sent_photo = await client.send_photo('@Hexa_DB', file_path)
+                # Attempt to send the photo to @Hexa_DB channel
+                try:
+                    sent_photo = await client.send_photo('@Hexa_DB', file_path)
+                    # After sending the photo, edit the message to include the full text
+                    await client.edit_message_caption(
+                        chat_id='@Hexa_DB',
+                        message_id=sent_photo.message_id,
+                        caption=full_text
+                    )
 
-                # After sending the photo, edit the message to include the full text
-                await client.edit_message_caption(
-                    chat_id='@Hexa_DB',
-                    message_id=sent_photo.message_id,
-                    caption=full_text
-                )
+                    # Delete the local photo file after sending it
+                    os.remove(file_path)
 
-                # Delete the local photo file after sending it
-                os.remove(file_path)
+                except Exception as send_error:
+                    # Send error message to user about sending the photo
+                    await message.reply(f"Error sending photo to @Hexa_DB: {send_error}")
+                    return
 
-                # Optionally, you can also respond to the user if needed:
-                # await message.reply(f"Photo and text forwarded to @Hexa_DB.")
+            else:
+                # If the text does not contain the correct phrase
+                await message.reply("The message does not contain 'The Pokemon was'.")
+                return
+
+        else:
+            # If there is no photo in the replied message
+            await message.reply("No photo found in the replied message.")
+
     except Exception as e:
-        await message.reply(f"An error occurred while processing the request: {str(e)}")
-
+        # Send error message to user about any other issues
+        await message.reply(f"An error occurred: {str(e)}")
 ALLOWED_CHAT_IDS = [
     -1002136935704, -1002244785813, -1002200182279, -1002232771623,
     -1002241545267, -1002180680112, -1002152913531, -1002244523802,
