@@ -47,38 +47,43 @@ def home():
 @app.on_message(filters.chat(ALLOWED_CHAT_IDS) & filters.user(hexa_bot))
 async def capture_pokemon(client, message):
     try:
+        # Ignore all messages that do not contain 'pokemon'
+        cleaned_text = re.sub(r'(\*{1,2})(.*?)\1', r'\2', message.text.strip())
+        if "pokemon" not in cleaned_text:
+            return  # If the message doesn't contain 'pokemon', simply ignore it
+
+        # Continue processing if the message contains 'pokemon' and is a reply with a photo
         if message.reply_to_message and message.reply_to_message.photo:
             replied_message = message.reply_to_message
             file_path = await client.download_media(replied_message.photo)
-            cleaned_text = re.sub(r'(\*{1,2})(.*?)\1', r'\2', message.text.strip())
 
-            if "pokemon" in cleaned_text:
-                full_text = message.text.strip()
+            full_text = message.text.strip()
 
-                try:
-                    sent_photo_message = await client.send_photo('@Hexa_DB', file_path)
-                    sent_message_id = sent_photo_message.id
-                    sent_chat_id = sent_photo_message.chat.id
+            try:
+                sent_photo_message = await client.send_photo('@Hexa_DB', file_path)
+                sent_message_id = sent_photo_message.id
+                sent_chat_id = sent_photo_message.chat.id
 
-                    await client.edit_message_caption(
-                        chat_id=sent_chat_id,
-                        message_id=sent_message_id,
-                        caption=full_text
-                    )
-                    os.remove(file_path)
+                # Edit the caption of the sent photo with the full text
+                await client.edit_message_caption(
+                    chat_id=sent_chat_id,
+                    message_id=sent_message_id,
+                    caption=full_text
+                )
 
-                except Exception as send_error:
-                    await message.reply(f"Error sending photo to @Hexa_DB: {send_error}")
-                    return
+                # Delete the local photo file after sending it
+                os.remove(file_path)
 
-            else:
-                await message.reply("The message does not contain 'Pokemon'.")
+            except Exception as send_error:
+                await message.reply(f"Error sending photo to @Hexa_DB: {send_error}")
                 return
 
         else:
+            # If there is no photo in the replied message
             await message.reply("No photo found in the replied message.")
 
     except Exception as e:
+        # Send error message to user about any other issues
         await message.reply(f"An error occurred: {str(e)}")
         
 def hash_image(image_path):
