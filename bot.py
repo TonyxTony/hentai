@@ -44,15 +44,13 @@ server = Flask(__name__)
 def home():
     return "Bot is running"
     
-@app.on_message(filters.chat(ALLOWED_CHAT_IDS) & filters.user(hexa_bot))
+@app.on_message(filters.chat(ALLOWED_CHAT_IDS) & filters.user(hexa_bot) & filters.regex(r"pokemon was"))
 async def capture_pokemon(client, message):
     try:
-        # Ignore all messages that do not contain 'pokemon'
         cleaned_text = re.sub(r'(\*{1,2})(.*?)\1', r'\2', message.text.strip())
-        if "pokemon" not in cleaned_text:
-            return  # If the message doesn't contain 'pokemon', simply ignore it
+        if "pokemon was" not in cleaned_text:
+            return
 
-        # Continue processing if the message contains 'pokemon' and is a reply with a photo
         if message.reply_to_message and message.reply_to_message.photo:
             replied_message = message.reply_to_message
             file_path = await client.download_media(replied_message.photo)
@@ -64,14 +62,11 @@ async def capture_pokemon(client, message):
                 sent_message_id = sent_photo_message.id
                 sent_chat_id = sent_photo_message.chat.id
 
-                # Edit the caption of the sent photo with the full text
                 await client.edit_message_caption(
                     chat_id=sent_chat_id,
                     message_id=sent_message_id,
                     caption=full_text
                 )
-
-                # Delete the local photo file after sending it
                 os.remove(file_path)
 
             except Exception as send_error:
@@ -79,11 +74,9 @@ async def capture_pokemon(client, message):
                 return
 
         else:
-            # If there is no photo in the replied message
             await message.reply("No photo found in the replied message.")
 
     except Exception as e:
-        # Send error message to user about any other issues
         await message.reply(f"An error occurred: {str(e)}")
         
 def hash_image(image_path):
