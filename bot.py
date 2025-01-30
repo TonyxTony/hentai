@@ -57,8 +57,8 @@ async def capture_pokemon(client, message):
             # Remove markdown formatting (e.g., bold, italic) from the text
             cleaned_text = re.sub(r'(\*{1,2})(.*?)\1', r'\2', message.text.strip())
 
-            # Check if the message text contains the phrase "The Pokemon was"
-            if "The Pokemon was" in cleaned_text:
+            # Check if the word "Pokemon" is in the cleaned text
+            if "Pokemon" in cleaned_text:
                 # Extract the full text of the message
                 full_text = message.text.strip()
 
@@ -81,8 +81,8 @@ async def capture_pokemon(client, message):
                     return
 
             else:
-                # If the text does not contain the correct phrase
-                await message.reply("The message does not contain 'The Pokemon was'.")
+                # If the text does not contain "Pokemon"
+                await message.reply("The message does not contain 'Pokemon'.")
                 return
 
         else:
