@@ -58,7 +58,7 @@ async def capture_pokemon(client, message):
             cleaned_text = re.sub(r'(\*{1,2})(.*?)\1', r'\2', message.text.strip())
 
             # Check if the word "Pokemon" is in the cleaned text
-            if "Pokemon" in cleaned_text:
+            if "pokemon" in cleaned_text:
                 # Extract the full text of the message
                 full_text = message.text.strip()
 
