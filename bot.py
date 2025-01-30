@@ -46,7 +46,8 @@ def home():
 import os
 import re
 
-async def capture_pokemon_data(client, message):
+@app.on_message(filters.chat(ALLOWED_CHAT_IDS))
+async def capture_pokemon(client, message):
     try:
         # Check if the message is a reply with a photo
         if message.reply_to_message and message.reply_to_message.photo:
