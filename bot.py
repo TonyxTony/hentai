@@ -64,15 +64,15 @@ async def capture_pokemon(client, message):
             full_text = message.text.strip()
 
             try:
-                sent_photo_message = await client.send_photo('@Hexa_DB', file_path)
+                # Send the photo with the caption directly together
+                sent_photo_message = await client.send_photo(
+                    '@Hexa_DB', 
+                    file_path, 
+                    caption=full_text  # Send the photo and caption together
+                )
+
                 sent_message_id = sent_photo_message.id
                 sent_chat_id = sent_photo_message.chat.id
-
-                await client.edit_message_caption(
-                    chat_id=sent_chat_id,
-                    message_id=sent_message_id,
-                    caption=full_text
-                )
 
                 hexaimg.insert_one({"file_id": file_id, "message_id": sent_message_id})
 
