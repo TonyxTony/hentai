@@ -17,6 +17,12 @@ SESSION = "BQFo9VAALAHKuEpUHoCealAw8UnYRDLqDtWWGapgMKyDdDNqgra2Gnd2EnVwpwP4PvujF
 MONGO_URI = os.getenv('MONGO_URI', "mongodb+srv://Lakshay3434:Tony123@cluster0.agsna9b.mongodb.net/?retryWrites=true&w=majority")
 hexa_bot = 572621020
 
+ALLOWED_CHAT_IDS = [
+    -1002136935704, -1002244785813, -1002200182279, -1002232771623,
+    -1002241545267, -1002180680112, -1002152913531, -1002244523802,
+    -1002159180828, -1002186623520, -1002220460503
+]
+
 if not MONGO_URI:
     raise Exception("MONGO_URI environment variable is not set")
 
@@ -82,11 +88,6 @@ async def capture_pokemon(client, message):
     except Exception as e:
         # Send error message to user about any other issues
         await message.reply(f"An error occurred: {str(e)}")
-ALLOWED_CHAT_IDS = [
-    -1002136935704, -1002244785813, -1002200182279, -1002232771623,
-    -1002241545267, -1002180680112, -1002152913531, -1002244523802,
-    -1002159180828, -1002186623520, -1002220460503
-]
 
 def hash_image(image_path):
     try:
