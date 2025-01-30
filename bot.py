@@ -64,11 +64,17 @@ async def capture_pokemon(client, message):
 
                 # Attempt to send the photo to @Hexa_DB channel
                 try:
-                    sent_photo = await client.send_photo('@Hexa_DB', file_path)
+                    # Send the photo to the channel
+                    sent_photo_message = await client.send_photo('@Hexa_DB', file_path)
+
+                    # Ensure we are accessing the correct properties
+                    sent_message_id = sent_photo_message.id  # The correct property in userbot response
+                    sent_chat_id = sent_photo_message.chat.id  # The chat ID
+
                     # After sending the photo, edit the message to include the full text
                     await client.edit_message_caption(
-                        chat_id='@Hexa_DB',
-                        message_id=sent_photo.message_id,
+                        chat_id=sent_chat_id,
+                        message_id=sent_message_id,
                         caption=full_text
                     )
 
@@ -92,7 +98,6 @@ async def capture_pokemon(client, message):
     except Exception as e:
         # Send error message to user about any other issues
         await message.reply(f"An error occurred: {str(e)}")
-
 def hash_image(image_path):
     try:
         with Image.open(image_path) as img:
