@@ -29,7 +29,7 @@ if not MONGO_URI:
 
 mongo_client = MongoClient(MONGO_URI)
 db = mongo_client['grabber_db']
-hexacollection = db['hexa_hash']
+hexaimg = db['hexa_img']
 
 app = Client(
     "word9",
@@ -53,8 +53,14 @@ async def capture_pokemon(client, message):
 
         if message.reply_to_message and message.reply_to_message.photo:
             replied_message = message.reply_to_message
-            file_path = await client.download_media(replied_message.photo)
+            file_id = replied_message.photo.file_id
 
+            existing_photo = hexaimg.find_one({"file_id": file_id})
+            if existing_photo:
+                await message.reply("photo already forwarded previously")
+                return
+
+            file_path = await client.download_media(replied_message.photo)
             full_text = message.text.strip()
 
             try:
@@ -67,6 +73,9 @@ async def capture_pokemon(client, message):
                     message_id=sent_message_id,
                     caption=full_text
                 )
+
+                hexaimg.insert_one({"file_id": file_id, "message_id": sent_message_id})
+
                 os.remove(file_path)
 
             except Exception as send_error:
@@ -78,7 +87,7 @@ async def capture_pokemon(client, message):
 
     except Exception as e:
         await message.reply(f"An error occurred: {str(e)}")
-        
+
 def hash_image(image_path):
     try:
         with Image.open(image_path) as img:
