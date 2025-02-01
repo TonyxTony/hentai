@@ -69,8 +69,8 @@ async def handle_hexa_bot(client, message):
 @app.on_message(filters.photo)
 async def capture_pokemon_data(client, message):
     try:
-        if message.photo and message.text:
-            pokemon_name_match = re.search(r"The pokemon was (\w+)", message.text)
+        if message.photo and message.caption:
+            pokemon_name_match = re.search(r"The pokemon was (\w+)", message.caption)
             
             if pokemon_name_match:
                 pokemon_name = pokemon_name_match.group(1).strip()
@@ -88,7 +88,7 @@ async def capture_pokemon_data(client, message):
                     )
                     await message.reply(f"Stored image `{image_hash_value}` with Pokémon name `{pokemon_name}` Added in DB!")
             else:
-                await message.reply("No valid Pokémon name found in the message text.")
+                await message.reply("No valid Pokémon name found in the message caption.")
         else:
             await message.reply("No valid photo or caption found.")
     except Exception as e:
