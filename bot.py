@@ -31,6 +31,7 @@ if not MONGO_URI:
 mongo_client = MongoClient(MONGO_URI)
 db = mongo_client['grabber_db']
 hexa_status = db['hexa_hashes']
+hexaimg = db["hexa_img"]
 
 app = Client(
     "word9",
@@ -80,9 +81,6 @@ async def capture_pokemon(client, message):
             except Exception as send_error:
                 await message.reply(f"Error sending photo to @Hexa_DB: {send_error}")
                 return
-
-        else:
-            await message.reply("No photo found in the replied message.")
 
     except Exception as e:
         await message.reply(f"An error occurred: {str(e)}")
