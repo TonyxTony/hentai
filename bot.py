@@ -57,11 +57,6 @@ async def capture_pokemon(client, message):
             replied_message = message.reply_to_message
             file_id = replied_message.photo.file_id
 
-            existing_photo = hexaimg.find_one({"file_id": file_id})
-            if existing_photo:
-                await message.reply("photo already forwarded previously")
-                return
-
             file_path = await client.download_media(replied_message.photo)
             full_text = message.text.strip()
 
@@ -72,10 +67,6 @@ async def capture_pokemon(client, message):
                     caption=full_text
                 )
 
-                sent_message_id = sent_photo_message.id
-                sent_chat_id = sent_photo_message.chat.id
-
-                hexaimg.insert_one({"file_id": file_id, "message_id": sent_message_id})
                 os.remove(file_path)
 
             except Exception as send_error:
