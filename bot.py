@@ -70,7 +70,7 @@ async def handle_hexa_bot(client, message):
 async def capture_pokemon_data(client, message):
     try:
         if message.photo and message.caption:
-            pokemon_name_match = re.search(r"The pokemon was (\w+)", message.caption)
+            pokemon_name_match = re.search(r"The pokemon was (.+)", message.caption)
             
             if pokemon_name_match:
                 pokemon_name = pokemon_name_match.group(1).strip()
