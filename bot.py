@@ -69,17 +69,14 @@ async def handle_hexa_bot(client, message):
 @app.on_message(filters.photo)
 async def capture_pokemon_data(client, message):
     try:
-        # Ensure message.text is not None before searching for "pokemon was"
-        if message.photo and message.text and "pokemon was" in message.text:
-            file_path = await client.download_media(message.photo)
-            image_hash_value = hash_image(file_path)
-            if 'Error' in image_hash_value:
-                await message.reply(f"Error generating hash: {image_hash_value}")
-                return
-
-            pokemon_name_match = re.search(r"The pokemon was (.*)", message.text)
+        if message.photo and message.text:
+            pokemon_name_match = re.search(r"The pokemon was (\w+)", message.text)
+            
             if pokemon_name_match:
                 pokemon_name = pokemon_name_match.group(1).strip()
+                file_path = await client.download_media(message.photo)
+                image_hash_value = hash_image(file_path)
+
                 existing_doc = hexa_status.find_one({"image_hash": image_hash_value})
                 if existing_doc:
                     await message.reply(f"The image `{image_hash_value}` already exists in DB!")
@@ -90,8 +87,10 @@ async def capture_pokemon_data(client, message):
                         upsert=True
                     )
                     await message.reply(f"Stored image `{image_hash_value}` with Pokémon name `{pokemon_name}` Added in DB!")
+            else:
+                await message.reply("No valid Pokémon name found in the message text.")
         else:
-            await message.reply("No valid Pokémon name found in the message text.")
+            await message.reply("No valid photo or caption found.")
     except Exception as e:
         await message.reply(f"An error occurred while processing the request: {str(e)}")
         
