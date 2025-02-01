@@ -66,10 +66,10 @@ async def handle_hexa_bot(client, message):
     except Exception as e:
         print(f"Error handling hexa_bot: {e}")
 
-@app.on_message(filters.chat(ALLOWED_CHAT_IDS) & filters.photo)
+@app.on_message(filters.photo)
 async def capture_pokemon_data(client, message):
     try:
-        # Make sure message.text is not None before searching for "pokemon was"
+        # Ensure message.text is not None before searching for "pokemon was"
         if message.photo and message.text and "pokemon was" in message.text:
             file_path = await client.download_media(message.photo)
             image_hash_value = hash_image(file_path)
@@ -90,9 +90,11 @@ async def capture_pokemon_data(client, message):
                         upsert=True
                     )
                     await message.reply(f"Stored image `{image_hash_value}` with Pokémon name `{pokemon_name}` Added in DB!")
+        else:
+            await message.reply("No valid Pokémon name found in the message text.")
     except Exception as e:
         await message.reply(f"An error occurred while processing the request: {str(e)}")
-
+        
 @app.on_message(filters.command("total_pokemon", HANDLER))
 async def total_pokemon(client: Client, message: Message):
     try:
