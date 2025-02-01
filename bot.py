@@ -69,7 +69,8 @@ async def handle_hexa_bot(client, message):
 @app.on_message(filters.chat(ALLOWED_CHAT_IDS) & filters.photo)
 async def capture_pokemon_data(client, message):
     try:
-        if message.photo and "pokemon was" in message.text:
+        # Make sure message.text is not None before searching for "pokemon was"
+        if message.photo and message.text and "pokemon was" in message.text:
             file_path = await client.download_media(message.photo)
             image_hash_value = hash_image(file_path)
             if 'Error' in image_hash_value:
