@@ -7,6 +7,10 @@ from pyrogram.types import Message
 from PIL import Image
 import imagehash
 from flask import Flask
+from threading import Thread
+from pyrogram.types import Message
+from pymongo import MongoClient
+import re
 
 API_ID = "25321403"
 API_HASH = "0024ae3c978ba534b1a9bffa29e9cc9b"
