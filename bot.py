@@ -1,40 +1,27 @@
 from pyrogram import Client, filters
 import os
-import re
 import time
-from threading import Thread
-from flask import Flask
-from pyrogram.types import Message
 import asyncio
-from pymongo import MongoClient
-import re
+from motor.motor_asyncio import AsyncIOMotorClient
+from pyrogram.types import Message
 from PIL import Image
 import imagehash
-from concurrent.futures import ThreadPoolExecutor
-from pymongo.errors import PyMongoError
+from flask import Flask
 
-executor = ThreadPoolExecutor(max_workers=4)
-
-HANDLER = "."
 API_ID = "25321403"
 API_HASH = "0024ae3c978ba534b1a9bffa29e9cc9b"
 SESSION = "BQFo9VAALAHKuEpUHoCealAw8UnYRDLqDtWWGapgMKyDdDNqgra2Gnd2EnVwpwP4PvujFjRM1Lltr8qh1DeTheqRukQF_GPApLhtS2eldLOBWrNYogDqIGr6ifgNnMI1oQAzsMkne0-wkGgrobJyMrKKV3oodj3ast0XVmvtyzh1cutBwm9Ob-BCjS22hK3E5R9A8fL0jKczAM0YgY82TCp2SU9qvCSjPaKASSN2w8HVt8HvWBJWd7tKf0i6VSwIN-5USPrAejxgxpEIwVumBZKTu6wpP2AeWADFN_OCaLTf_hD7klLnBffR6obkodGkIX-ZczkrmX7TstXICIT7jdcxwEutwgAAAAGRx5e_AA"
 MONGO_URI = os.getenv('MONGO_URI', "mongodb+srv://Lakshay3434:Tony123@cluster0.agsna9b.mongodb.net/?retryWrites=true&w=majority")
 hexa_bot = 572621020
-
 ALLOWED_CHAT_IDS = [
     -1002136935704, -1002244785813, -1002200182279, -1002232771623,
     -1002241545267, -1002180680112, -1002152913531, -1002244523802,
     -1002159180828, -1002186623520, -1002220460503
 ]
 
-if not MONGO_URI:
-    raise Exception("MONGO_URI environment variable is not set")
-
-mongo_client = MongoClient(MONGO_URI)
+mongo_client = AsyncIOMotorClient(MONGO_URI)
 db = mongo_client['grabber_db']
 hexa_status = db['hexa_hashes']
-hexaimg = db["hexa_img"]
 
 app = Client(
     "word9",
@@ -49,20 +36,12 @@ server = Flask(__name__)
 def home():
     return "Bot is running"
 
-def hash_image(image_path):
-    try:
-        with Image.open(image_path) as img:
-            hash_value = imagehash.phash(img)
-            return str(hash_value)
-    except Exception as e:
-        return str(e)
-
-def process_image_and_query_db(image_path):
+async def process_image_and_query_db_async(image_path):
     try:
         with Image.open(image_path) as img:
             image_hash_value = imagehash.phash(img)
 
-        existing_doc = hexa_status.find_one({"image_hash": str(image_hash_value)})
+        existing_doc = await hexa_status.find_one({"image_hash": str(image_hash_value)})
 
         if existing_doc:
             pokemon_name = existing_doc.get("pokemon_name")
@@ -107,7 +86,7 @@ async def handle_hexa_bot(client, message):
     try:
         file_path = await message.download()
 
-        pokemon_name = await asyncio.get_event_loop().run_in_executor(executor, process_image_and_query_db, file_path)
+        pokemon_name = await process_image_and_query_db_async(file_path)
 
         if pokemon_name:
             await message.reply(f"Pokemon Name: {pokemon_name}")
@@ -119,7 +98,7 @@ async def handle_hexa_bot(client, message):
     except Exception as e:
         await message.reply("An error occurred while processing the image.")
 
-@app.on_message(filters.command("ding", HANDLER) & filters.me)
+@app.on_message(filters.command("ding", ".") & filters.me)
 async def ping_pong(client: Client, message: Message):
     try:
         start_time = time.time()
