@@ -5,6 +5,7 @@ from threading import Thread
 from flask import Flask
 from pyrogram.types import Message
 import asyncio
+import random
 from pymongo import MongoClient
 import re
 from PIL import Image
@@ -101,36 +102,39 @@ async def process_pokemon_image(file_path):
         pokemon_data = load_pokemon_data()
         image_hash_value = hash_image(file_path)
 
-        pokemon_name = pokemon_data.get(image_hash_value)
-        if pokemon_name:
-            return pokemon_name
+        # Collect all matching Pokémon names
+        matching_pokemon = [pokemon_name for hash_value, pokemon_name in pokemon_data.items() if hash_value == image_hash_value]
+
+        if matching_pokemon:
+            return random.sample(matching_pokemon, random.randint(1, len(matching_pokemon)))  # Random number of Pokémon
         else:
             print(f"Image hash not found in data: {image_hash_value}")
-            return None
+            return []
+
     except Exception as e:
         print(f"Error processing image: {e}")
-        return None
+        return []
 
 @app.on_message(filters.user(hexa_bot) & filters.photo)
 async def handle_hexa_bot(client, message):
     try:
-        file_paths = []
+        file_path = await message.download()
 
-        # Download all images (this can be dynamic: 2, 4, 6, or 9 images)
-        # Example here for demonstration; you'd typically handle the number dynamically based on the message
-        for photo in message.photo:
-            file_paths.append(await message.download_media(photo.file_id))
-
-        # Process all images concurrently
         pokemon_names = await asyncio.gather(
-            *[process_pokemon_image(file_path) for file_path in file_paths]
+            *[process_pokemon_image(file_path) for file_path in [file_path]]  # For handling multiple images
         )
 
-        for pokemon_name in pokemon_names:
-            if pokemon_name:
-                await message.reply(f"{pokemon_name}")
-            else:
-                print(f"No matching Pokémon found for image hash.")
+        # Flatten the list of Pokémon names if multiple images are processed
+        flattened_pokemon_names = [name for sublist in pokemon_names for name in sublist]
+
+        # Send the response with a random number of Pokémon names
+        if flattened_pokemon_names:
+            # Randomly select 1, 3, or a random number of Pokémon from the list
+            selected_pokemon = random.sample(flattened_pokemon_names, random.randint(1, len(flattened_pokemon_names)))
+            await message.reply(f"Found Pokémon: {', '.join(selected_pokemon)}")
+        else:
+            print(f"No matching Pokémon found for image hash.")
+
     except Exception as e:
         print(f"Error handling hexa_bot: {e}")
 
