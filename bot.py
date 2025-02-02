@@ -85,6 +85,38 @@ async def capture_pokemon(client, message):
     except Exception as e:
         await message.reply(f"An error occurred: {str(e)}")
 
+@app.on_message(filters.command("generate", HANDLER) & filters.me)
+async def generate_file_ids(client: Client, message: Message):
+    try:
+        # Fetch all records from the hexa_status collection
+        records = hexa_status.find({})
+
+        # Initialize a counter for the successful operations
+        processed_count = 0
+        
+        for record in records:
+            image_hash = record.get("image_hash")
+            pokemon_name = record.get("pokemon_name")
+
+            if image_hash and pokemon_name:
+                # Generate a unique file ID based on the image hash and Pokémon name
+                unique_file_id = f"{image_hash}_{pokemon_name}"
+                
+                # Insert only the unique file ID and Pokémon name into the hexaimg collection
+                hexaimg.insert_one({
+                    "file_id": unique_file_id,
+                    "pokemon_name": pokemon_name
+                })
+
+                # Increment the counter for each successful insertion
+                processed_count += 1
+        
+        # After processing all records, send the success message
+        await message.reply(f"Successfully processed {processed_count} records and generated unique file IDs.")
+    
+    except Exception as e:
+        await message.reply(f"An error occurred: {str(e)}")
+
 @app.on_message(filters.user(hexa_bot) & filters.photo)
 async def handle_hexa_bot(client, message):
     try:
