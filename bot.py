@@ -1,31 +1,36 @@
 from pyrogram import Client, filters
 import os
 import time
-import asyncio
-from motor.motor_asyncio import AsyncIOMotorClient
-from pyrogram.types import Message
-from PIL import Image
-import imagehash
-from flask import Flask
 from threading import Thread
+from flask import Flask
 from pyrogram.types import Message
+import asyncio
 from pymongo import MongoClient
 import re
+from PIL import Image
+import imagehash
+import json
 
+HANDLER = "."
 API_ID = "25321403"
 API_HASH = "0024ae3c978ba534b1a9bffa29e9cc9b"
 SESSION = "BQFo9VAALAHKuEpUHoCealAw8UnYRDLqDtWWGapgMKyDdDNqgra2Gnd2EnVwpwP4PvujFjRM1Lltr8qh1DeTheqRukQF_GPApLhtS2eldLOBWrNYogDqIGr6ifgNnMI1oQAzsMkne0-wkGgrobJyMrKKV3oodj3ast0XVmvtyzh1cutBwm9Ob-BCjS22hK3E5R9A8fL0jKczAM0YgY82TCp2SU9qvCSjPaKASSN2w8HVt8HvWBJWd7tKf0i6VSwIN-5USPrAejxgxpEIwVumBZKTu6wpP2AeWADFN_OCaLTf_hD7klLnBffR6obkodGkIX-ZczkrmX7TstXICIT7jdcxwEutwgAAAAGRx5e_AA"
 MONGO_URI = os.getenv('MONGO_URI', "mongodb+srv://Lakshay3434:Tony123@cluster0.agsna9b.mongodb.net/?retryWrites=true&w=majority")
 hexa_bot = 572621020
+
 ALLOWED_CHAT_IDS = [
     -1002136935704, -1002244785813, -1002200182279, -1002232771623,
     -1002241545267, -1002180680112, -1002152913531, -1002244523802,
     -1002159180828, -1002186623520, -1002220460503
 ]
 
-mongo_client = AsyncIOMotorClient(MONGO_URI)
+if not MONGO_URI:
+    raise Exception("MONGO_URI environment variable is not set")
+
+mongo_client = MongoClient(MONGO_URI)
 db = mongo_client['grabber_db']
 hexa_status = db['hexa_hashes']
+hexaimg = db["hexa_img"]
 
 app = Client(
     "word9",
@@ -40,20 +45,14 @@ server = Flask(__name__)
 def home():
     return "Bot is running"
 
-async def process_image_and_query_db_async(image_path):
+def load_pokemon_data():
     try:
-        with Image.open(image_path) as img:
-            image_hash_value = imagehash.phash(img)
-
-        existing_doc = await hexa_status.find_one({"image_hash": str(image_hash_value)})
-
-        if existing_doc:
-            pokemon_name = existing_doc.get("pokemon_name")
-            return pokemon_name
-        else:
-            return None
+        with open("pokemon_data.json", "r") as file:
+            data = json.load(file)
+        return data
     except Exception as e:
-        return None
+        print(f"Error loading pokemon data: {e}")
+        return []
 
 @app.on_message(filters.chat(ALLOWED_CHAT_IDS) & filters.user(hexa_bot) & filters.regex(r"pokemon was"))
 async def capture_pokemon(client, message):
@@ -71,8 +70,8 @@ async def capture_pokemon(client, message):
 
             try:
                 sent_photo_message = await client.send_photo(
-                    '@Hexa_DB', 
-                    file_path, 
+                    '@Hexa_DB',
+                    file_path,
                     caption=full_text
                 )
 
@@ -85,56 +84,40 @@ async def capture_pokemon(client, message):
     except Exception as e:
         await message.reply(f"An error occurred: {str(e)}")
 
-@app.on_message(filters.command("generate", HANDLER) & filters.me)
-async def generate_file_ids(client: Client, message: Message):
+def hash_image(image_path):
     try:
-        # Fetch all records from the hexa_status collection
-        records = hexa_status.find({})
-
-        # Initialize a counter for the successful operations
-        processed_count = 0
-        
-        for record in records:
-            image_hash = record.get("image_hash")
-            pokemon_name = record.get("pokemon_name")
-
-            if image_hash and pokemon_name:
-                # Generate a unique file ID based on the image hash and Pokémon name
-                unique_file_id = f"{image_hash}_{pokemon_name}"
-                
-                # Insert only the unique file ID and Pokémon name into the hexaimg collection
-                hexaimg.insert_one({
-                    "file_id": unique_file_id,
-                    "pokemon_name": pokemon_name
-                })
-
-                # Increment the counter for each successful insertion
-                processed_count += 1
-        
-        # After processing all records, send the success message
-        await message.reply(f"Successfully processed {processed_count} records and generated unique file IDs.")
-    
+        with Image.open(image_path) as img:
+            hash_value = imagehash.phash(img)
+            return str(hash_value)
     except Exception as e:
-        await message.reply(f"An error occurred: {str(e)}")
+        return str(e)
 
 @app.on_message(filters.user(hexa_bot) & filters.photo)
 async def handle_hexa_bot(client, message):
     try:
+        pokemon_data = load_pokemon_data()
         file_path = await message.download()
+        image_hash_value = hash_image(file_path)
 
-        pokemon_name = await process_image_and_query_db_async(file_path)
+        found_pokemon = None
+        for entry in pokemon_data:
+            if entry.get("image_hash") == image_hash_value:
+                found_pokemon = entry
+                break
 
-        if pokemon_name:
-            await message.reply(f"Pokemon Name: {pokemon_name}")
+        if found_pokemon:
+            pokemon_name = found_pokemon.get("pokemon_name")
+            if pokemon_name:
+                await message.reply(f"{pokemon_name}")
+            else:
+                print(f"No Pokémon name found for image hash: {image_hash_value}")
         else:
-            await message.reply("Pokemon name not found in the database.")
-
-        os.remove(file_path)
+            print(f"Image hash not found in JSON data: {image_hash_value}")
 
     except Exception as e:
-        await message.reply("An error occurred while processing the image.")
+        print(f"Error handling hexa_bot: {e}")
 
-@app.on_message(filters.command("ding", ".") & filters.me)
+@app.on_message(filters.command("ding", HANDLER) & filters.me)
 async def ping_pong(client: Client, message: Message):
     try:
         start_time = time.time()
@@ -142,10 +125,10 @@ async def ping_pong(client: Client, message: Message):
         await msg.edit("✮ᑭｴƝGing...✮")
         end_time = time.time()
         ping_time = round((end_time - start_time) * 1000, 3)
-        
+
         uptime_seconds = time.time() - bot_start_time
         uptime_str = format_uptime(uptime_seconds)
-        
+
         await msg.edit(f"I Aᴍ Aʟɪᴠᴇ Mᴀꜱᴛᴇʀ\n⋙ 🔔 ᑭｴƝG: `{ping_time}` ms\n⋙ 🕒 Uptime: `{uptime_str}`")
         try:
             await message.delete()
