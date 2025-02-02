@@ -89,18 +89,21 @@ async def capture_pokemon(client, message):
     except Exception as e:
         await message.reply(f"An error occurred: {str(e)}")
 
-def hash_image(image_path):
+async def hash_image(image_path):
+    """Optimized image hashing function (simpler approach)."""
     try:
         with Image.open(image_path) as img:
-            hash_value = imagehash.phash(img)
-            return str(hash_value)
+            img = img.convert("RGB")
+            hash_value = str(hash(img.tobytes()))  # Simple hash based on image bytes.
+            return hash_value
     except Exception as e:
         return str(e)
 
 async def process_pokemon_image(file_path):
+    """Process the image and find corresponding Pokémon names."""
     try:
         pokemon_data = load_pokemon_data()
-        image_hash_value = hash_image(file_path)
+        image_hash_value = await hash_image(file_path)
 
         # Collect all matching Pokémon names
         matching_pokemon = [pokemon_name for hash_value, pokemon_name in pokemon_data.items() if hash_value == image_hash_value]
@@ -118,22 +121,27 @@ async def process_pokemon_image(file_path):
 @app.on_message(filters.user(hexa_bot) & filters.photo)
 async def handle_hexa_bot(client, message):
     try:
+        start_time = time.time()
+
         file_path = await message.download()
 
-        pokemon_names = await asyncio.gather(
-            *[process_pokemon_image(file_path) for file_path in [file_path]]  # For handling multiple images
-        )
+        # Process image asynchronously
+        pokemon_names = await process_pokemon_image(file_path)
 
-        # Flatten the list of Pokémon names if multiple images are processed
-        flattened_pokemon_names = [name for sublist in pokemon_names for name in sublist]
-
-        # Send the response with a random number of Pokémon names
-        if flattened_pokemon_names:
+        # If any Pokémon names are found, send them immediately
+        if pokemon_names:
             # Randomly select 1, 3, or a random number of Pokémon from the list
-            selected_pokemon = random.sample(flattened_pokemon_names, random.randint(1, len(flattened_pokemon_names)))
+            selected_pokemon = random.sample(pokemon_names, random.randint(1, len(pokemon_names)))
             await message.reply(f"Found Pokémon: {', '.join(selected_pokemon)}")
         else:
             print(f"No matching Pokémon found for image hash.")
+
+        end_time = time.time()
+        elapsed_time = end_time - start_time
+
+        # Check if processing time exceeded 1 second
+        if elapsed_time > 1:
+            print(f"Warning: Image processing took too long: {elapsed_time} seconds")
 
     except Exception as e:
         print(f"Error handling hexa_bot: {e}")
