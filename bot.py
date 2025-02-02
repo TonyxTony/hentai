@@ -1,29 +1,23 @@
-from pyrogram import Client, filters
-import os
-import time
-from threading import Thread
-from flask import Flask
-from pyrogram.types import Message
 import asyncio
+import time
 import random
-from pymongo import MongoClient
+import os
 import re
+from pyrogram import Client, filters
+from pyrogram.types import Message
+from pymongo import MongoClient
 from PIL import Image
 import imagehash
 import json
 
+# Constants and Setup
 HANDLER = "."
 API_ID = "25321403"
 API_HASH = "0024ae3c978ba534b1a9bffa29e9cc9b"
 SESSION = "BQFo9VAALAHKuEpUHoCealAw8UnYRDLqDtWWGapgMKyDdDNqgra2Gnd2EnVwpwP4PvujFjRM1Lltr8qh1DeTheqRukQF_GPApLhtS2eldLOBWrNYogDqIGr6ifgNnMI1oQAzsMkne0-wkGgrobJyMrKKV3oodj3ast0XVmvtyzh1cutBwm9Ob-BCjS22hK3E5R9A8fL0jKczAM0YgY82TCp2SU9qvCSjPaKASSN2w8HVt8HvWBJWd7tKf0i6VSwIN-5USPrAejxgxpEIwVumBZKTu6wpP2AeWADFN_OCaLTf_hD7klLnBffR6obkodGkIX-ZczkrmX7TstXICIT7jdcxwEutwgAAAAGRx5e_AA"
 MONGO_URI = os.getenv('MONGO_URI', "mongodb+srv://Lakshay3434:Tony123@cluster0.agsna9b.mongodb.net/?retryWrites=true&w=majority")
 hexa_bot = 572621020
-
-ALLOWED_CHAT_IDS = [
-    -1002136935704, -1002244785813, -1002200182279, -1002232771623,
-    -1002241545267, -1002180680112, -1002152913531, -1002244523802,
-    -1002159180828, -1002186623520, -1002220460503
-]
+ALLOWED_CHAT_IDS = [-1002136935704, -1002244785813, -1002200182279, -1002232771623]
 
 if not MONGO_URI:
     raise Exception("MONGO_URI environment variable is not set")
@@ -33,20 +27,8 @@ db = mongo_client['grabber_db']
 hexa_status = db['hexa_hashes']
 hexaimg = db["hexa_img"]
 
-app = Client(
-    "word9",
-    api_id=API_ID,
-    api_hash=API_HASH,
-    session_string=SESSION
-)
-
-server = Flask(__name__)
-
-@server.route("/")
-def home():
-    return "Bot is running"
-
-pokemon_data_cache = []
+# Load Pokémon data once into memory for fast lookup
+pokemon_data_cache = {}
 
 def load_pokemon_data():
     global pokemon_data_cache
@@ -59,13 +41,65 @@ def load_pokemon_data():
             print(f"Error loading pokemon data: {e}")
     return pokemon_data_cache
 
+# Client setup
+app = Client("pokemon_bot", api_id=API_ID, api_hash=API_HASH, session_string=SESSION)
+
+# Hashing function for images
+def hash_image(image_path):
+    try:
+        with Image.open(image_path) as img:
+            hash_value = imagehash.phash(img)
+            return str(hash_value)
+    except Exception as e:
+        return None
+
+# Main handler for Pokémon images
+async def process_pokemon_image(file_path):
+    pokemon_data = load_pokemon_data()
+    image_hash_value = hash_image(file_path)
+
+    # Collect all matching Pokémon names from the hash
+    matching_pokemon = [pokemon_name for hash_value, pokemon_name in pokemon_data.items() if hash_value == image_hash_value]
+
+    if matching_pokemon:
+        return random.sample(matching_pokemon, random.randint(1, len(matching_pokemon)))  # Return random selection
+    else:
+        return []
+
+# Handle image received from Hexa bot
+@app.on_message(filters.user(hexa_bot) & filters.photo)
+async def handle_hexa_bot(client, message):
+    try:
+        # Download the image from the message
+        file_path = await message.download()
+
+        # Process the image asynchronously to get Pokémon names
+        pokemon_names = await process_pokemon_image(file_path)
+
+        # If no names are found
+        if not pokemon_names:
+            await message.reply("No matching Pokémon found for the image.")
+        else:
+            # Randomly select a number of Pokémon names to send as a reply
+            selected_pokemon = random.sample(pokemon_names, random.randint(1, len(pokemon_names)))
+            await message.reply(f"Found Pokémon: {', '.join(selected_pokemon)}")
+
+        # Optionally remove the image after processing
+        os.remove(file_path)
+
+    except Exception as e:
+        await message.reply(f"Error processing the image: {str(e)}")
+
+# Capture Pokémon images and send them to Hexa bot
 @app.on_message(filters.chat(ALLOWED_CHAT_IDS) & filters.user(hexa_bot) & filters.regex(r"pokemon was"))
 async def capture_pokemon(client, message):
     try:
+        # Clean the message text
         cleaned_text = re.sub(r'(\*{1,2})(.*?)\1', r'\2', message.text.strip())
         if "pokemon was" not in cleaned_text:
             return
 
+        # Check if the message contains a photo
         if message.reply_to_message and message.reply_to_message.photo:
             replied_message = message.reply_to_message
             file_id = replied_message.photo.file_id
@@ -74,78 +108,17 @@ async def capture_pokemon(client, message):
             full_text = message.text.strip()
 
             try:
-                sent_photo_message = await client.send_photo(
-                    '@Hexa_DB',
-                    file_path,
-                    caption=full_text
-                )
-
-                os.remove(file_path)
+                # Send the image to Hexa_DB channel
+                sent_photo_message = await client.send_photo('@Hexa_DB', file_path, caption=full_text)
+                os.remove(file_path)  # Clean up the file after sending
 
             except Exception as send_error:
                 await message.reply(f"Error sending photo to @Hexa_DB: {send_error}")
-                return
 
     except Exception as e:
-        await message.reply(f"An error occurred: {str(e)}")
+        await message.reply(f"Error capturing Pokémon: {str(e)}")
 
-async def hash_image(image_path):
-    """Optimized image hashing function (simpler approach)."""
-    try:
-        with Image.open(image_path) as img:
-            img = img.convert("RGB")
-            hash_value = str(hash(img.tobytes()))  # Simple hash based on image bytes.
-            return hash_value
-    except Exception as e:
-        return str(e)
-
-async def process_pokemon_image(file_path):
-    """Process the image and find corresponding Pokémon names."""
-    try:
-        pokemon_data = load_pokemon_data()
-        image_hash_value = await hash_image(file_path)
-
-        # Collect all matching Pokémon names
-        matching_pokemon = [pokemon_name for hash_value, pokemon_name in pokemon_data.items() if hash_value == image_hash_value]
-
-        if matching_pokemon:
-            return random.sample(matching_pokemon, random.randint(1, len(matching_pokemon)))  # Random number of Pokémon
-        else:
-            print(f"Image hash not found in data: {image_hash_value}")
-            return []
-
-    except Exception as e:
-        print(f"Error processing image: {e}")
-        return []
-
-@app.on_message(filters.user(hexa_bot) & filters.photo)
-async def handle_hexa_bot(client, message):
-    try:
-        start_time = time.time()
-
-        file_path = await message.download()
-
-        # Process image asynchronously
-        pokemon_names = await process_pokemon_image(file_path)
-
-        # If any Pokémon names are found, send them immediately
-        if pokemon_names:
-            # Randomly select 1, 3, or a random number of Pokémon from the list
-            selected_pokemon = random.sample(pokemon_names, random.randint(1, len(pokemon_names)))
-            await message.reply(f"Found Pokémon: {', '.join(selected_pokemon)}")
-        else:
-            print(f"No matching Pokémon found for image hash.")
-
-        end_time = time.time()
-        elapsed_time = end_time - start_time
-
-        # Check if processing time exceeded 1 second
-        if elapsed_time > 1:
-            print(f"Warning: Image processing took too long: {elapsed_time} seconds")
-
-    except Exception as e:
-        print(f"Error handling hexa_bot: {e}")
-
+# Handle ping command for bot health check
 @app.on_message(filters.command("ding", HANDLER) & filters.me)
 async def ping_pong(client: Client, message: Message):
     try:
@@ -164,18 +137,18 @@ async def ping_pong(client: Client, message: Message):
         except Exception as e:
             print(f"Error deleting message: {e}")
     except Exception as e:
-        await message.reply(f"An error occurred in the ping-pong process: {str(e)}")
+        await message.reply(f"Error in the ping process: {str(e)}")
 
+# Format uptime to hours, minutes, and seconds
 def format_uptime(seconds):
     hours, remainder = divmod(int(seconds), 3600)
     minutes, seconds = divmod(remainder, 60)
     return f"{hours}h {minutes}m {seconds}s"
 
+# Run the bot and server
 def run():
-    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 8080)))
+    app.run()
 
 if __name__ == "__main__":
     bot_start_time = time.time()
-    t = Thread(target=run)
-    t.start()
-    app.run()
+    run()
