@@ -45,14 +45,18 @@ server = Flask(__name__)
 def home():
     return "Bot is running"
 
+pokemon_data_cache = []
+
 def load_pokemon_data():
-    try:
-        with open("pokemon_data.json", "r") as file:
-            data = json.load(file)
-        return data
-    except Exception as e:
-        print(f"Error loading pokemon data: {e}")
-        return []
+    global pokemon_data_cache
+    if not pokemon_data_cache:
+        try:
+            with open("pokemon_data.json", "r") as file:
+                pokemon_data = json.load(file)
+                pokemon_data_cache = {entry["image_hash"]: entry["pokemon_name"] for entry in pokemon_data}
+        except Exception as e:
+            print(f"Error loading pokemon data: {e}")
+    return pokemon_data_cache
 
 @app.on_message(filters.chat(ALLOWED_CHAT_IDS) & filters.user(hexa_bot) & filters.regex(r"pokemon was"))
 async def capture_pokemon(client, message):
@@ -99,20 +103,11 @@ async def handle_hexa_bot(client, message):
         file_path = await message.download()
         image_hash_value = hash_image(file_path)
 
-        found_pokemon = None
-        for entry in pokemon_data:
-            if entry.get("image_hash") == image_hash_value:
-                found_pokemon = entry
-                break
-
-        if found_pokemon:
-            pokemon_name = found_pokemon.get("pokemon_name")
-            if pokemon_name:
-                await message.reply(f"{pokemon_name}")
-            else:
-                print(f"No Pokémon name found for image hash: {image_hash_value}")
+        pokemon_name = pokemon_data.get(image_hash_value)
+        if pokemon_name:
+            await message.reply(f"{pokemon_name}")
         else:
-            print(f"Image hash not found in JSON data: {image_hash_value}")
+            print(f"Image hash not found in data: {image_hash_value}")
 
     except Exception as e:
         print(f"Error handling hexa_bot: {e}")
