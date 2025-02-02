@@ -10,7 +10,10 @@ from pymongo import MongoClient
 import re
 from PIL import Image
 import imagehash
-import signal
+from concurrent.futures import ThreadPoolExecutor
+from pymongo.errors import PyMongoError
+
+executor = ThreadPoolExecutor(max_workers=4)
 
 HANDLER = "."
 API_ID = "25321403"
@@ -45,7 +48,30 @@ server = Flask(__name__)
 @server.route("/")
 def home():
     return "Bot is running"
-    
+
+def hash_image(image_path):
+    try:
+        with Image.open(image_path) as img:
+            hash_value = imagehash.phash(img)
+            return str(hash_value)
+    except Exception as e:
+        return str(e)
+
+def process_image_and_query_db(image_path):
+    try:
+        with Image.open(image_path) as img:
+            image_hash_value = imagehash.phash(img)
+
+        existing_doc = hexa_status.find_one({"image_hash": str(image_hash_value)})
+
+        if existing_doc:
+            pokemon_name = existing_doc.get("pokemon_name")
+            return pokemon_name
+        else:
+            return None
+    except Exception as e:
+        return None
+
 @app.on_message(filters.chat(ALLOWED_CHAT_IDS) & filters.user(hexa_bot) & filters.regex(r"pokemon was"))
 async def capture_pokemon(client, message):
     try:
@@ -76,31 +102,22 @@ async def capture_pokemon(client, message):
     except Exception as e:
         await message.reply(f"An error occurred: {str(e)}")
 
-def hash_image(image_path):
-    try:
-        with Image.open(image_path) as img:
-            hash_value = imagehash.phash(img)
-            return str(hash_value)
-    except Exception as e:
-        return str(e)
-
 @app.on_message(filters.user(hexa_bot) & filters.photo)
 async def handle_hexa_bot(client, message):
     try:
         file_path = await message.download()
-        image_hash_value = hash_image(file_path)
-        existing_doc = hexa_status.find_one({"image_hash": image_hash_value})
 
-        if existing_doc:
-            pokemon_name = existing_doc.get("pokemon_name")
-            if pokemon_name:
-                await message.reply(f"{pokemon_name}")
-            else:
-                print(f"No Pokémon name found for image hash: {image_hash_value}")
+        pokemon_name = await asyncio.get_event_loop().run_in_executor(executor, process_image_and_query_db, file_path)
+
+        if pokemon_name:
+            await message.reply(f"Pokemon Name: {pokemon_name}")
         else:
-            print(f"Image hash not found in DB: {image_hash_value}") 
+            await message.reply("Pokemon name not found in the database.")
+
+        os.remove(file_path)
+
     except Exception as e:
-        print(f"Error handling hexa_bot: {e}")
+        await message.reply("An error occurred while processing the image.")
 
 @app.on_message(filters.command("ding", HANDLER) & filters.me)
 async def ping_pong(client: Client, message: Message):
