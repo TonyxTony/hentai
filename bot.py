@@ -112,8 +112,13 @@ async def handle_hexa_bot(client, message):
 
 async def process_image(file_id, pokemon_data, message):
     try:
+        print(f"Starting to process image with file_id: {file_id}")
         file_path = await message.download_media(file_id)
+        print(f"Downloaded file to {file_path}")
+        
         image_hash_value = hash_image(file_path)
+        print(f"Image hash: {image_hash_value}")
+        
         found_pokemon = None
 
         for entry in pokemon_data:
@@ -124,7 +129,7 @@ async def process_image(file_id, pokemon_data, message):
         if found_pokemon:
             pokemon_name = found_pokemon.get("pokemon_name")
             if pokemon_name:
-                await message.reply(f"{pokemon_name}")
+                await message.reply(f"Found Pokémon: {pokemon_name}")
             else:
                 error_message = f"No Pokémon name found for image hash: {image_hash_value}"
                 print(error_message)
@@ -135,7 +140,8 @@ async def process_image(file_id, pokemon_data, message):
             await message.reply(error_message)
 
         os.remove(file_path)
-
+        print(f"Removed file {file_path}")
+    
     except Exception as e:
         error_message = f"Error processing image: {str(e)}"
         print(error_message)
