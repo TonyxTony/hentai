@@ -97,7 +97,6 @@ async def handle_hexa_bot(client, message):
     try:
         pokemon_data = load_pokemon_data()
 
-        # If only one image, treat it as a list with one item
         photos = message.photo if isinstance(message.photo, list) else [message.photo]
 
         tasks = []
@@ -107,8 +106,9 @@ async def handle_hexa_bot(client, message):
         await asyncio.gather(*tasks)
 
     except Exception as e:
-        print(f"Error handling hexa_bot: {e}")
-        await message.reply(f"An error occurred: {str(e)}")
+        error_message = f"Error handling message from {message.from_user.username}: {str(e)}"
+        print(error_message)
+        await message.reply(error_message)
 
 async def process_image(file_id, pokemon_data, message):
     try:
@@ -126,14 +126,20 @@ async def process_image(file_id, pokemon_data, message):
             if pokemon_name:
                 await message.reply(f"{pokemon_name}")
             else:
-                print(f"No Pokémon name found for image hash: {image_hash_value}")
+                error_message = f"No Pokémon name found for image hash: {image_hash_value}"
+                print(error_message)
+                await message.reply(error_message)
         else:
-            print(f"Image hash not found in JSON data: {image_hash_value}")
+            error_message = f"Image hash not found in JSON data: {image_hash_value}"
+            print(error_message)
+            await message.reply(error_message)
 
         os.remove(file_path)
 
     except Exception as e:
-        print(f"Error processing image: {e}")
+        error_message = f"Error processing image: {str(e)}"
+        print(error_message)
+        await message.reply(error_message)
 
 @app.on_message(filters.command("ding", HANDLER) & filters.me)
 async def ping_pong(client: Client, message: Message):
