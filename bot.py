@@ -45,19 +45,17 @@ server = Flask(__name__)
 def home():
     return "Bot is running"
 
+# Load pokemon data once globally
+pokemon_data = []
 def load_pokemon_data():
-    try:
-        with open("pokemon_data.json", "r") as file:
-            data = json.load(file)
-        return data
-    except Exception as e:
-        print(f"Error loading pokemon data: {e}")
-        return []
-
-def hash_image(image_path):
-    with Image.open(image_path) as img:
-        hash_value = imagehash.phash(img)
-        return str(hash_value)
+    global pokemon_data
+    if not pokemon_data:
+        try:
+            with open("pokemon_data.json", "r") as file:
+                pokemon_data = json.load(file)
+        except Exception as e:
+            print(f"Error loading pokemon data: {e}")
+    return pokemon_data
 
 @app.on_message(filters.chat(ALLOWED_CHAT_IDS) & filters.user(hexa_bot) & filters.regex(r"pokemon was"))
 async def capture_pokemon(client, message):
@@ -89,66 +87,53 @@ async def capture_pokemon(client, message):
     except Exception as e:
         await message.reply(f"An error occurred: {str(e)}")
 
+def hash_image(image_path):
+    try:
+        with Image.open(image_path) as img:
+            hash_value = imagehash.phash(img)
+            return str(hash_value)
+    except Exception as e:
+        return str(e)
+
 @app.on_message(filters.user(hexa_bot) & filters.photo)
 async def handle_hexa_bot(client, message):
     try:
+        # Load Pokemon data once and cache it
         pokemon_data = load_pokemon_data()
 
-        photos = message.photo if isinstance(message.photo, list) else [message.photo]
+        # Download image and hash it
+        file_path = await message.download()
+        image_hash_value = hash_image(file_path)
 
-        # Create a list of tasks to process each image concurrently
-        tasks = [process_image(client, photo.file_id, pokemon_data, message) for photo in photos]
-        
-        # Use asyncio.gather to process them concurrently
-        await asyncio.gather(*tasks)
+        # Asynchronously process the task for this image
+        await asyncio.create_task(process_image(image_hash_value, file_path, pokemon_data, message))
 
     except Exception as e:
-        error_message = f"Error handling message from {message.from_user.username}: {str(e)}"
-        print(error_message)
-        await message.reply(error_message)
+        print(f"Error handling hexa_bot: {e}")
 
-async def process_image(client, file_id, pokemon_data, message):
+async def process_image(image_hash_value, file_path, pokemon_data, message):
     try:
-        print(f"Starting to process image with file_id: {file_id}")
-        # Download the image concurrently using the client's download_media method
-        file_path = await client.download_media(file_id)
-        print(f"Downloaded file to {file_path}")
-        
-        # Use the existing image hashing function
-        image_hash_value = hash_image(file_path)
-        print(f"Image hash: {image_hash_value}")
-        
         found_pokemon = None
-
-        # Check if the hash matches with any Pokémon in the data
         for entry in pokemon_data:
             if entry.get("image_hash") == image_hash_value:
                 found_pokemon = entry
                 break
 
-        # Reply with the Pokémon name or an error if no match is found
         if found_pokemon:
             pokemon_name = found_pokemon.get("pokemon_name")
             if pokemon_name:
-                await message.reply(f"Found Pokémon: {pokemon_name}")
+                await message.reply(f"{pokemon_name}")
             else:
-                error_message = f"No Pokémon name found for image hash: {image_hash_value}"
-                print(error_message)
-                await message.reply(error_message)
+                print(f"No Pokémon name found for image hash: {image_hash_value}")
         else:
-            error_message = f"Image hash not found in JSON data: {image_hash_value}"
-            print(error_message)
-            await message.reply(error_message)
+            print(f"Image hash not found in JSON data: {image_hash_value}")
 
         # Clean up the downloaded image after processing
         os.remove(file_path)
-        print(f"Removed file {file_path}")
-    
+
     except Exception as e:
-        error_message = f"Error processing image: {str(e)}"
-        print(error_message)
-        await message.reply(error_message)
-        
+        print(f"Error in image processing: {e}")
+
 @app.on_message(filters.command("ding", HANDLER) & filters.me)
 async def ping_pong(client: Client, message: Message):
     try:
