@@ -96,9 +96,12 @@ def hash_image(image_path):
 async def handle_hexa_bot(client, message):
     try:
         pokemon_data = load_pokemon_data()
-        
+
+        # If only one image, treat it as a list with one item
+        photos = message.photo if isinstance(message.photo, list) else [message.photo]
+
         tasks = []
-        for photo in message.photo:
+        for photo in photos:
             tasks.append(process_image(photo.file_id, pokemon_data, message))
         
         await asyncio.gather(*tasks)
