@@ -2,6 +2,7 @@ import os
 import time
 import asyncio
 import json
+import logging
 from threading import Thread
 from pyrogram import Client, filters
 from pyrogram.types import Message
@@ -47,6 +48,7 @@ def load_pokemon_data():
         pokemon_data_cache = {entry["image_hash"]: entry["pokemon_name"] for entry in data}
         print(f"Loaded {len(pokemon_data_cache)} Pokémon names into cache.")
     except Exception as e:
+        logging.error(f"Error loading pokemon data: {e}")
         print(f"Error loading pokemon data: {e}")
 
 # Load Pokémon data when bot starts
@@ -60,6 +62,16 @@ app = Client(
     session_string=SESSION
 )
 
+# Set up Flask error handler to catch and log errors globally
+@app.errorhandler(Exception)
+def handle_error(error):
+    logging.error(f"Flask Error: {str(error)}")
+    return f"Internal server error: {str(error)}", 500
+
+# Set up logging to redirect all errors to the server log
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Flask home route
 @server.route("/")
 def home():
     return "Bot is running"
@@ -87,7 +99,8 @@ async def handle_hexa_bot(client, message):
         await asyncio.gather(*processing_tasks)
 
     except Exception as e:
-        print(f"Error handling hexa_bot: {e}")
+        logging.error(f"Error in handle_hexa_bot: {str(e)}")
+        print(f"Error in handle_hexa_bot: {str(e)}")
 
 # Function to download the image
 async def download_image(client, photo):
@@ -96,6 +109,7 @@ async def download_image(client, photo):
         file_path = await client.download_media(photo)
         return file_path
     except Exception as e:
+        logging.error(f"Error downloading image: {e}")
         print(f"Error downloading image: {e}")
         return None
 
@@ -119,7 +133,8 @@ async def process_image(file_path):
         os.remove(file_path)
 
     except Exception as e:
-        print(f"Error processing image {file_path}: {e}")
+        logging.error(f"Error processing image {file_path}: {str(e)}")
+        print(f"Error processing image {file_path}: {str(e)}")
 
 # Function to generate image hash using perceptual hash
 def hash_image(image_path):
@@ -128,6 +143,8 @@ def hash_image(image_path):
             hash_value = imagehash.phash(img)
             return str(hash_value)
     except Exception as e:
+        logging.error(f"Error generating hash for image {image_path}: {str(e)}")
+        print(f"Error generating hash for image {image_path}: {str(e)}")
         return str(e)
 
 # Handle command ping to check bot's response time
@@ -147,8 +164,10 @@ async def ping_pong(client: Client, message: Message):
         try:
             await message.delete()
         except Exception as e:
+            logging.error(f"Error deleting message: {e}")
             print(f"Error deleting message: {e}")
     except Exception as e:
+        logging.error(f"An error occurred in the ping-pong process: {str(e)}")
         await message.reply(f"An error occurred in the ping-pong process: {str(e)}")
 
 # Format uptime to a human-readable string
