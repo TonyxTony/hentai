@@ -25,7 +25,6 @@ ALLOWED_CHAT_IDS = [
 
 max_concurrent_tasks = 4
 concurrent_tasks = []
-
 pokemon_data = []
 
 def load_pokemon_data():
@@ -44,6 +43,12 @@ app = Client(
     api_hash=API_HASH,
     session_string=SESSION
 )
+
+server = Flask(__name__)
+
+@server.route("/")
+def home():
+    return "Bot is running"
 
 def hash_image(image_path):
     try:
