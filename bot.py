@@ -101,7 +101,7 @@ async def handle_hexa_bot(client, message):
 
         tasks = []
         for photo in photos:
-            tasks.append(process_image(photo.file_id, pokemon_data, message))
+            tasks.append(process_image(client, photo.file_id, pokemon_data, message))
         
         await asyncio.gather(*tasks)
 
@@ -110,10 +110,10 @@ async def handle_hexa_bot(client, message):
         print(error_message)
         await message.reply(error_message)
 
-async def process_image(file_id, pokemon_data, message):
+async def process_image(client, file_id, pokemon_data, message):
     try:
         print(f"Starting to process image with file_id: {file_id}")
-        file_path = await message.download_media(file_id)
+        file_path = await client.download_media(file_id)
         print(f"Downloaded file to {file_path}")
         
         image_hash_value = hash_image(file_path)
