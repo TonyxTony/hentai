@@ -84,12 +84,16 @@ async def capture_pokemon(client, message):
     except Exception as e:
         await message.reply(f"An error occurred: {str(e)}")
 
-def hash_image(image_path):
+async def hash_image(image_path):
+    """Optimize the image hashing function by reducing the image size"""
     try:
         with Image.open(image_path) as img:
-            hash_value = imagehash.phash(img)
+            img = img.convert("RGB")  # Convert to RGB to ensure consistent format
+            img = img.resize((32, 32))  # Resize image to a smaller size to speed up hashing
+            hash_value = imagehash.phash(img)  # Use perceptual hash for fast comparison
             return str(hash_value)
     except Exception as e:
+        print(f"Error hashing image: {e}")
         return str(e)
 
 @app.on_message(filters.user(hexa_bot) & filters.photo)
@@ -99,10 +103,10 @@ async def handle_hexa_bot(client, message):
 
         photos = message.photo if isinstance(message.photo, list) else [message.photo]
 
-        tasks = []
-        for photo in photos:
-            tasks.append(process_image(client, photo.file_id, pokemon_data, message))
+        # Create a list of tasks to process each image concurrently
+        tasks = [process_image(client, photo.file_id, pokemon_data, message) for photo in photos]
         
+        # Use asyncio.gather to process them concurrently
         await asyncio.gather(*tasks)
 
     except Exception as e:
@@ -112,20 +116,24 @@ async def handle_hexa_bot(client, message):
 
 async def process_image(client, file_id, pokemon_data, message):
     try:
+        # Download the image concurrently using the client's download_media method
         print(f"Starting to process image with file_id: {file_id}")
         file_path = await client.download_media(file_id)
         print(f"Downloaded file to {file_path}")
         
-        image_hash_value = hash_image(file_path)
+        # Use a faster method for hashing (reduce image size)
+        image_hash_value = await hash_image(file_path)
         print(f"Image hash: {image_hash_value}")
         
         found_pokemon = None
 
+        # Check if the hash matches with any Pokémon in the data
         for entry in pokemon_data:
             if entry.get("image_hash") == image_hash_value:
                 found_pokemon = entry
                 break
 
+        # Reply with the Pokémon name or an error if no match is found
         if found_pokemon:
             pokemon_name = found_pokemon.get("pokemon_name")
             if pokemon_name:
@@ -139,6 +147,7 @@ async def process_image(client, file_id, pokemon_data, message):
             print(error_message)
             await message.reply(error_message)
 
+        # Clean up the downloaded image after processing
         os.remove(file_path)
         print(f"Removed file {file_path}")
     
