@@ -1,15 +1,10 @@
-from pyrogram import Client, filters
-import os
-import time
-from threading import Thread
-from flask import Flask
-from pyrogram.types import Message
 import asyncio
-from pymongo import MongoClient
-import re
+from pyrogram import Client, filters
+from pyrogram.types import Message
+import os
+import json
 from PIL import Image
 import imagehash
-import json
 
 HANDLER = "."
 API_ID = "25321403"
@@ -24,28 +19,11 @@ ALLOWED_CHAT_IDS = [
     -1002159180828, -1002186623520, -1002220460503
 ]
 
-if not MONGO_URI:
-    raise Exception("MONGO_URI environment variable is not set")
-
-mongo_client = MongoClient(MONGO_URI)
-db = mongo_client['grabber_db']
-hexa_status = db['hexa_hashes']
-hexaimg = db["hexa_img"]
-
-app = Client(
-    "word9",
-    api_id=API_ID,
-    api_hash=API_HASH,
-    session_string=SESSION
-)
-
-server = Flask(__name__)
-
-@server.route("/")
-def home():
-    return "Bot is running"
+max_concurrent_tasks = 4
+concurrent_tasks = []
 
 pokemon_data = []
+
 def load_pokemon_data():
     global pokemon_data
     if not pokemon_data:
@@ -56,35 +34,12 @@ def load_pokemon_data():
             print(f"Error loading pokemon data: {e}")
     return pokemon_data
 
-@app.on_message(filters.chat(ALLOWED_CHAT_IDS) & filters.user(hexa_bot) & filters.regex(r"pokemon was"))
-async def capture_pokemon(client, message):
-    try:
-        cleaned_text = re.sub(r'(\*{1,2})(.*?)\1', r'\2', message.text.strip())
-        if "pokemon was" not in cleaned_text:
-            return
-
-        if message.reply_to_message and message.reply_to_message.photo:
-            replied_message = message.reply_to_message
-            file_id = replied_message.photo.file_id
-
-            file_path = await client.download_media(replied_message.photo)
-            full_text = message.text.strip()
-
-            try:
-                sent_photo_message = await client.send_photo(
-                    '@Hexa_DB',
-                    file_path,
-                    caption=full_text
-                )
-
-                os.remove(file_path)
-
-            except Exception as send_error:
-                await message.reply(f"Error sending photo to @Hexa_DB: {send_error}")
-                return
-
-    except Exception as e:
-        await message.reply(f"An error occurred: {str(e)}")
+app = Client(
+    "word9",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    session_string=SESSION
+)
 
 def hash_image(image_path):
     try:
@@ -95,20 +50,9 @@ def hash_image(image_path):
     except Exception as e:
         return str(e)
 
-@app.on_message(filters.user(hexa_bot) & filters.photo)
-async def handle_hexa_bot(client, message):
+async def process_image_task(file_path, image_hash_value, message):
     try:
         pokemon_data = load_pokemon_data()
-        file_path = await message.download()
-        image_hash_value = hash_image(file_path)
-
-        await asyncio.create_task(process_image(image_hash_value, file_path, pokemon_data, message))
-
-    except Exception as e:
-        print(f"Error handling hexa_bot: {e}")
-
-async def process_image(image_hash_value, file_path, pokemon_data, message):
-    try:
         found_pokemon = None
         for entry in pokemon_data:
             if entry.get("image_hash") == image_hash_value:
@@ -123,11 +67,29 @@ async def process_image(image_hash_value, file_path, pokemon_data, message):
                 print(f"No Pokémon name found for image hash: {image_hash_value}")
         else:
             print(f"Image hash not found in JSON data: {image_hash_value}")
+    except Exception as e:
+        print(f"Error processing image task: {e}")
 
-        os.remove(file_path)
+async def handle_hexa_bot(client, message):
+    try:
+        if len(concurrent_tasks) >= max_concurrent_tasks:
+            await message.reply("Already full")
+            return
+
+        file_path = await message.download()
+        image_hash_value = hash_image(file_path)
+
+        task = asyncio.create_task(process_image_task(file_path, image_hash_value, message))
+        concurrent_tasks.append(task)
+
+        task.add_done_callback(lambda t: concurrent_tasks.remove(t))
 
     except Exception as e:
-        print(f"Error in image processing: {e}")
+        print(f"Error handling hexa_bot: {e}")
+
+@app.on_message(filters.user(hexa_bot) & filters.photo)
+async def handle_hexa_bot_trigger(client, message):
+    await handle_hexa_bot(client, message)
 
 @app.on_message(filters.command("ding", HANDLER) & filters.me)
 async def ping_pong(client: Client, message: Message):
