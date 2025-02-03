@@ -45,7 +45,6 @@ server = Flask(__name__)
 def home():
     return "Bot is running"
 
-# Load pokemon data once globally
 pokemon_data = []
 def load_pokemon_data():
     global pokemon_data
@@ -90,6 +89,7 @@ async def capture_pokemon(client, message):
 def hash_image(image_path):
     try:
         with Image.open(image_path) as img:
+            img = img.resize((32, 32), Image.ANTIALIAS)
             hash_value = imagehash.phash(img)
             return str(hash_value)
     except Exception as e:
@@ -98,14 +98,10 @@ def hash_image(image_path):
 @app.on_message(filters.user(hexa_bot) & filters.photo)
 async def handle_hexa_bot(client, message):
     try:
-        # Load Pokemon data once and cache it
         pokemon_data = load_pokemon_data()
-
-        # Download image and hash it
         file_path = await message.download()
         image_hash_value = hash_image(file_path)
 
-        # Asynchronously process the task for this image
         await asyncio.create_task(process_image(image_hash_value, file_path, pokemon_data, message))
 
     except Exception as e:
@@ -128,7 +124,6 @@ async def process_image(image_hash_value, file_path, pokemon_data, message):
         else:
             print(f"Image hash not found in JSON data: {image_hash_value}")
 
-        # Clean up the downloaded image after processing
         os.remove(file_path)
 
     except Exception as e:
