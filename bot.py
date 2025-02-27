@@ -1,4 +1,5 @@
 import os
+import time
 from flask import Flask, request, jsonify
 from threading import Thread
 import imagehash
