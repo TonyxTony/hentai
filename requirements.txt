@@ -1,9 +1,10 @@
 pyrogram
 motor
 tgcrypto
-Pillow==9.0.0
+Pillow
 requests
 python-dotenv
 pymongo
 imagehash
 flask
+sqlite3
