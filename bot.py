@@ -1,4 +1,6 @@
 import os
+from flask import Flask, request, jsonify
+from threading import Thread
 import imagehash
 from PIL import Image
 from io import BytesIO
