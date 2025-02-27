@@ -7,4 +7,3 @@ python-dotenv
 pymongo
 imagehash
 flask
-sqlite3
