@@ -86,7 +86,7 @@ async def capture_pokemon_data(client, message):
         await message.reply("An error occurred while processing the request.")
         print(f"Error in capture_pokemon_data: {e}")
 
-@app.on_message(filters.command("add", HANDLER) & filters.user([7530506703, 6600178606]))
+@app.on_message(filters.command("add", HANDLER) & filters.me)
 async def add_auto_response_group(client, message):
     global auto_response_groups
     try:
@@ -128,7 +128,7 @@ async def add_auto_response_group(client, message):
     except Exception as e:
         print(f"Error adding auto-response group: {e}")
 
-@app.on_message(filters.command("remove", HANDLER) & filters.user([7530506703, 6600178606]))
+@app.on_message(filters.command("remove", HANDLER) & filters.me)
 async def remove_auto_response_group(client, message):
     global auto_response_groups
     try:
@@ -193,7 +193,7 @@ async def toggle_auto_reply(client, message):
     except Exception as e:
         print(f"Error toggling auto-reply: {e}")
 
-@app.on_message(filters.command("chats", HANDLER) & filters.user([7530506703, 6600178606]))
+@app.on_message(filters.command("chats", HANDLER) & filters.me)
 async def list_auto_response_groups(client, message):
     try:
         if auto_response_groups:
