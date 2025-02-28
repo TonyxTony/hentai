@@ -1,0 +1,4432 @@
+[
+    {
+        "_id": "6795ecaed054462574e33772",
+        "file_unique_id": "AgADI64xG3-5YEQ",
+        "pokemon_name": "Zekrom"
+    },
+    {
+        "_id": "6795f33dd054462574e33773",
+        "file_unique_id": "AgADAq4xG3-5YEQ",
+        "pokemon_name": "Necrozma"
+    },
+    {
+        "_id": "6795f3add054462574e33775",
+        "file_unique_id": "AgADH64xG0E8YUQ",
+        "pokemon_name": "Falinks"
+    },
+    {
+        "_id": "679628ddd054462574e33778",
+        "file_unique_id": "AgADcK0xG7ILYEQ",
+        "pokemon_name": "Absol"
+    },
+    {
+        "_id": "6796292bd054462574e33779",
+        "file_unique_id": "AgAD2q4xG3BSYUQ",
+        "pokemon_name": "Gothita"
+    },
+    {
+        "_id": "6796292ed054462574e3377a",
+        "file_unique_id": "AgAD3q4xG3vGYEQ",
+        "pokemon_name": "Igglybuff"
+    },
+    {
+        "_id": "67962931d054462574e3377b",
+        "file_unique_id": "AgADP98xGwt0YUQ",
+        "pokemon_name": "Avalugg"
+    },
+    {
+        "_id": "67962936d054462574e3377c",
+        "file_unique_id": "AgADzK4xGxBYYUQ",
+        "pokemon_name": "Gloom"
+    },
+    {
+        "_id": "67962939d054462574e3377d",
+        "file_unique_id": "AgADwK4xG9WBYEQ",
+        "pokemon_name": "Gurdurr"
+    },
+    {
+        "_id": "6796293cd054462574e3377e",
+        "file_unique_id": "AgADE60xG8L_YEQ",
+        "pokemon_name": "Morelull"
+    },
+    {
+        "_id": "6796293fd054462574e3377f",
+        "file_unique_id": "AgADSK0xG4wEYUQ",
+        "pokemon_name": "Cutiefly"
+    },
+    {
+        "_id": "67962950d054462574e33780",
+        "file_unique_id": "AgADzK4xG4uDWUQ",
+        "pokemon_name": "Dewott"
+    },
+    {
+        "_id": "67962b03d054462574e33781",
+        "file_unique_id": "AgADIa4xG3mEYEQ",
+        "pokemon_name": "Gumshoos"
+    },
+    {
+        "_id": "67962b09d054462574e33782",
+        "file_unique_id": "AgADQ98xGwt0YUQ",
+        "pokemon_name": "Rolycoly"
+    },
+    {
+        "_id": "67962b10d054462574e33783",
+        "file_unique_id": "AgADT60xG7ILYEQ",
+        "pokemon_name": "Seel"
+    },
+    {
+        "_id": "67962b16d054462574e33784",
+        "file_unique_id": "AgAD-60xG3-5YEQ",
+        "pokemon_name": "Swoobat"
+    },
+    {
+        "_id": "67962b19d054462574e33785",
+        "file_unique_id": "AgADhK8xG9oKYUQ",
+        "pokemon_name": "Vanillite"
+    },
+    {
+        "_id": "67962b1bd054462574e33786",
+        "file_unique_id": "AgADeq8xG7c2YUQ",
+        "pokemon_name": "Audino"
+    },
+    {
+        "_id": "67962b1ed054462574e33787",
+        "file_unique_id": "AgADuq0xG4rNYEQ",
+        "pokemon_name": "Caterpie"
+    },
+    {
+        "_id": "67962b20d054462574e33788",
+        "file_unique_id": "AgADKN8xGwt0YUQ",
+        "pokemon_name": "Porygon2"
+    },
+    {
+        "_id": "67962b25d054462574e33789",
+        "file_unique_id": "AgADMK0xG7AUYEQ",
+        "pokemon_name": "Venonat"
+    },
+    {
+        "_id": "67962b74d054462574e3378a",
+        "file_unique_id": "AgAD4K4xG3BSYUQ",
+        "pokemon_name": "Impidimp"
+    },
+    {
+        "_id": "67962b79d054462574e3378b",
+        "file_unique_id": "AgAD8q0xG3-5YEQ",
+        "pokemon_name": "Swadloon"
+    },
+    {
+        "_id": "67962b7ed054462574e3378c",
+        "file_unique_id": "AgAD3K4xG3BSYUQ",
+        "pokemon_name": "Aipom"
+    },
+    {
+        "_id": "67962b82d054462574e3378d",
+        "file_unique_id": "AgADRt8xGwt0YUQ",
+        "pokemon_name": "Fomantis"
+    },
+    {
+        "_id": "67962b86d054462574e3378e",
+        "file_unique_id": "AgADCq4xG3-5YEQ",
+        "pokemon_name": "Naganadel"
+    },
+    {
+        "_id": "67962b8cd054462574e3378f",
+        "file_unique_id": "AgADZa0xG7ILYEQ",
+        "pokemon_name": "Spectrier"
+    },
+    {
+        "_id": "67962b91d054462574e33790",
+        "file_unique_id": "AgADU98xGwt0YUQ",
+        "pokemon_name": "Salamence"
+    },
+    {
+        "_id": "67962b96d054462574e33791",
+        "file_unique_id": "AgAD2a4xG3vGYEQ",
+        "pokemon_name": "Purugly"
+    },
+    {
+        "_id": "67962b9ad054462574e33792",
+        "file_unique_id": "AgADRq0xG7ILYEQ",
+        "pokemon_name": "Octillery"
+    },
+    {
+        "_id": "67962ba0d054462574e33793",
+        "file_unique_id": "AgADUa4xG3mEYEQ",
+        "pokemon_name": "Haxorus"
+    },
+    {
+        "_id": "67962bdad054462574e33794",
+        "file_unique_id": "AgADP64xG3mEYEQ",
+        "pokemon_name": "Nidoqueen"
+    },
+    {
+        "_id": "67962bddd054462574e33795",
+        "file_unique_id": "AgADYq0xG9RVYUQ",
+        "pokemon_name": "Scolipede"
+    },
+    {
+        "_id": "67962bdfd054462574e33796",
+        "file_unique_id": "AgADKK0xG7AUYEQ",
+        "pokemon_name": "Nuzleaf"
+    },
+    {
+        "_id": "67962be5d054462574e33797",
+        "file_unique_id": "AgADra8xG1w5YUQ",
+        "pokemon_name": "Passimian"
+    },
+    {
+        "_id": "67962be7d054462574e33798",
+        "file_unique_id": "AgADIa0xG7AUYEQ",
+        "pokemon_name": "Mesprit"
+    },
+    {
+        "_id": "67962becd054462574e33799",
+        "file_unique_id": "AgAD464xG2ywYEQ",
+        "pokemon_name": "Skorupi"
+    },
+    {
+        "_id": "67962beed054462574e3379a",
+        "file_unique_id": "AgADDq4xG3-5YEQ",
+        "pokemon_name": "Snorunt"
+    },
+    {
+        "_id": "67962bf1d054462574e3379b",
+        "file_unique_id": "AgADb60xG1lAYUQ",
+        "pokemon_name": "Weepinbell"
+    },
+    {
+        "_id": "67962c35d054462574e3379c",
+        "file_unique_id": "AgADIK4xG3mEYEQ",
+        "pokemon_name": "Medicham"
+    },
+    {
+        "_id": "67962c38d054462574e3379d",
+        "file_unique_id": "AgADja0xG2c-YUQ",
+        "pokemon_name": "Dedenne"
+    },
+    {
+        "_id": "67962c3bd054462574e3379e",
+        "file_unique_id": "AgADga8xG9oKYUQ",
+        "pokemon_name": "Larvitar"
+    },
+    {
+        "_id": "67962c3dd054462574e3379f",
+        "file_unique_id": "AgADUK4xG3mEYEQ",
+        "pokemon_name": "Blissey"
+    },
+    {
+        "_id": "67962c40d054462574e337a0",
+        "file_unique_id": "AgADZK0xG9RVYUQ",
+        "pokemon_name": "Espurr"
+    },
+    {
+        "_id": "67962c42d054462574e337a1",
+        "file_unique_id": "AgADyq4xG3BSYUQ",
+        "pokemon_name": "Wailord"
+    },
+    {
+        "_id": "67962c44d054462574e337a2",
+        "file_unique_id": "AgADq60xG4rNYEQ",
+        "pokemon_name": "Shieldon"
+    },
+    {
+        "_id": "67962c47d054462574e337a3",
+        "file_unique_id": "AgADO98xGwt0YUQ",
+        "pokemon_name": "Miltank"
+    },
+    {
+        "_id": "67962c49d054462574e337a4",
+        "file_unique_id": "AgADJt8xGwt0YUQ",
+        "pokemon_name": "Hitmontop"
+    },
+    {
+        "_id": "67962cb1d054462574e337a5",
+        "file_unique_id": "AgADV60xG7ILYEQ",
+        "pokemon_name": "Palpitoad"
+    },
+    {
+        "_id": "67962cb3d054462574e337a6",
+        "file_unique_id": "AgADXd8xGwt0YUQ",
+        "pokemon_name": "Exploud"
+    },
+    {
+        "_id": "67962cb7d054462574e337a7",
+        "file_unique_id": "AgADFK0xG7AUYEQ",
+        "pokemon_name": "Cloyster"
+    },
+    {
+        "_id": "67962cb8d054462574e337a8",
+        "file_unique_id": "AgADG64xG0E8YUQ",
+        "pokemon_name": "Corsola"
+    },
+    {
+        "_id": "67962cbad054462574e337a9",
+        "file_unique_id": "AgADMK0xG4wEYUQ",
+        "pokemon_name": "Hippopotas"
+    },
+    {
+        "_id": "67962cbcd054462574e337aa",
+        "file_unique_id": "AgADpK0xG4rNYEQ",
+        "pokemon_name": "Clauncher"
+    },
+    {
+        "_id": "67962cbfd054462574e337ab",
+        "file_unique_id": "AgADZ60xG9RVYUQ",
+        "pokemon_name": "Talonflame"
+    },
+    {
+        "_id": "67962cc0d054462574e337ac",
+        "file_unique_id": "AgADcq0xG7ILYEQ",
+        "pokemon_name": "Typhlosion"
+    },
+    {
+        "_id": "67962cc4d054462574e337ad",
+        "file_unique_id": "AgADv64xG4uDWUQ",
+        "pokemon_name": "Braviary"
+    },
+    {
+        "_id": "67962cc6d054462574e337ae",
+        "file_unique_id": "AgADXK0xG7ILYEQ",
+        "pokemon_name": "Rampardos"
+    },
+    {
+        "_id": "67962daad054462574e337af",
+        "file_unique_id": "AgADDa4xG0E8YUQ",
+        "pokemon_name": "Starmie"
+    },
+    {
+        "_id": "67962dacd054462574e337b0",
+        "file_unique_id": "AgADXq0xG4wEYUQ",
+        "pokemon_name": "Greninja"
+    },
+    {
+        "_id": "67962daed054462574e337b1",
+        "file_unique_id": "AgADx64xG4uDWUQ",
+        "pokemon_name": "Marshtomp"
+    },
+    {
+        "_id": "67962db0d054462574e337b2",
+        "file_unique_id": "AgADQa4xG3mEYEQ",
+        "pokemon_name": "Cinderace"
+    },
+    {
+        "_id": "67962db2d054462574e337b3",
+        "file_unique_id": "AgADMt8xGwt0YUQ",
+        "pokemon_name": "Tapu Koko"
+    },
+    {
+        "_id": "67962db4d054462574e337b4",
+        "file_unique_id": "AgADVa0xG4wEYUQ",
+        "pokemon_name": "Helioptile"
+    },
+    {
+        "_id": "67962db6d054462574e337b5",
+        "file_unique_id": "AgADxK4xGxBYYUQ",
+        "pokemon_name": "Pumpkaboo"
+    },
+    {
+        "_id": "67962db7d054462574e337b6",
+        "file_unique_id": "AgADxq4xG4uDWUQ",
+        "pokemon_name": "Kricketune"
+    },
+    {
+        "_id": "67962db9d054462574e337b7",
+        "file_unique_id": "AgADuK4xG4uDWUQ",
+        "pokemon_name": "Heracross"
+    },
+    {
+        "_id": "67962dbbd054462574e337b8",
+        "file_unique_id": "AgADMN8xGwt0YUQ",
+        "pokemon_name": "Mandibuzz"
+    },
+    {
+        "_id": "679635f7d054462574e337b9",
+        "file_unique_id": "AgADea8xG7c2YUQ",
+        "pokemon_name": "Sunflora"
+    },
+    {
+        "_id": "679636c8d054462574e337ba",
+        "file_unique_id": "AgADH64xG3mEYEQ",
+        "pokemon_name": "Comfey"
+    },
+    {
+        "_id": "679637fbd054462574e337bb",
+        "file_unique_id": "AgADv64xGxBYYUQ",
+        "pokemon_name": "Crustle"
+    },
+    {
+        "_id": "679637fed054462574e337bc",
+        "file_unique_id": "AgADZ60xG1lAYUQ",
+        "pokemon_name": "Horsea"
+    },
+    {
+        "_id": "67963832d054462574e337bd",
+        "file_unique_id": "AgADdq0xG7ILYEQ",
+        "pokemon_name": "Cherubi"
+    },
+    {
+        "_id": "67963835d054462574e337be",
+        "file_unique_id": "AgADU60xG9RVYUQ",
+        "pokemon_name": "Swanna"
+    },
+    {
+        "_id": "67963837d054462574e337bf",
+        "file_unique_id": "AgADt60xG4rNYEQ",
+        "pokemon_name": "Zangoose"
+    },
+    {
+        "_id": "6796383ad054462574e337c0",
+        "file_unique_id": "AgADia8xG9oKYUQ",
+        "pokemon_name": "Furret"
+    },
+    {
+        "_id": "6796383cd054462574e337c1",
+        "file_unique_id": "AgADwK4xG3BSYUQ",
+        "pokemon_name": "Eelektrik"
+    },
+    {
+        "_id": "67963871d054462574e337c3",
+        "file_unique_id": "AgADJd8xGwt0YUQ",
+        "pokemon_name": "Combee"
+    },
+    {
+        "_id": "67963874d054462574e337c4",
+        "file_unique_id": "AgADSq4xG3mEYEQ",
+        "pokemon_name": "Poliwhirl"
+    },
+    {
+        "_id": "67963876d054462574e337c5",
+        "file_unique_id": "AgADcK0xG2c-YUQ",
+        "pokemon_name": "Pawniard"
+    },
+    {
+        "_id": "67963879d054462574e337c6",
+        "file_unique_id": "AgADPd8xGwt0YUQ",
+        "pokemon_name": "Oranguru"
+    },
+    {
+        "_id": "6796387bd054462574e337c7",
+        "file_unique_id": "AgADF64xG3mEYEQ",
+        "pokemon_name": "Cufant"
+    },
+    {
+        "_id": "6796387ed054462574e337c8",
+        "file_unique_id": "AgADSq0xG7ILYEQ",
+        "pokemon_name": "Xerneas"
+    },
+    {
+        "_id": "67963881d054462574e337c9",
+        "file_unique_id": "AgADaq0xG4wEYUQ",
+        "pokemon_name": "Riolu"
+    },
+    {
+        "_id": "67963886d054462574e337ca",
+        "file_unique_id": "AgADeK8xG9oKYUQ",
+        "pokemon_name": "Tepig"
+    },
+    {
+        "_id": "679638bad054462574e337cb",
+        "file_unique_id": "AgADhK0xG2c-YUQ",
+        "pokemon_name": "Groudon"
+    },
+    {
+        "_id": "679638bdd054462574e337cc",
+        "file_unique_id": "AgADFK0xG8L_YEQ",
+        "pokemon_name": "Cradily"
+    },
+    {
+        "_id": "679638c0d054462574e337cd",
+        "file_unique_id": "AgADq64xG4uDWUQ",
+        "pokemon_name": "Ferrothorn"
+    },
+    {
+        "_id": "679638c2d054462574e337ce",
+        "file_unique_id": "AgADZq0xG2c-YUQ",
+        "pokemon_name": "Boltund"
+    },
+    {
+        "_id": "679638c4d054462574e337cf",
+        "file_unique_id": "AgADOq4xG3mEYEQ",
+        "pokemon_name": "Hoopa"
+    },
+    {
+        "_id": "679638c7d054462574e337d0",
+        "file_unique_id": "AgAD4K4xG2ywYEQ",
+        "pokemon_name": "Litleo"
+    },
+    {
+        "_id": "679638cad054462574e337d1",
+        "file_unique_id": "AgADWK0xG7ILYEQ",
+        "pokemon_name": "Mantyke"
+    },
+    {
+        "_id": "679638ccd054462574e337d2",
+        "file_unique_id": "AgAD8K0xG3-5YEQ",
+        "pokemon_name": "Relicanth"
+    },
+    {
+        "_id": "679638cfd054462574e337d3",
+        "file_unique_id": "AgADIa4xG3-5YEQ",
+        "pokemon_name": "Jangmo-o"
+    },
+    {
+        "_id": "67963903d054462574e337d4",
+        "file_unique_id": "AgADLa4xG3mEYEQ",
+        "pokemon_name": "Shuckle"
+    },
+    {
+        "_id": "67963906d054462574e337d5",
+        "file_unique_id": "AgADLK4xG3mEYEQ",
+        "pokemon_name": "Virizion"
+    },
+    {
+        "_id": "67963908d054462574e337d6",
+        "file_unique_id": "AgADPK4xG3mEYEQ",
+        "pokemon_name": "Xatu"
+    },
+    {
+        "_id": "6796390dd054462574e337d7",
+        "file_unique_id": "AgADsa4xGxBYYUQ",
+        "pokemon_name": "Archeops"
+    },
+    {
+        "_id": "67963910d054462574e337d8",
+        "file_unique_id": "AgADMa4xG3mEYEQ",
+        "pokemon_name": "Roserade"
+    },
+    {
+        "_id": "67963912d054462574e337d9",
+        "file_unique_id": "AgADAa0xG8L_YEQ",
+        "pokemon_name": "Skiploom"
+    },
+    {
+        "_id": "67963915d054462574e337da",
+        "file_unique_id": "AgADSt8xGwt0YUQ",
+        "pokemon_name": "Ferroseed"
+    },
+    {
+        "_id": "67963918d054462574e337db",
+        "file_unique_id": "AgADL60xG4wEYUQ",
+        "pokemon_name": "Whismur"
+    },
+    {
+        "_id": "6796394cd054462574e337dc",
+        "file_unique_id": "AgAD9a0xG3-5YEQ",
+        "pokemon_name": "Fearow"
+    },
+    {
+        "_id": "6796394fd054462574e337dd",
+        "file_unique_id": "AgADb60xG4wEYUQ",
+        "pokemon_name": "Slowking"
+    },
+    {
+        "_id": "67963951d054462574e337de",
+        "file_unique_id": "AgADpq0xG4rNYEQ",
+        "pokemon_name": "Alcremie"
+    },
+    {
+        "_id": "67963954d054462574e337df",
+        "file_unique_id": "AgADXq0xG9RVYUQ",
+        "pokemon_name": "Munna"
+    },
+    {
+        "_id": "67963957d054462574e337e0",
+        "file_unique_id": "AgADS60xG7ILYEQ",
+        "pokemon_name": "Metapod"
+    },
+    {
+        "_id": "67963959d054462574e337e1",
+        "file_unique_id": "AgAD_6wxG8L_YEQ",
+        "pokemon_name": "Tapu Lele"
+    },
+    {
+        "_id": "6796395cd054462574e337e2",
+        "file_unique_id": "AgADea0xG2c-YUQ",
+        "pokemon_name": "Krabby"
+    },
+    {
+        "_id": "6796395fd054462574e337e3",
+        "file_unique_id": "AgADQK4xG4uDYUQ",
+        "pokemon_name": "Drowzee"
+    },
+    {
+        "_id": "67963961d054462574e337e4",
+        "file_unique_id": "AgAD760xG3-5YEQ",
+        "pokemon_name": "Delphox"
+    },
+    {
+        "_id": "67963996d054462574e337e5",
+        "file_unique_id": "AgADNt8xGwt0YUQ",
+        "pokemon_name": "Machop"
+    },
+    {
+        "_id": "67963998d054462574e337e6",
+        "file_unique_id": "AgADna0xG4rNYEQ",
+        "pokemon_name": "Thwackey"
+    },
+    {
+        "_id": "6796399bd054462574e337e7",
+        "file_unique_id": "AgADbq0xG9RVYUQ",
+        "pokemon_name": "Mismagius"
+    },
+    {
+        "_id": "6796399fd054462574e337e8",
+        "file_unique_id": "AgAD1a4xGxBYYUQ",
+        "pokemon_name": "Spoink"
+    },
+    {
+        "_id": "679639a0d054462574e337e9",
+        "file_unique_id": "AgADJK4xG3-5YEQ",
+        "pokemon_name": "Clobbopus"
+    },
+    {
+        "_id": "679639a3d054462574e337ea",
+        "file_unique_id": "AgAD_60xG3-5YEQ",
+        "pokemon_name": "Kingler"
+    },
+    {
+        "_id": "679639a8d054462574e337eb",
+        "file_unique_id": "AgADba8xG7c2YUQ",
+        "pokemon_name": "Accelgor"
+    },
+    {
+        "_id": "679639abd054462574e337ec",
+        "file_unique_id": "AgADGa0xG7AUYEQ",
+        "pokemon_name": "Galvantula"
+    },
+    {
+        "_id": "679639e2d054462574e337ed",
+        "file_unique_id": "AgADiK0xG2c-YUQ",
+        "pokemon_name": "Zubat"
+    },
+    {
+        "_id": "679639e4d054462574e337ee",
+        "file_unique_id": "AgAD4q4xG3vGYEQ",
+        "pokemon_name": "Sandshrew"
+    },
+    {
+        "_id": "679639e8d054462574e337ef",
+        "file_unique_id": "AgADi68xG9oKYUQ",
+        "pokemon_name": "Pikipek"
+    },
+    {
+        "_id": "679639ecd054462574e337f0",
+        "file_unique_id": "AgADRq0xG4wEYUQ",
+        "pokemon_name": "Pachirisu"
+    },
+    {
+        "_id": "679639efd054462574e337f1",
+        "file_unique_id": "AgADDK4xG3-5YEQ",
+        "pokemon_name": "Aerodactyl"
+    },
+    {
+        "_id": "679639f2d054462574e337f2",
+        "file_unique_id": "AgAD2q4xG3vGYEQ",
+        "pokemon_name": "Nihilego"
+    },
+    {
+        "_id": "67963a29d054462574e337f3",
+        "file_unique_id": "AgADd60xG1lAYUQ",
+        "pokemon_name": "Kubfu"
+    },
+    {
+        "_id": "67963a2cd054462574e337f4",
+        "file_unique_id": "AgADXK0xG1lAYUQ",
+        "pokemon_name": "Croconaw"
+    },
+    {
+        "_id": "67963a33d054462574e337f5",
+        "file_unique_id": "AgADLa0xG7AUYEQ",
+        "pokemon_name": "Togekiss"
+    },
+    {
+        "_id": "67963a37d054462574e337f6",
+        "file_unique_id": "AgADU60xG4wEYUQ",
+        "pokemon_name": "Politoed"
+    },
+    {
+        "_id": "67963a3cd054462574e337f7",
+        "file_unique_id": "AgADXa0xG4wEYUQ",
+        "pokemon_name": "Goodra"
+    },
+    {
+        "_id": "67963a73d054462574e337f8",
+        "file_unique_id": "AgADsq4xGxBYYUQ",
+        "pokemon_name": "Zweilous"
+    },
+    {
+        "_id": "67963a76d054462574e337f9",
+        "file_unique_id": "AgADMa4xG4uDYUQ",
+        "pokemon_name": "Silvally"
+    },
+    {
+        "_id": "67963a7bd054462574e337fa",
+        "file_unique_id": "AgADV60xG9RVYUQ",
+        "pokemon_name": "Dartrix"
+    },
+    {
+        "_id": "67963a7ed054462574e337fb",
+        "file_unique_id": "AgADga8xG7c2YUQ",
+        "pokemon_name": "Malamar"
+    },
+    {
+        "_id": "67963a81d054462574e337fc",
+        "file_unique_id": "AgADUN8xGwt0YUQ",
+        "pokemon_name": "Lapras"
+    },
+    {
+        "_id": "67963a85d054462574e337fd",
+        "file_unique_id": "AgADv64xG3BSYUQ",
+        "pokemon_name": "Crabrawler"
+    },
+    {
+        "_id": "67963a88d054462574e337fe",
+        "file_unique_id": "AgADoa0xG4rNYEQ",
+        "pokemon_name": "Druddigon"
+    },
+    {
+        "_id": "67963ad8d054462574e337ff",
+        "file_unique_id": "AgADWK0xG1lAYUQ",
+        "pokemon_name": "Urshifu"
+    },
+    {
+        "_id": "67963b1cd054462574e33800",
+        "file_unique_id": "AgADg68xG9oKYUQ",
+        "pokemon_name": "Nidoran"
+    },
+    {
+        "_id": "67963b20d054462574e33801",
+        "file_unique_id": "AgADX60xG4wEYUQ",
+        "pokemon_name": "Froakie"
+    },
+    {
+        "_id": "67963b23d054462574e33802",
+        "file_unique_id": "AgAD2a4xG3BSYUQ",
+        "pokemon_name": "Sneasler"
+    },
+    {
+        "_id": "67963b53d054462574e33803",
+        "file_unique_id": "AgADDq4xG0E8YUQ",
+        "pokemon_name": "Tapu Fini"
+    },
+    {
+        "_id": "67963b57d054462574e33804",
+        "file_unique_id": "AgADVq0xG9RVYUQ",
+        "pokemon_name": "Tentacruel"
+    },
+    {
+        "_id": "67963c34d054462574e33805",
+        "file_unique_id": "AgADra0xG4rNYEQ",
+        "pokemon_name": "Cosmoem"
+    },
+    {
+        "_id": "67963c38d054462574e33806",
+        "file_unique_id": "AgADMa4xG0E8YUQ",
+        "pokemon_name": "Sinistea"
+    },
+    {
+        "_id": "67963c3cd054462574e33807",
+        "file_unique_id": "AgADrq0xG4rNYEQ",
+        "pokemon_name": "Bounsweet"
+    },
+    {
+        "_id": "67963c3fd054462574e33808",
+        "file_unique_id": "AgADF60xG7AUYEQ",
+        "pokemon_name": "Charizard"
+    },
+    {
+        "_id": "67963c43d054462574e33809",
+        "file_unique_id": "AgADMa0xG7AUYEQ",
+        "pokemon_name": "Quilladin"
+    },
+    {
+        "_id": "67963c46d054462574e3380a",
+        "file_unique_id": "AgADf60xG1lAYUQ",
+        "pokemon_name": "Regieleki"
+    },
+    {
+        "_id": "67963c4ad054462574e3380b",
+        "file_unique_id": "AgADVN8xGwt0YUQ",
+        "pokemon_name": "Staravia"
+    },
+    {
+        "_id": "67963c51d054462574e3380c",
+        "file_unique_id": "AgADa60xG9RVYUQ",
+        "pokemon_name": "Sizzlipede"
+    },
+    {
+        "_id": "67963c80d054462574e3380d",
+        "file_unique_id": "AgADOK0xG7AUYEQ",
+        "pokemon_name": "Drednaw"
+    },
+    {
+        "_id": "67963c93d054462574e3380e",
+        "file_unique_id": "AgADbK0xG1lAYUQ",
+        "pokemon_name": "Abomasnow"
+    },
+    {
+        "_id": "67963c96d054462574e3380f",
+        "file_unique_id": "AgADnbExG1y6YEQ",
+        "pokemon_name": "Hypno"
+    },
+    {
+        "_id": "67963c9ad054462574e33810",
+        "file_unique_id": "AgADGq4xG3-5YEQ",
+        "pokemon_name": "Chespin"
+    },
+    {
+        "_id": "67963ccdd054462574e33811",
+        "file_unique_id": "AgADJq4xG0E8YUQ",
+        "pokemon_name": "Celebi"
+    },
+    {
+        "_id": "67963cd1d054462574e33812",
+        "file_unique_id": "AgADtK0xG4rNYEQ",
+        "pokemon_name": "Zoroark"
+    },
+    {
+        "_id": "67963cdfd054462574e33813",
+        "file_unique_id": "AgADIq4xG3-5YEQ",
+        "pokemon_name": "Gogoat"
+    },
+    {
+        "_id": "67963ce9d054462574e33814",
+        "file_unique_id": "AgADfq0xG1lAYUQ",
+        "pokemon_name": "Sigilyph"
+    },
+    {
+        "_id": "67963d1dd054462574e33815",
+        "file_unique_id": "AgADTd8xGwt0YUQ",
+        "pokemon_name": "Aron"
+    },
+    {
+        "_id": "67963d20d054462574e33816",
+        "file_unique_id": "AgADMq4xG3mEYEQ",
+        "pokemon_name": "Scraggy"
+    },
+    {
+        "_id": "67963d24d054462574e33817",
+        "file_unique_id": "AgADL64xG0E8YUQ",
+        "pokemon_name": "Rhyhorn"
+    },
+    {
+        "_id": "67963d27d054462574e33818",
+        "file_unique_id": "AgADT98xGwt0YUQ",
+        "pokemon_name": "Bergmite"
+    },
+    {
+        "_id": "67963d2bd054462574e33819",
+        "file_unique_id": "AgADza4xG4uDWUQ",
+        "pokemon_name": "Spritzee"
+    },
+    {
+        "_id": "67963d2ed054462574e3381a",
+        "file_unique_id": "AgADPK0xG4wEYUQ",
+        "pokemon_name": "Barbaracle"
+    },
+    {
+        "_id": "67963d32d054462574e3381b",
+        "file_unique_id": "AgADUK0xG4wEYUQ",
+        "pokemon_name": "Budew"
+    },
+    {
+        "_id": "67963d35d054462574e3381c",
+        "file_unique_id": "AgAErTEbwv9gRA",
+        "pokemon_name": "Blaziken"
+    },
+    {
+        "_id": "67963d65d054462574e3381d",
+        "file_unique_id": "AgADk68xG9oKYUQ",
+        "pokemon_name": "Staraptor"
+    },
+    {
+        "_id": "67963d68d054462574e3381e",
+        "file_unique_id": "AgADSa0xG4wEYUQ",
+        "pokemon_name": "Grovyle"
+    },
+    {
+        "_id": "67963d6cd054462574e3381f",
+        "file_unique_id": "AgADS60xG4wEYUQ",
+        "pokemon_name": "Misdreavus"
+    },
+    {
+        "_id": "67963d70d054462574e33820",
+        "file_unique_id": "AgADtq4xGxBYYUQ",
+        "pokemon_name": "Fennekin"
+    },
+    {
+        "_id": "67963d73d054462574e33821",
+        "file_unique_id": "AgADQN8xGwt0YUQ",
+        "pokemon_name": "Sneasel"
+    },
+    {
+        "_id": "67963d77d054462574e33822",
+        "file_unique_id": "AgADC60xG8L_YEQ",
+        "pokemon_name": "Gulpin"
+    },
+    {
+        "_id": "67963d7ed054462574e33823",
+        "file_unique_id": "AgADwa0xG4rNYEQ",
+        "pokemon_name": "Cramorant"
+    },
+    {
+        "_id": "67963d82d054462574e33824",
+        "file_unique_id": "AgADwa4xG3BSYUQ",
+        "pokemon_name": "Grimer"
+    },
+    {
+        "_id": "67963db1d054462574e33825",
+        "file_unique_id": "AgADFq4xG3mEYEQ",
+        "pokemon_name": "Dusknoir"
+    },
+    {
+        "_id": "67963db9d054462574e33826",
+        "file_unique_id": "AgADqK4xG4uDWUQ",
+        "pokemon_name": "Carvanha"
+    },
+    {
+        "_id": "67963dbcd054462574e33827",
+        "file_unique_id": "AgADJ64xG0E8YUQ",
+        "pokemon_name": "Skarmory"
+    },
+    {
+        "_id": "67963dcbd054462574e33828",
+        "file_unique_id": "AgADOq0xG4wEYUQ",
+        "pokemon_name": "Jolteon"
+    },
+    {
+        "_id": "67963dcfd054462574e33829",
+        "file_unique_id": "AgADKd8xGwt0YUQ",
+        "pokemon_name": "Skuntank"
+    },
+    {
+        "_id": "67963dfed054462574e3382a",
+        "file_unique_id": "AgADZa0xG1lAYUQ",
+        "pokemon_name": "Vaporeon"
+    },
+    {
+        "_id": "67963e02d054462574e3382b",
+        "file_unique_id": "AgADJ98xGwt0YUQ",
+        "pokemon_name": "Yamper"
+    },
+    {
+        "_id": "67963e05d054462574e3382c",
+        "file_unique_id": "AgADTa0xG7ILYEQ",
+        "pokemon_name": "Ponyta"
+    },
+    {
+        "_id": "67963e09d054462574e3382d",
+        "file_unique_id": "AgADaq0xG2c-YUQ",
+        "pokemon_name": "Nincada"
+    },
+    {
+        "_id": "67963e0cd054462574e3382e",
+        "file_unique_id": "AgADIq0xG7AUYEQ",
+        "pokemon_name": "Altaria"
+    },
+    {
+        "_id": "67963e10d054462574e3382f",
+        "file_unique_id": "AgADaa0xG9RVYUQ",
+        "pokemon_name": "Shedinja"
+    },
+    {
+        "_id": "67963e14d054462574e33830",
+        "file_unique_id": "AgADYa0xG9RVYUQ",
+        "pokemon_name": "Morgrem"
+    },
+    {
+        "_id": "67963e17d054462574e33831",
+        "file_unique_id": "AgADYK0xG1lAYUQ",
+        "pokemon_name": "Meltan"
+    },
+    {
+        "_id": "67963e1bd054462574e33832",
+        "file_unique_id": "AgADyK4xGxBYYUQ",
+        "pokemon_name": "Snover"
+    },
+    {
+        "_id": "67963e4ad054462574e33833",
+        "file_unique_id": "AgADEq4xG0E8YUQ",
+        "pokemon_name": "Honedge"
+    },
+    {
+        "_id": "67963e4ed054462574e33834",
+        "file_unique_id": "AgAD0K4xGxBYYUQ",
+        "pokemon_name": "Fletchling"
+    },
+    {
+        "_id": "67963e55d054462574e33835",
+        "file_unique_id": "AgADE64xG0E8YUQ",
+        "pokemon_name": "Hitmonlee"
+    },
+    {
+        "_id": "67963e59d054462574e33836",
+        "file_unique_id": "AgADO64xG3mEYEQ",
+        "pokemon_name": "Bruxish"
+    },
+    {
+        "_id": "67963e5cd054462574e33837",
+        "file_unique_id": "AgADJa0xG7AUYEQ",
+        "pokemon_name": "Mantine"
+    },
+    {
+        "_id": "67963e64d054462574e33838",
+        "file_unique_id": "AgADQ64xG3mEYEQ",
+        "pokemon_name": "Kricketot"
+    },
+    {
+        "_id": "67963e67d054462574e33839",
+        "file_unique_id": "AgADca0xG7ILYEQ",
+        "pokemon_name": "Shroomish"
+    },
+    {
+        "_id": "67963e97d054462574e3383a",
+        "file_unique_id": "AgADeq0xG2c-YUQ",
+        "pokemon_name": "Dreepy"
+    },
+    {
+        "_id": "67963e9ad054462574e3383b",
+        "file_unique_id": "AgADFq4xG3-5YEQ",
+        "pokemon_name": "Machamp"
+    },
+    {
+        "_id": "67963ea1d054462574e3383c",
+        "file_unique_id": "AgADq68xG1w5YUQ",
+        "pokemon_name": "Lileep"
+    },
+    {
+        "_id": "67963ea5d054462574e3383d",
+        "file_unique_id": "AgADfq8xG9oKYUQ",
+        "pokemon_name": "Blacephalon"
+    },
+    {
+        "_id": "67963ea8d054462574e3383e",
+        "file_unique_id": "AgADdK8xG9oKYUQ",
+        "pokemon_name": "Purrloin"
+    },
+    {
+        "_id": "67963eacd054462574e3383f",
+        "file_unique_id": "AgAD-q4xG3vGYEQ",
+        "pokemon_name": "Cinccino"
+    },
+    {
+        "_id": "67963eb0d054462574e33840",
+        "file_unique_id": "AgADGa4xG3-5YEQ",
+        "pokemon_name": "Frosmoth"
+    },
+    {
+        "_id": "67963eb3d054462574e33841",
+        "file_unique_id": "AgADRa4xG3mEYEQ",
+        "pokemon_name": "Sirfetch'd"
+    },
+    {
+        "_id": "67963ee3d054462574e33842",
+        "file_unique_id": "AgADRa0xG4wEYUQ",
+        "pokemon_name": "Solgaleo"
+    },
+    {
+        "_id": "67963ee6d054462574e33843",
+        "file_unique_id": "AgADjq0xG2c-YUQ",
+        "pokemon_name": "Wobbuffet"
+    },
+    {
+        "_id": "67963eead054462574e33844",
+        "file_unique_id": "AgADxa4xGxBYYUQ",
+        "pokemon_name": "Hydreigon"
+    },
+    {
+        "_id": "67963eeed054462574e33845",
+        "file_unique_id": "AgADe68xG9oKYUQ",
+        "pokemon_name": "Slugma"
+    },
+    {
+        "_id": "67963ef1d054462574e33846",
+        "file_unique_id": "AgADda8xG9oKYUQ",
+        "pokemon_name": "Tirtouga"
+    },
+    {
+        "_id": "67963ef5d054462574e33847",
+        "file_unique_id": "AgADCa0xG8L_YEQ",
+        "pokemon_name": "Seaking"
+    },
+    {
+        "_id": "67963efcd054462574e33848",
+        "file_unique_id": "AgADG64xG3-5YEQ",
+        "pokemon_name": "Hoppip"
+    },
+    {
+        "_id": "67963f00d054462574e33849",
+        "file_unique_id": "AgADQ60xG7AUYEQ",
+        "pokemon_name": "Wooloo"
+    },
+    {
+        "_id": "67963f2fd054462574e3384a",
+        "file_unique_id": "AgADGq4xG0E8YUQ",
+        "pokemon_name": "Koffing"
+    },
+    {
+        "_id": "67963f32d054462574e3384b",
+        "file_unique_id": "AgADc60xG2c-YUQ",
+        "pokemon_name": "Electabuzz"
+    },
+    {
+        "_id": "67963f36d054462574e3384c",
+        "file_unique_id": "AgADX60xG1lAYUQ",
+        "pokemon_name": "Roselia"
+    },
+    {
+        "_id": "67963f3dd054462574e3384d",
+        "file_unique_id": "AgAD1q4xG3BSYUQ",
+        "pokemon_name": "Stunfisk"
+    },
+    {
+        "_id": "67963f40d054462574e3384e",
+        "file_unique_id": "AgADNa0xG4wEYUQ",
+        "pokemon_name": "Stufful"
+    },
+    {
+        "_id": "67963f44d054462574e3384f",
+        "file_unique_id": "AgAD3a4xG3BSYUQ",
+        "pokemon_name": "Skiddo"
+    },
+    {
+        "_id": "67963f4cd054462574e33850",
+        "file_unique_id": "AgADlK0xG2c-YUQ",
+        "pokemon_name": "Makuhita"
+    },
+    {
+        "_id": "67963f7bd054462574e33851",
+        "file_unique_id": "AgADN60xG4wEYUQ",
+        "pokemon_name": "Eternatus"
+    },
+    {
+        "_id": "67963f7ed054462574e33852",
+        "file_unique_id": "AgADoK4xGwPXYUQ",
+        "pokemon_name": "Scorbunny"
+    },
+    {
+        "_id": "67963f82d054462574e33853",
+        "file_unique_id": "AgAD0q4xGxBYYUQ",
+        "pokemon_name": "Doduo"
+    },
+    {
+        "_id": "67963f86d054462574e33854",
+        "file_unique_id": "AgADAa4xG3-5YEQ",
+        "pokemon_name": "Phione"
+    },
+    {
+        "_id": "67963f89d054462574e33855",
+        "file_unique_id": "AgADHK0xG8L_YEQ",
+        "pokemon_name": "Gastly"
+    },
+    {
+        "_id": "67963f90d054462574e33856",
+        "file_unique_id": "AgADp64xG4uDWUQ",
+        "pokemon_name": "Skitty"
+    },
+    {
+        "_id": "67963f94d054462574e33857",
+        "file_unique_id": "AgADGK4xG3-5YEQ",
+        "pokemon_name": "Clefable"
+    },
+    {
+        "_id": "67963f97d054462574e33858",
+        "file_unique_id": "AgADXt8xGwt0YUQ",
+        "pokemon_name": "Chesnaught"
+    },
+    {
+        "_id": "67963fc7d054462574e33859",
+        "file_unique_id": "AgADWq0xG1lAYUQ",
+        "pokemon_name": "Kecleon"
+    },
+    {
+        "_id": "67963fcad054462574e3385a",
+        "file_unique_id": "AgADHK4xG3-5YEQ",
+        "pokemon_name": "Bibarel"
+    },
+    {
+        "_id": "67963fced054462574e3385b",
+        "file_unique_id": "AgADs60xG4rNYEQ",
+        "pokemon_name": "Cranidos"
+    },
+    {
+        "_id": "67963fd2d054462574e3385c",
+        "file_unique_id": "AgADNa4xG3mEYEQ",
+        "pokemon_name": "Charmeleon"
+    },
+    {
+        "_id": "67963fd5d054462574e3385d",
+        "file_unique_id": "AgADRK0xG4wEYUQ",
+        "pokemon_name": "Terrakion"
+    },
+    {
+        "_id": "67963fdcd054462574e3385e",
+        "file_unique_id": "AgADA60xG8L_YEQ",
+        "pokemon_name": "Stakataka"
+    },
+    {
+        "_id": "67963fe0d054462574e3385f",
+        "file_unique_id": "AgADfa0xG1lAYUQ",
+        "pokemon_name": "Crobat"
+    },
+    {
+        "_id": "67963fe4d054462574e33860",
+        "file_unique_id": "AgADK60xG7AUYEQ",
+        "pokemon_name": "Vileplume"
+    },
+    {
+        "_id": "67964017d054462574e33861",
+        "file_unique_id": "AgADQa0xG7AUYEQ",
+        "pokemon_name": "Meganium"
+    },
+    {
+        "_id": "67964022d054462574e33862",
+        "file_unique_id": "AgAD264xGxBYYUQ",
+        "pokemon_name": "Maractus"
+    },
+    {
+        "_id": "67964026d054462574e33863",
+        "file_unique_id": "AgADWt8xGwt0YUQ",
+        "pokemon_name": "Smeargle"
+    },
+    {
+        "_id": "67964060d054462574e33864",
+        "file_unique_id": "AgADOa4xG3mEYEQ",
+        "pokemon_name": "Mightyena"
+    },
+    {
+        "_id": "67964064d054462574e33865",
+        "file_unique_id": "AgAD7q0xG3-5YEQ",
+        "pokemon_name": "Braixen"
+    },
+    {
+        "_id": "67964067d054462574e33866",
+        "file_unique_id": "AgADFq0xG7AUYEQ",
+        "pokemon_name": "Venusaur"
+    },
+    {
+        "_id": "6796406bd054462574e33867",
+        "file_unique_id": "AgADmbExG1y6YEQ",
+        "pokemon_name": "Floette"
+    },
+    {
+        "_id": "6796406fd054462574e33868",
+        "file_unique_id": "AgADQ60xG4wEYUQ",
+        "pokemon_name": "Dragapult"
+    },
+    {
+        "_id": "67964072d054462574e33869",
+        "file_unique_id": "AgADm68xG9oKYUQ",
+        "pokemon_name": "Vibrava"
+    },
+    {
+        "_id": "67964076d054462574e3386a",
+        "file_unique_id": "AgAD7a4xG3vGYEQ",
+        "pokemon_name": "Carkol"
+    },
+    {
+        "_id": "6796407ad054462574e3386b",
+        "file_unique_id": "AgADYa0xG4wEYUQ",
+        "pokemon_name": "Vulpix"
+    },
+    {
+        "_id": "6796407dd054462574e3386c",
+        "file_unique_id": "AgAD4a4xG3vGYEQ",
+        "pokemon_name": "Torracat"
+    },
+    {
+        "_id": "679640b0d054462574e3386d",
+        "file_unique_id": "AgADd68xG7c2YUQ",
+        "pokemon_name": "Mr. Rime"
+    },
+    {
+        "_id": "679640b4d054462574e3386e",
+        "file_unique_id": "AgADpa4xG4uDWUQ",
+        "pokemon_name": "Hippowdon"
+    },
+    {
+        "_id": "679640b7d054462574e3386f",
+        "file_unique_id": "AgADKt8xGwt0YUQ",
+        "pokemon_name": "Treecko"
+    },
+    {
+        "_id": "679640c6d054462574e33870",
+        "file_unique_id": "AgADbK8xG7c2YUQ",
+        "pokemon_name": "Grimmsnarl"
+    },
+    {
+        "_id": "679640fcd054462574e33871",
+        "file_unique_id": "AgADXq0xG7ILYEQ",
+        "pokemon_name": "Burmy"
+    },
+    {
+        "_id": "67964100d054462574e33872",
+        "file_unique_id": "AgADFa0xG8L_YEQ",
+        "pokemon_name": "Pelipper"
+    },
+    {
+        "_id": "67964107d054462574e33873",
+        "file_unique_id": "AgADTa4xG3mEYEQ",
+        "pokemon_name": "Wartortle"
+    },
+    {
+        "_id": "6796410fd054462574e33874",
+        "file_unique_id": "AgAD4K0xG6nWYEQ",
+        "pokemon_name": "Garbodor"
+    },
+    {
+        "_id": "67964116d054462574e33875",
+        "file_unique_id": "AgADH64xG3-5YEQ",
+        "pokemon_name": "Cottonee"
+    },
+    {
+        "_id": "67964146d054462574e33876",
+        "file_unique_id": "AgADaq0xG1lAYUQ",
+        "pokemon_name": "Type: Null"
+    },
+    {
+        "_id": "6796414ad054462574e33877",
+        "file_unique_id": "AgADRK0xG7AUYEQ",
+        "pokemon_name": "Cherrim"
+    },
+    {
+        "_id": "67964151d054462574e33878",
+        "file_unique_id": "AgADcq0xG2c-YUQ",
+        "pokemon_name": "Crawdaunt"
+    },
+    {
+        "_id": "67964155d054462574e33879",
+        "file_unique_id": "AgADca0xG1lAYUQ",
+        "pokemon_name": "Swampert"
+    },
+    {
+        "_id": "67964158d054462574e3387a",
+        "file_unique_id": "AgADzq4xGxBYYUQ",
+        "pokemon_name": "Dratini"
+    },
+    {
+        "_id": "6796415cd054462574e3387b",
+        "file_unique_id": "AgADFa4xG3mEYEQ",
+        "pokemon_name": "Oddish"
+    },
+    {
+        "_id": "6796415fd054462574e3387c",
+        "file_unique_id": "AgAD3a0xG6nWYEQ",
+        "pokemon_name": "Venomoth"
+    },
+    {
+        "_id": "67964163d054462574e3387d",
+        "file_unique_id": "AgADSa0xG7ILYEQ",
+        "pokemon_name": "Pidgeot"
+    },
+    {
+        "_id": "67964196d054462574e3387e",
+        "file_unique_id": "AgADvK4xG3BSYUQ",
+        "pokemon_name": "Dragalge"
+    },
+    {
+        "_id": "6796419dd054462574e3387f",
+        "file_unique_id": "AgADtK4xG3BSYUQ",
+        "pokemon_name": "Goomy"
+    },
+    {
+        "_id": "679641a1d054462574e33880",
+        "file_unique_id": "AgADi60xG2c-YUQ",
+        "pokemon_name": "Shuppet"
+    },
+    {
+        "_id": "679641a5d054462574e33881",
+        "file_unique_id": "AgADva4xG3BSYUQ",
+        "pokemon_name": "Kabutops"
+    },
+    {
+        "_id": "679641a8d054462574e33882",
+        "file_unique_id": "AgAD164xGxBYYUQ",
+        "pokemon_name": "Starly"
+    },
+    {
+        "_id": "679641acd054462574e33883",
+        "file_unique_id": "AgADTa0xG9RVYUQ",
+        "pokemon_name": "Diancie"
+    },
+    {
+        "_id": "679641afd054462574e33884",
+        "file_unique_id": "AgADp60xG4rNYEQ",
+        "pokemon_name": "Kabuto"
+    },
+    {
+        "_id": "679641dfd054462574e33885",
+        "file_unique_id": "AgADaq0xG7ILYEQ",
+        "pokemon_name": "Ninjask"
+    },
+    {
+        "_id": "679641e3d054462574e33886",
+        "file_unique_id": "AgADTq0xG7ILYEQ",
+        "pokemon_name": "Trevenant"
+    },
+    {
+        "_id": "679641e6d054462574e33887",
+        "file_unique_id": "AgADpq4xG4uDWUQ",
+        "pokemon_name": "Ursaring"
+    },
+    {
+        "_id": "679641eed054462574e33888",
+        "file_unique_id": "AgADvq4xG3BSYUQ",
+        "pokemon_name": "Ledyba"
+    },
+    {
+        "_id": "679641f1d054462574e33889",
+        "file_unique_id": "AgADxq0xG4rNYEQ",
+        "pokemon_name": "Cubone"
+    },
+    {
+        "_id": "679641f4d054462574e3388a",
+        "file_unique_id": "AgADNK0xG4wEYUQ",
+        "pokemon_name": "Toucannon"
+    },
+    {
+        "_id": "679641fbd054462574e3388b",
+        "file_unique_id": "AgADr60xG4rNYEQ",
+        "pokemon_name": "Herdier"
+    },
+    {
+        "_id": "6796422bd054462574e3388c",
+        "file_unique_id": "AgAD2K4xG3BSYUQ",
+        "pokemon_name": "Regidrago"
+    },
+    {
+        "_id": "6796422ed054462574e3388d",
+        "file_unique_id": "AgADa60xG4wEYUQ",
+        "pokemon_name": "Houndour"
+    },
+    {
+        "_id": "67964232d054462574e3388e",
+        "file_unique_id": "AgADa60xG7ILYEQ",
+        "pokemon_name": "Bagon"
+    },
+    {
+        "_id": "67964239d054462574e3388f",
+        "file_unique_id": "AgADGq4xG3mEYEQ",
+        "pokemon_name": "Tangela"
+    },
+    {
+        "_id": "67964241d054462574e33890",
+        "file_unique_id": "AgADE60xG7AUYEQ",
+        "pokemon_name": "Pikachu"
+    },
+    {
+        "_id": "67964244d054462574e33891",
+        "file_unique_id": "AgAD0K4xG3vGYEQ",
+        "pokemon_name": "Mamoswine"
+    },
+    {
+        "_id": "6796427fd054462574e33892",
+        "file_unique_id": "AgADL98xGwt0YUQ",
+        "pokemon_name": "Jigglypuff"
+    },
+    {
+        "_id": "67964286d054462574e33893",
+        "file_unique_id": "AgADF64xG0E8YUQ",
+        "pokemon_name": "Gothorita"
+    },
+    {
+        "_id": "6796428dd054462574e33894",
+        "file_unique_id": "AgAD0q4xG3BSYUQ",
+        "pokemon_name": "Volcanion"
+    },
+    {
+        "_id": "67964290d054462574e33895",
+        "file_unique_id": "AgADR60xG9RVYUQ",
+        "pokemon_name": "Geodude"
+    },
+    {
+        "_id": "67964294d054462574e33896",
+        "file_unique_id": "AgADO60xG7AUYEQ",
+        "pokemon_name": "Bisharp"
+    },
+    {
+        "_id": "679642c7d054462574e33897",
+        "file_unique_id": "AgADfa8xG7c2YUQ",
+        "pokemon_name": "Huntail"
+    },
+    {
+        "_id": "67965d9bd054462574e33898",
+        "file_unique_id": "AgADs64xG3BSYUQ",
+        "pokemon_name": "Rhydon"
+    },
+    {
+        "_id": "67965ebad054462574e33899",
+        "file_unique_id": "AgADfq8xG7c2YUQ",
+        "pokemon_name": "Arbok"
+    },
+    {
+        "_id": "67965f7dd054462574e3389a",
+        "file_unique_id": "AgADBq4xG3-5YEQ",
+        "pokemon_name": "Hariyama"
+    },
+    {
+        "_id": "67965fb3d054462574e3389b",
+        "file_unique_id": "AgAD3q0xG6nWYEQ",
+        "pokemon_name": "Eelektross"
+    },
+    {
+        "_id": "67965fe5d054462574e3389c",
+        "file_unique_id": "AgADcq0xG1lAYUQ",
+        "pokemon_name": "Crabominable"
+    },
+    {
+        "_id": "67965fecd054462574e3389d",
+        "file_unique_id": "AgADLq0xG7AUYEQ",
+        "pokemon_name": "Feraligatr"
+    },
+    {
+        "_id": "67965ff2d054462574e3389e",
+        "file_unique_id": "AgAD-6wxG8L_YEQ",
+        "pokemon_name": "Torterra"
+    },
+    {
+        "_id": "67965ff5d054462574e3389f",
+        "file_unique_id": "AgADLq4xG0E8YUQ",
+        "pokemon_name": "Basculegion"
+    },
+    {
+        "_id": "67965ff9d054462574e338a0",
+        "file_unique_id": "AgADGq0xG7AUYEQ",
+        "pokemon_name": "Yanma"
+    },
+    {
+        "_id": "67965ffcd054462574e338a1",
+        "file_unique_id": "AgAD5K4xG2ywYEQ",
+        "pokemon_name": "Woobat"
+    },
+    {
+        "_id": "67965fffd054462574e338a2",
+        "file_unique_id": "AgADFK4xG3-5YEQ",
+        "pokemon_name": "Coalossal"
+    },
+    {
+        "_id": "6796602ed054462574e338a3",
+        "file_unique_id": "AgADEK4xG3-5YEQ",
+        "pokemon_name": "Blipbug"
+    },
+    {
+        "_id": "67966031d054462574e338a4",
+        "file_unique_id": "AgADJK0xG7AUYEQ",
+        "pokemon_name": "Raichu"
+    },
+    {
+        "_id": "67966035d054462574e338a5",
+        "file_unique_id": "AgADZ60xG7ILYEQ",
+        "pokemon_name": "Yamask"
+    },
+    {
+        "_id": "67966038d054462574e338a6",
+        "file_unique_id": "AgADD64xG3-5YEQ",
+        "pokemon_name": "Abra"
+    },
+    {
+        "_id": "6796603bd054462574e338a7",
+        "file_unique_id": "AgADS60xG9RVYUQ",
+        "pokemon_name": "Mudbray"
+    },
+    {
+        "_id": "6796603ed054462574e338a8",
+        "file_unique_id": "AgAD164xG3BSYUQ",
+        "pokemon_name": "Poochyena"
+    },
+    {
+        "_id": "67966045d054462574e338a9",
+        "file_unique_id": "AgADta0xG4rNYEQ",
+        "pokemon_name": "Tapu Bulu"
+    },
+    {
+        "_id": "67966048d054462574e338aa",
+        "file_unique_id": "AgADOa0xG7AUYEQ",
+        "pokemon_name": "Golem"
+    },
+    {
+        "_id": "67966077d054462574e338ab",
+        "file_unique_id": "AgADb68xG7c2YUQ",
+        "pokemon_name": "Drifblim"
+    },
+    {
+        "_id": "6796607bd054462574e338ac",
+        "file_unique_id": "AgADfq0xG2c-YUQ",
+        "pokemon_name": "Porygon-Z"
+    },
+    {
+        "_id": "6796607ed054462574e338ad",
+        "file_unique_id": "AgADqa4xG4uDWUQ",
+        "pokemon_name": "Inteleon"
+    },
+    {
+        "_id": "67966081d054462574e338ae",
+        "file_unique_id": "AgADda8xG7c2YUQ",
+        "pokemon_name": "Melmetal"
+    },
+    {
+        "_id": "67966084d054462574e338af",
+        "file_unique_id": "AgADsK0xG8ECYEQ",
+        "pokemon_name": "Magneton"
+    },
+    {
+        "_id": "67966088d054462574e338b0",
+        "file_unique_id": "AgADt64xG4uDWUQ",
+        "pokemon_name": "Hitmonchan"
+    },
+    {
+        "_id": "6796608bd054462574e338b1",
+        "file_unique_id": "AgADeq0xG1lAYUQ",
+        "pokemon_name": "Zorua"
+    },
+    {
+        "_id": "67966091d054462574e338b2",
+        "file_unique_id": "AgADsq4xG3BSYUQ",
+        "pokemon_name": "Wormadam"
+    },
+    {
+        "_id": "679660c1d054462574e338b3",
+        "file_unique_id": "AgADXa0xG1lAYUQ",
+        "pokemon_name": "Fraxure"
+    },
+    {
+        "_id": "679660c7d054462574e338b4",
+        "file_unique_id": "AgADQK0xG7AUYEQ",
+        "pokemon_name": "Gastrodon"
+    },
+    {
+        "_id": "679660cad054462574e338b5",
+        "file_unique_id": "AgADxq4xG3BSYUQ",
+        "pokemon_name": "Luxray"
+    },
+    {
+        "_id": "679660d4d054462574e338b6",
+        "file_unique_id": "AgADwa0xG5fYYEQ",
+        "pokemon_name": "Zigzagoon"
+    },
+    {
+        "_id": "679660d7d054462574e338b7",
+        "file_unique_id": "AgADqa8xG1w5YUQ",
+        "pokemon_name": "Chimecho"
+    },
+    {
+        "_id": "6796610ad054462574e338b8",
+        "file_unique_id": "AgADFq0xG8L_YEQ",
+        "pokemon_name": "Croagunk"
+    },
+    {
+        "_id": "6796610dd054462574e338b9",
+        "file_unique_id": "AgADEa4xG3mEYEQ",
+        "pokemon_name": "Pansage"
+    },
+    {
+        "_id": "67966110d054462574e338ba",
+        "file_unique_id": "AgADK64xG3mEYEQ",
+        "pokemon_name": "Snorlax"
+    },
+    {
+        "_id": "67966114d054462574e338bb",
+        "file_unique_id": "AgAD064xG3BSYUQ",
+        "pokemon_name": "Frillish"
+    },
+    {
+        "_id": "67966117d054462574e338bc",
+        "file_unique_id": "AgADf60xG2c-YUQ",
+        "pokemon_name": "Karrablast"
+    },
+    {
+        "_id": "6796611dd054462574e338bd",
+        "file_unique_id": "AgADuq0xG5fYYEQ",
+        "pokemon_name": "Orbeetle"
+    },
+    {
+        "_id": "67966124d054462574e338be",
+        "file_unique_id": "AgAD8K4xG3vGYEQ",
+        "pokemon_name": "Gourgeist"
+    },
+    {
+        "_id": "67966157d054462574e338c0",
+        "file_unique_id": "AgAD9q0xG3-5YEQ",
+        "pokemon_name": "Dracozolt"
+    },
+    {
+        "_id": "67966169d054462574e338c1",
+        "file_unique_id": "AgADBa0xG8L_YEQ",
+        "pokemon_name": "Magcargo"
+    },
+    {
+        "_id": "6796619fd054462574e338c2",
+        "file_unique_id": "AgADya4xG2ywYEQ",
+        "pokemon_name": "Klinklang"
+    },
+    {
+        "_id": "679661a2d054462574e338c3",
+        "file_unique_id": "AgAD264xG3BSYUQ",
+        "pokemon_name": "Wailmer"
+    },
+    {
+        "_id": "679661a9d054462574e338c4",
+        "file_unique_id": "AgADwq0xG5fYYEQ",
+        "pokemon_name": "Weedle"
+    },
+    {
+        "_id": "679661acd054462574e338c5",
+        "file_unique_id": "AgADlK8xG9oKYUQ",
+        "pokemon_name": "Exeggutor"
+    },
+    {
+        "_id": "679661b6d054462574e338c6",
+        "file_unique_id": "AgADj60xG2c-YUQ",
+        "pokemon_name": "Wingull"
+    },
+    {
+        "_id": "679661e8d054462574e338c7",
+        "file_unique_id": "AgADW60xG7ILYEQ",
+        "pokemon_name": "Krokorok"
+    },
+    {
+        "_id": "679661ecd054462574e338c8",
+        "file_unique_id": "AgAD6K4xG3vGYEQ",
+        "pokemon_name": "Kyogre"
+    },
+    {
+        "_id": "679661efd054462574e338c9",
+        "file_unique_id": "AgADgK8xG9oKYUQ",
+        "pokemon_name": "Wurmple"
+    },
+    {
+        "_id": "679661ffd054462574e338ca",
+        "file_unique_id": "AgADuK0xG4rNYEQ",
+        "pokemon_name": "Ampharos"
+    },
+    {
+        "_id": "6796620fd054462574e338cb",
+        "file_unique_id": "AgADHK4xG3mEYEQ",
+        "pokemon_name": "Vespiquen"
+    },
+    {
+        "_id": "67966231d054462574e338cc",
+        "file_unique_id": "AgADba0xG2c-YUQ",
+        "pokemon_name": "Drampa"
+    },
+    {
+        "_id": "67966235d054462574e338cd",
+        "file_unique_id": "AgADEa4xG3-5YEQ",
+        "pokemon_name": "Wyrdeer"
+    },
+    {
+        "_id": "6796623bd054462574e338ce",
+        "file_unique_id": "AgADsK4xGxBYYUQ",
+        "pokemon_name": "Raticate"
+    },
+    {
+        "_id": "67966242d054462574e338cf",
+        "file_unique_id": "AgADVt8xGwt0YUQ",
+        "pokemon_name": "Ribombee"
+    },
+    {
+        "_id": "67966245d054462574e338d0",
+        "file_unique_id": "AgADLq4xG4uDYUQ",
+        "pokemon_name": "Primeape"
+    },
+    {
+        "_id": "67966248d054462574e338d1",
+        "file_unique_id": "AgADR64xG3mEYEQ",
+        "pokemon_name": "Phantump"
+    },
+    {
+        "_id": "6796627ed054462574e338d2",
+        "file_unique_id": "AgADLN8xGwt0YUQ",
+        "pokemon_name": "Guzzlord"
+    },
+    {
+        "_id": "6796628ed054462574e338d3",
+        "file_unique_id": "AgADpK0xG2c-YUQ",
+        "pokemon_name": "Mankey"
+    },
+    {
+        "_id": "679662c0d054462574e338d4",
+        "file_unique_id": "AgADMK4xG0E8YUQ",
+        "pokemon_name": "Whirlipede"
+    },
+    {
+        "_id": "679662c4d054462574e338d5",
+        "file_unique_id": "AgADo68xG9oKYUQ",
+        "pokemon_name": "Xurkitree"
+    },
+    {
+        "_id": "679662cad054462574e338d6",
+        "file_unique_id": "AgADNK4xG3mEYEQ",
+        "pokemon_name": "Togepi"
+    },
+    {
+        "_id": "679662cdd054462574e338d7",
+        "file_unique_id": "AgADeq8xG9oKYUQ",
+        "pokemon_name": "Pichu"
+    },
+    {
+        "_id": "679662d4d054462574e338d8",
+        "file_unique_id": "AgADEK0xG8L_YEQ",
+        "pokemon_name": "Delcatty"
+    },
+    {
+        "_id": "67966309d054462574e338d9",
+        "file_unique_id": "AgADN98xGwt0YUQ",
+        "pokemon_name": "Numel"
+    },
+    {
+        "_id": "6796630dd054462574e338da",
+        "file_unique_id": "AgADxa0xG5fYYEQ",
+        "pokemon_name": "Larvesta"
+    },
+    {
+        "_id": "67966313d054462574e338db",
+        "file_unique_id": "AgADda0xG7ILYEQ",
+        "pokemon_name": "Corviknight"
+    },
+    {
+        "_id": "67966316d054462574e338dc",
+        "file_unique_id": "AgADya4xG3BSYUQ",
+        "pokemon_name": "Floatzel"
+    },
+    {
+        "_id": "67966319d054462574e338dd",
+        "file_unique_id": "AgADrK0xG4rNYEQ",
+        "pokemon_name": "Flabebe"
+    },
+    {
+        "_id": "67966320d054462574e338de",
+        "file_unique_id": "AgADJ64xG3-5YEQ",
+        "pokemon_name": "Dodrio"
+    },
+    {
+        "_id": "67966323d054462574e338df",
+        "file_unique_id": "AgADWq0xG7ILYEQ",
+        "pokemon_name": "Illumise"
+    },
+    {
+        "_id": "6796635cd054462574e338e0",
+        "file_unique_id": "AgADNK0xG7AUYEQ",
+        "pokemon_name": "Slaking"
+    },
+    {
+        "_id": "6796635fd054462574e338e1",
+        "file_unique_id": "AgADNa4xG0E8YUQ",
+        "pokemon_name": "Gorebyss"
+    },
+    {
+        "_id": "67966362d054462574e338e2",
+        "file_unique_id": "AgADmq8xG9oKYUQ",
+        "pokemon_name": "Grumpig"
+    },
+    {
+        "_id": "67966366d054462574e338e3",
+        "file_unique_id": "AgADfK0xG2c-YUQ",
+        "pokemon_name": "Diggersby"
+    },
+    {
+        "_id": "6796636cd054462574e338e4",
+        "file_unique_id": "AgADbK0xG2c-YUQ",
+        "pokemon_name": "Minun"
+    },
+    {
+        "_id": "67966376d054462574e338e5",
+        "file_unique_id": "AgADgq8xG9oKYUQ",
+        "pokemon_name": "Seviper"
+    },
+    {
+        "_id": "679663a2d054462574e338e6",
+        "file_unique_id": "AgADs64xGxBYYUQ",
+        "pokemon_name": "Pupitar"
+    },
+    {
+        "_id": "679663a5d054462574e338e7",
+        "file_unique_id": "AgADrK4xG4uDWUQ",
+        "pokemon_name": "Vikavolt"
+    },
+    {
+        "_id": "679663a8d054462574e338e8",
+        "file_unique_id": "AgADHq4xG3-5YEQ",
+        "pokemon_name": "Espeon"
+    },
+    {
+        "_id": "679663acd054462574e338e9",
+        "file_unique_id": "AgADVq0xG4wEYUQ",
+        "pokemon_name": "Feebas"
+    },
+    {
+        "_id": "679663b2d054462574e338ea",
+        "file_unique_id": "AgADhq0xG2c-YUQ",
+        "pokemon_name": "Taillow"
+    },
+    {
+        "_id": "679663b5d054462574e338eb",
+        "file_unique_id": "AgADD64xG3mEYEQ",
+        "pokemon_name": "Tranquill"
+    },
+    {
+        "_id": "679663e8d054462574e338ec",
+        "file_unique_id": "AgADMa0xG4wEYUQ",
+        "pokemon_name": "Hattrem"
+    },
+    {
+        "_id": "679663ebd054462574e338ed",
+        "file_unique_id": "AgADXK0xG9RVYUQ",
+        "pokemon_name": "Froslass"
+    },
+    {
+        "_id": "679663f8d054462574e338ee",
+        "file_unique_id": "AgADia0xG2c-YUQ",
+        "pokemon_name": "Pidove"
+    },
+    {
+        "_id": "679663fbd054462574e338ef",
+        "file_unique_id": "AgADqq0xG4rNYEQ",
+        "pokemon_name": "Beautifly"
+    },
+    {
+        "_id": "679663fed054462574e338f0",
+        "file_unique_id": "AgADhK8xG7c2YUQ",
+        "pokemon_name": "Staryu"
+    },
+    {
+        "_id": "6796642dd054462574e338f1",
+        "file_unique_id": "AgADxq4xGxBYYUQ",
+        "pokemon_name": "Moltres"
+    },
+    {
+        "_id": "67966437d054462574e338f2",
+        "file_unique_id": "AgADON8xGwt0YUQ",
+        "pokemon_name": "Nosepass"
+    },
+    {
+        "_id": "6796643bd054462574e338f3",
+        "file_unique_id": "AgADEa0xG7AUYEQ",
+        "pokemon_name": "Trubbish"
+    },
+    {
+        "_id": "67966444d054462574e338f4",
+        "file_unique_id": "AgADCK4xG3-5YEQ",
+        "pokemon_name": "Combusken"
+    },
+    {
+        "_id": "67966477d054462574e338f5",
+        "file_unique_id": "AgADu64xGxBYYUQ",
+        "pokemon_name": "Boldore"
+    },
+    {
+        "_id": "6796647dd054462574e338f6",
+        "file_unique_id": "AgADYK0xG4wEYUQ",
+        "pokemon_name": "Whiscash"
+    },
+    {
+        "_id": "67966484d054462574e338f7",
+        "file_unique_id": "AgADEq0xG7AUYEQ",
+        "pokemon_name": "Runerigus"
+    },
+    {
+        "_id": "67966487d054462574e338f8",
+        "file_unique_id": "AgADIK4xG0E8YUQ",
+        "pokemon_name": "Giratina"
+    },
+    {
+        "_id": "6796648ad054462574e338f9",
+        "file_unique_id": "AgADcK0xG1lAYUQ",
+        "pokemon_name": "Lilligant"
+    },
+    {
+        "_id": "679664cdd054462574e338fa",
+        "file_unique_id": "AgADE64xG3mEYEQ",
+        "pokemon_name": "Amaura"
+    },
+    {
+        "_id": "679664d3d054462574e338fb",
+        "file_unique_id": "AgADZa0xG9RVYUQ",
+        "pokemon_name": "Inkay"
+    },
+    {
+        "_id": "67966509d054462574e338fc",
+        "file_unique_id": "AgAD464xG3vGYEQ",
+        "pokemon_name": "Poliwag"
+    },
+    {
+        "_id": "6796650cd054462574e338fd",
+        "file_unique_id": "AgADFa0xG7AUYEQ",
+        "pokemon_name": "Rayquaza"
+    },
+    {
+        "_id": "67966510d054462574e338fe",
+        "file_unique_id": "AgADiq0xG2c-YUQ",
+        "pokemon_name": "Shiftry"
+    },
+    {
+        "_id": "6796651cd054462574e338ff",
+        "file_unique_id": "AgADu64xG3BSYUQ",
+        "pokemon_name": "Walrein"
+    },
+    {
+        "_id": "67966520d054462574e33900",
+        "file_unique_id": "AgADIK0xG7AUYEQ",
+        "pokemon_name": "Mudkip"
+    },
+    {
+        "_id": "67966523d054462574e33901",
+        "file_unique_id": "AgADUq0xG9RVYUQ",
+        "pokemon_name": "Scizor"
+    },
+    {
+        "_id": "67966552d054462574e33902",
+        "file_unique_id": "AgADB60xG8L_YEQ",
+        "pokemon_name": "Dialga"
+    },
+    {
+        "_id": "6796655fd054462574e33903",
+        "file_unique_id": "AgADR98xGwt0YUQ",
+        "pokemon_name": "Slowpoke"
+    },
+    {
+        "_id": "67966566d054462574e33904",
+        "file_unique_id": "AgADOK4xG4uDYUQ",
+        "pokemon_name": "Yungoos"
+    },
+    {
+        "_id": "67966569d054462574e33905",
+        "file_unique_id": "AgADM64xG2EaYEQ",
+        "pokemon_name": "Gigalith"
+    },
+    {
+        "_id": "6796656cd054462574e33906",
+        "file_unique_id": "AgAD3K4xG3vGYEQ",
+        "pokemon_name": "Electrode"
+    },
+    {
+        "_id": "6796659bd054462574e33907",
+        "file_unique_id": "AgADGa4xG0E8YUQ",
+        "pokemon_name": "Cursola"
+    },
+    {
+        "_id": "6796659fd054462574e33908",
+        "file_unique_id": "AgADTq0xG4wEYUQ",
+        "pokemon_name": "Alakazam"
+    },
+    {
+        "_id": "679665a9d054462574e33909",
+        "file_unique_id": "AgADhq8xG7c2YUQ",
+        "pokemon_name": "Regigigas"
+    },
+    {
+        "_id": "679665b6d054462574e3390a",
+        "file_unique_id": "AgADM98xGwt0YUQ",
+        "pokemon_name": "Grapploct"
+    },
+    {
+        "_id": "679665e8d054462574e3390b",
+        "file_unique_id": "AgADgK0xG1lAYUQ",
+        "pokemon_name": "Manaphy"
+    },
+    {
+        "_id": "679665ebd054462574e3390c",
+        "file_unique_id": "AgADmK0xG2c-YUQ",
+        "pokemon_name": "Jirachi"
+    },
+    {
+        "_id": "679665eed054462574e3390d",
+        "file_unique_id": "AgADWa0xG4wEYUQ",
+        "pokemon_name": "Toxapex"
+    },
+    {
+        "_id": "679665f1d054462574e3390e",
+        "file_unique_id": "AgADe60xG2c-YUQ",
+        "pokemon_name": "Samurott"
+    },
+    {
+        "_id": "679665fad054462574e3390f",
+        "file_unique_id": "AgADo64xG4uDWUQ",
+        "pokemon_name": "Castform"
+    },
+    {
+        "_id": "67966631d054462574e33910",
+        "file_unique_id": "AgADzq4xG3vGYEQ",
+        "pokemon_name": "Archen"
+    },
+    {
+        "_id": "67966637d054462574e33911",
+        "file_unique_id": "AgADx60xG5fYYEQ",
+        "pokemon_name": "Aggron"
+    },
+    {
+        "_id": "6796663ad054462574e33912",
+        "file_unique_id": "AgADjK0xG2c-YUQ",
+        "pokemon_name": "Natu"
+    },
+    {
+        "_id": "6796663ed054462574e33913",
+        "file_unique_id": "AgADX60xG9RVYUQ",
+        "pokemon_name": "Barraskewda"
+    },
+    {
+        "_id": "67966641d054462574e33914",
+        "file_unique_id": "AgADgq0xG2c-YUQ",
+        "pokemon_name": "Salazzle"
+    },
+    {
+        "_id": "67966644d054462574e33915",
+        "file_unique_id": "AgADfK8xG9oKYUQ",
+        "pokemon_name": "Hawlucha"
+    },
+    {
+        "_id": "67966647d054462574e33916",
+        "file_unique_id": "AgADia8xG7c2YUQ",
+        "pokemon_name": "Timburr"
+    },
+    {
+        "_id": "6796667dd054462574e33917",
+        "file_unique_id": "AgADva4xGxBYYUQ",
+        "pokemon_name": "Watchog"
+    },
+    {
+        "_id": "67966689d054462574e33918",
+        "file_unique_id": "AgADdK0xG2c-YUQ",
+        "pokemon_name": "Bellossom"
+    },
+    {
+        "_id": "6796668ad054462574e33919",
+        "file_unique_id": "AgADFa4xG3-5YEQ",
+        "pokemon_name": "Drakloak"
+    },
+    {
+        "_id": "6796668dd054462574e3391a",
+        "file_unique_id": "AgADua4xGxBYYUQ",
+        "pokemon_name": "Pangoro"
+    },
+    {
+        "_id": "679666c6d054462574e3391b",
+        "file_unique_id": "AgADI64xG0E8YUQ",
+        "pokemon_name": "Graveler"
+    },
+    {
+        "_id": "679666cdd054462574e3391c",
+        "file_unique_id": "AgADIt8xGwt0YUQ",
+        "pokemon_name": "Snubbull"
+    },
+    {
+        "_id": "679666d3d054462574e3391d",
+        "file_unique_id": "AgADa68xG7c2YUQ",
+        "pokemon_name": "Slurpuff"
+    },
+    {
+        "_id": "67966709d054462574e3391e",
+        "file_unique_id": "AgADWN8xGwt0YUQ",
+        "pokemon_name": "Carnivine"
+    },
+    {
+        "_id": "67966720d054462574e3391f",
+        "file_unique_id": "AgADE64xG3-5YEQ",
+        "pokemon_name": "Snivy"
+    },
+    {
+        "_id": "67966752d054462574e33920",
+        "file_unique_id": "AgAD-awxG8L_YEQ",
+        "pokemon_name": "Sandygast"
+    },
+    {
+        "_id": "67966758d054462574e33921",
+        "file_unique_id": "AgADpa0xG4rNYEQ",
+        "pokemon_name": "Kakuna"
+    },
+    {
+        "_id": "6796675cd054462574e33922",
+        "file_unique_id": "AgADXK0xG4wEYUQ",
+        "pokemon_name": "Deino"
+    },
+    {
+        "_id": "6796675fd054462574e33923",
+        "file_unique_id": "AgADUa0xG9RVYUQ",
+        "pokemon_name": "Dusclops"
+    },
+    {
+        "_id": "6796676cd054462574e33924",
+        "file_unique_id": "AgADPa0xG7AUYEQ",
+        "pokemon_name": "Arceus"
+    },
+    {
+        "_id": "679667a1d054462574e33925",
+        "file_unique_id": "AgADca0xG2c-YUQ",
+        "pokemon_name": "Gallade"
+    },
+    {
+        "_id": "679667a8d054462574e33926",
+        "file_unique_id": "AgADt64xGxBYYUQ",
+        "pokemon_name": "Litwick"
+    },
+    {
+        "_id": "679667e4d054462574e33927",
+        "file_unique_id": "AgADHa0xG7AUYEQ",
+        "pokemon_name": "Glalie"
+    },
+    {
+        "_id": "679667e7d054462574e33928",
+        "file_unique_id": "AgADa60xG2c-YUQ",
+        "pokemon_name": "Swablu"
+    },
+    {
+        "_id": "679667eed054462574e33929",
+        "file_unique_id": "AgADJa4xG0E8YUQ",
+        "pokemon_name": "Aegislash"
+    },
+    {
+        "_id": "679667f8d054462574e3392a",
+        "file_unique_id": "AgADGK0xG8L_YEQ",
+        "pokemon_name": "Luvdisc"
+    },
+    {
+        "_id": "6796682dd054462574e3392b",
+        "file_unique_id": "AgAD2K4xG3vGYEQ",
+        "pokemon_name": "Axew"
+    },
+    {
+        "_id": "67966831d054462574e3392c",
+        "file_unique_id": "AgADv60xG5fYYEQ",
+        "pokemon_name": "Duosion"
+    },
+    {
+        "_id": "67966834d054462574e3392d",
+        "file_unique_id": "AgAD8q4xG3vGYEQ",
+        "pokemon_name": "Cresselia"
+    },
+    {
+        "_id": "67966837d054462574e3392e",
+        "file_unique_id": "AgADaa0xG4wEYUQ",
+        "pokemon_name": "Tyrantrum"
+    },
+    {
+        "_id": "67966847d054462574e3392f",
+        "file_unique_id": "AgADI60xG7AUYEQ",
+        "pokemon_name": "Wooper"
+    },
+    {
+        "_id": "67966880d054462574e33930",
+        "file_unique_id": "AgADZq0xG4wEYUQ",
+        "pokemon_name": "Blitzle"
+    },
+    {
+        "_id": "67966884d054462574e33931",
+        "file_unique_id": "AgADKK4xG3mEYEQ",
+        "pokemon_name": "Monferno"
+    },
+    {
+        "_id": "6796688ad054462574e33932",
+        "file_unique_id": "AgADga0xG1lAYUQ",
+        "pokemon_name": "Muk"
+    },
+    {
+        "_id": "6796688dd054462574e33933",
+        "file_unique_id": "AgADDq0xG8L_YEQ",
+        "pokemon_name": "Yanmega"
+    },
+    {
+        "_id": "67966891d054462574e33934",
+        "file_unique_id": "AgADG64xG3mEYEQ",
+        "pokemon_name": "Grookey"
+    },
+    {
+        "_id": "679668c0d054462574e33935",
+        "file_unique_id": "AgADbq0xG4wEYUQ",
+        "pokemon_name": "Breloom"
+    },
+    {
+        "_id": "679668c3d054462574e33936",
+        "file_unique_id": "AgADx64xGxBYYUQ",
+        "pokemon_name": "Thundurus"
+    },
+    {
+        "_id": "679668c6d054462574e33937",
+        "file_unique_id": "AgADxK4xG4uDWUQ",
+        "pokemon_name": "Volbeat"
+    },
+    {
+        "_id": "679668cad054462574e33938",
+        "file_unique_id": "AgAD960xG3-5YEQ",
+        "pokemon_name": "Spinarak"
+    },
+    {
+        "_id": "679668cdd054462574e33939",
+        "file_unique_id": "AgADgK0xG2c-YUQ",
+        "pokemon_name": "Camerupt"
+    },
+    {
+        "_id": "679668d7d054462574e3393a",
+        "file_unique_id": "AgAD_KwxG8L_YEQ",
+        "pokemon_name": "Vanilluxe"
+    },
+    {
+        "_id": "679668dbd054462574e3393b",
+        "file_unique_id": "AgADqK8xG1w5YUQ",
+        "pokemon_name": "Minior"
+    },
+    {
+        "_id": "67966909d054462574e3393c",
+        "file_unique_id": "AgADl68xG9oKYUQ",
+        "pokemon_name": "Piplup"
+    },
+    {
+        "_id": "67966910d054462574e3393d",
+        "file_unique_id": "AgADuK4xG3BSYUQ",
+        "pokemon_name": "Silcoon"
+    },
+    {
+        "_id": "67966916d054462574e3393e",
+        "file_unique_id": "AgADL64xG4uDYUQ",
+        "pokemon_name": "Reshiram"
+    },
+    {
+        "_id": "6796691dd054462574e3393f",
+        "file_unique_id": "AgADh68xG9oKYUQ",
+        "pokemon_name": "Sudowoodo"
+    },
+    {
+        "_id": "67966920d054462574e33940",
+        "file_unique_id": "AgADSq0xG9RVYUQ",
+        "pokemon_name": "Duraludon"
+    },
+    {
+        "_id": "67966969d054462574e33941",
+        "file_unique_id": "AgADha0xG1lAYUQ",
+        "pokemon_name": "Decidueye"
+    },
+    {
+        "_id": "6796696dd054462574e33942",
+        "file_unique_id": "AgADJa4xG3-5YEQ",
+        "pokemon_name": "Milotic"
+    },
+    {
+        "_id": "6796699cd054462574e33943",
+        "file_unique_id": "AgADha8xG9oKYUQ",
+        "pokemon_name": "Skwovet"
+    },
+    {
+        "_id": "6796699fd054462574e33944",
+        "file_unique_id": "AgAD1q4xG4uDWUQ",
+        "pokemon_name": "Araquanid"
+    },
+    {
+        "_id": "679669acd054462574e33945",
+        "file_unique_id": "AgADy64xG4uDWUQ",
+        "pokemon_name": "Spearow"
+    },
+    {
+        "_id": "679669afd054462574e33946",
+        "file_unique_id": "AgADdK8xG7c2YUQ",
+        "pokemon_name": "Masquerain"
+    },
+    {
+        "_id": "679669b6d054462574e33947",
+        "file_unique_id": "AgADJa4xG3mEYEQ",
+        "pokemon_name": "Bunnelby"
+    },
+    {
+        "_id": "679669e5d054462574e33948",
+        "file_unique_id": "AgADSN8xGwt0YUQ",
+        "pokemon_name": "Baltoy"
+    },
+    {
+        "_id": "679669f2d054462574e33949",
+        "file_unique_id": "AgAD9a4xG3vGYEQ",
+        "pokemon_name": "Klang"
+    },
+    {
+        "_id": "679669fbd054462574e3394a",
+        "file_unique_id": "AgADxa4xG3BSYUQ",
+        "pokemon_name": "Sandaconda"
+    },
+    {
+        "_id": "67966a2ed054462574e3394b",
+        "file_unique_id": "AgADqa0xG4rNYEQ",
+        "pokemon_name": "Tyrogue"
+    },
+    {
+        "_id": "67966a3ed054462574e3394c",
+        "file_unique_id": "AgADOa0xG4wEYUQ",
+        "pokemon_name": "Aromatisse"
+    },
+    {
+        "_id": "67966a77d054462574e3394d",
+        "file_unique_id": "AgADTK0xG7ILYEQ",
+        "pokemon_name": "Growlithe"
+    },
+    {
+        "_id": "67966a7ad054462574e3394e",
+        "file_unique_id": "AgADwa4xG4uDWUQ",
+        "pokemon_name": "Smoochum"
+    },
+    {
+        "_id": "67966a87d054462574e3394f",
+        "file_unique_id": "AgADPq0xG7AUYEQ",
+        "pokemon_name": "Vullaby"
+    },
+    {
+        "_id": "67966ac0d054462574e33950",
+        "file_unique_id": "AgADRq0xG9RVYUQ",
+        "pokemon_name": "Klefki"
+    },
+    {
+        "_id": "67966ac4d054462574e33951",
+        "file_unique_id": "AgADta4xG4uDWUQ",
+        "pokemon_name": "Drizzile"
+    },
+    {
+        "_id": "67966acad054462574e33952",
+        "file_unique_id": "AgADEq0xG8L_YEQ",
+        "pokemon_name": "Wigglytuff"
+    },
+    {
+        "_id": "67966ad0d054462574e33953",
+        "file_unique_id": "AgADU60xG7ILYEQ",
+        "pokemon_name": "Poliwrath"
+    },
+    {
+        "_id": "67966ad4d054462574e33954",
+        "file_unique_id": "AgADwa4xGxBYYUQ",
+        "pokemon_name": "Wynaut"
+    },
+    {
+        "_id": "67966adad054462574e33955",
+        "file_unique_id": "AgADI64xG3mEYEQ",
+        "pokemon_name": "Dracovish"
+    },
+    {
+        "_id": "67966b09d054462574e33956",
+        "file_unique_id": "AgADNq0xG7AUYEQ",
+        "pokemon_name": "Flygon"
+    },
+    {
+        "_id": "67966b0dd054462574e33957",
+        "file_unique_id": "AgADTN8xGwt0YUQ",
+        "pokemon_name": "Chingling"
+    },
+    {
+        "_id": "67966b17d054462574e33958",
+        "file_unique_id": "AgADQq4xG3mEYEQ",
+        "pokemon_name": "Seedot"
+    },
+    {
+        "_id": "67966b19d054462574e33959",
+        "file_unique_id": "AgADQt8xGwt0YUQ",
+        "pokemon_name": "Darmanitan"
+    },
+    {
+        "_id": "67966b52d054462574e3395a",
+        "file_unique_id": "AgADQa0xG4wEYUQ",
+        "pokemon_name": "Wimpod"
+    },
+    {
+        "_id": "67966b59d054462574e3395b",
+        "file_unique_id": "AgADGa4xG3mEYEQ",
+        "pokemon_name": "Mewtwo"
+    },
+    {
+        "_id": "67966b66d054462574e3395c",
+        "file_unique_id": "AgADvK4xG9WBYEQ",
+        "pokemon_name": "Arctozolt"
+    },
+    {
+        "_id": "67966b69d054462574e3395d",
+        "file_unique_id": "AgAD3q4xGxBYYUQ",
+        "pokemon_name": "Pidgey"
+    },
+    {
+        "_id": "67966b9fd054462574e3395e",
+        "file_unique_id": "AgADtK4xG4uDWUQ",
+        "pokemon_name": "Metang"
+    },
+    {
+        "_id": "67966ba3d054462574e3395f",
+        "file_unique_id": "AgADo60xG4rNYEQ",
+        "pokemon_name": "Glaceon"
+    },
+    {
+        "_id": "67966ba5d054462574e33960",
+        "file_unique_id": "AgAD5a4xG3vGYEQ",
+        "pokemon_name": "Komala"
+    },
+    {
+        "_id": "67966ba8d054462574e33961",
+        "file_unique_id": "AgAD_a4xG4IAAWBE",
+        "pokemon_name": "Swirlix"
+    },
+    {
+        "_id": "67966bacd054462574e33962",
+        "file_unique_id": "AgADMq0xG7AUYEQ",
+        "pokemon_name": "Frogadier"
+    },
+    {
+        "_id": "67966bb6d054462574e33963",
+        "file_unique_id": "AgAD6a4xG3vGYEQ",
+        "pokemon_name": "Sawk"
+    },
+    {
+        "_id": "67966beed054462574e33964",
+        "file_unique_id": "AgAD4K4xGxBYYUQ",
+        "pokemon_name": "Murkrow"
+    },
+    {
+        "_id": "67966bffd054462574e33965",
+        "file_unique_id": "AgADpK4xG4uDWUQ",
+        "pokemon_name": "Electivire"
+    },
+    {
+        "_id": "67966c2ed054462574e33966",
+        "file_unique_id": "AgADV60xG4wEYUQ",
+        "pokemon_name": "Ambipom"
+    },
+    {
+        "_id": "67966c31d054462574e33967",
+        "file_unique_id": "AgAD4q4xG3BSYUQ",
+        "pokemon_name": "Reuniclus"
+    },
+    {
+        "_id": "67966c35d054462574e33968",
+        "file_unique_id": "AgAD0a4xG3BSYUQ",
+        "pokemon_name": "Zacian"
+    },
+    {
+        "_id": "67966c37d054462574e33969",
+        "file_unique_id": "AgADaK0xG1lAYUQ",
+        "pokemon_name": "Tynamo"
+    },
+    {
+        "_id": "67966c3bd054462574e3396a",
+        "file_unique_id": "AgADRK4xG3mEYEQ",
+        "pokemon_name": "Drilbur"
+    },
+    {
+        "_id": "67966c3ed054462574e3396b",
+        "file_unique_id": "AgADxK0xG4rNYEQ",
+        "pokemon_name": "Machoke"
+    },
+    {
+        "_id": "67966c41d054462574e3396c",
+        "file_unique_id": "AgADUq0xG7ILYEQ",
+        "pokemon_name": "Charjabug"
+    },
+    {
+        "_id": "67966c44d054462574e3396d",
+        "file_unique_id": "AgADNK4xG0E8YUQ",
+        "pokemon_name": "Regice"
+    },
+    {
+        "_id": "67966c48d054462574e3396e",
+        "file_unique_id": "AgADN60xG7AUYEQ",
+        "pokemon_name": "Qwilfish"
+    },
+    {
+        "_id": "67966c8ad054462574e3396f",
+        "file_unique_id": "AgADaa8xG7c2YUQ",
+        "pokemon_name": "Beedrill"
+    },
+    {
+        "_id": "67966c90d054462574e33970",
+        "file_unique_id": "AgADKa4xG0E8YUQ",
+        "pokemon_name": "Solrock"
+    },
+    {
+        "_id": "67966cc3d054462574e33971",
+        "file_unique_id": "AgADea0xG1lAYUQ",
+        "pokemon_name": "Simisear"
+    },
+    {
+        "_id": "67966cc7d054462574e33972",
+        "file_unique_id": "AgAD1K4xG3vGYEQ",
+        "pokemon_name": "Pinsir"
+    },
+    {
+        "_id": "67966ccad054462574e33973",
+        "file_unique_id": "AgAD1K4xG3BSYUQ",
+        "pokemon_name": "Silicobra"
+    },
+    {
+        "_id": "67966ccdd054462574e33974",
+        "file_unique_id": "AgADhq0xG1lAYUQ",
+        "pokemon_name": "Pansear"
+    },
+    {
+        "_id": "67966cd7d054462574e33975",
+        "file_unique_id": "AgADk60xG2c-YUQ",
+        "pokemon_name": "Dwebble"
+    },
+    {
+        "_id": "67966d09d054462574e33976",
+        "file_unique_id": "AgADSa0xG9RVYUQ",
+        "pokemon_name": "Lugia"
+    },
+    {
+        "_id": "67966d52d054462574e33977",
+        "file_unique_id": "AgAD3a4xG3vGYEQ",
+        "pokemon_name": "Fletchinder"
+    },
+    {
+        "_id": "67966d62d054462574e33978",
+        "file_unique_id": "AgADW60xG4wEYUQ",
+        "pokemon_name": "Weezing"
+    },
+    {
+        "_id": "67966d66d054462574e33979",
+        "file_unique_id": "AgADya4xGxBYYUQ",
+        "pokemon_name": "Golbat"
+    },
+    {
+        "_id": "67966d69d054462574e3397a",
+        "file_unique_id": "AgADVK0xG4wEYUQ",
+        "pokemon_name": "Kommo-o"
+    },
+    {
+        "_id": "67966db5d054462574e3397b",
+        "file_unique_id": "AgADa60xG1lAYUQ",
+        "pokemon_name": "Victreebel"
+    },
+    {
+        "_id": "67966de4d054462574e3397c",
+        "file_unique_id": "AgADz64xG3vGYEQ",
+        "pokemon_name": "Corphish"
+    },
+    {
+        "_id": "67966debd054462574e3397d",
+        "file_unique_id": "AgADW98xGwt0YUQ",
+        "pokemon_name": "Magmar"
+    },
+    {
+        "_id": "67966deed054462574e3397e",
+        "file_unique_id": "AgADnK0xG2c-YUQ",
+        "pokemon_name": "Gligar"
+    },
+    {
+        "_id": "67966df1d054462574e3397f",
+        "file_unique_id": "AgAD4K4xG3vGYEQ",
+        "pokemon_name": "Centiskorch"
+    },
+    {
+        "_id": "67966df5d054462574e33980",
+        "file_unique_id": "AgADw64xG4uDWUQ",
+        "pokemon_name": "Cacnea"
+    },
+    {
+        "_id": "67966e2ed054462574e33981",
+        "file_unique_id": "AgADPt8xGwt0YUQ",
+        "pokemon_name": "Rapidash"
+    },
+    {
+        "_id": "67966e31d054462574e33982",
+        "file_unique_id": "AgADZq0xG9RVYUQ",
+        "pokemon_name": "Ursaluna"
+    },
+    {
+        "_id": "67966e3ed054462574e33983",
+        "file_unique_id": "AgADd60xG2c-YUQ",
+        "pokemon_name": "Durant"
+    },
+    {
+        "_id": "67966e44d054462574e33984",
+        "file_unique_id": "AgADOK0xG4wEYUQ",
+        "pokemon_name": "Lucario"
+    },
+    {
+        "_id": "67966e48d054462574e33985",
+        "file_unique_id": "AgADB64xG3-5YEQ",
+        "pokemon_name": "Sharpedo"
+    },
+    {
+        "_id": "67966e81d054462574e33986",
+        "file_unique_id": "AgADYq0xG4wEYUQ",
+        "pokemon_name": "Tangrowth"
+    },
+    {
+        "_id": "67966e87d054462574e33987",
+        "file_unique_id": "AgADwq4xGxBYYUQ",
+        "pokemon_name": "Servine"
+    },
+    {
+        "_id": "67966ec0d054462574e33988",
+        "file_unique_id": "AgADzq4xG4uDWUQ",
+        "pokemon_name": "Shellder"
+    },
+    {
+        "_id": "67966ec3d054462574e33989",
+        "file_unique_id": "AgADra4xG4uDWUQ",
+        "pokemon_name": "Noibat"
+    },
+    {
+        "_id": "67966ecdd054462574e3398a",
+        "file_unique_id": "AgADaq8xG7c2YUQ",
+        "pokemon_name": "Conkeldurr"
+    },
+    {
+        "_id": "67966ed1d054462574e3398b",
+        "file_unique_id": "AgADNK4xG4uDYUQ",
+        "pokemon_name": "Plusle"
+    },
+    {
+        "_id": "67966ed7d054462574e3398c",
+        "file_unique_id": "AgADPK0xG7AUYEQ",
+        "pokemon_name": "Sableye"
+    },
+    {
+        "_id": "67966f10d054462574e3398d",
+        "file_unique_id": "AgADSK0xG9RVYUQ",
+        "pokemon_name": "Elgyem"
+    },
+    {
+        "_id": "67966f13d054462574e3398e",
+        "file_unique_id": "AgADgq0xG1lAYUQ",
+        "pokemon_name": "Milcery"
+    },
+    {
+        "_id": "67966f1dd054462574e3398f",
+        "file_unique_id": "AgADyK4xG4uDWUQ",
+        "pokemon_name": "Porygon"
+    },
+    {
+        "_id": "67966f52d054462574e33990",
+        "file_unique_id": "AgADn60xG4rNYEQ",
+        "pokemon_name": "Meditite"
+    },
+    {
+        "_id": "67966f62d054462574e33991",
+        "file_unique_id": "AgAD6qwxG83_YEQ",
+        "pokemon_name": "Calyrex"
+    },
+    {
+        "_id": "67966f9cd054462574e33992",
+        "file_unique_id": "AgADaa0xG1lAYUQ",
+        "pokemon_name": "Spewpa"
+    },
+    {
+        "_id": "67966fa6d054462574e33993",
+        "file_unique_id": "AgAD0a4xGxBYYUQ",
+        "pokemon_name": "Serperior"
+    },
+    {
+        "_id": "67966fa9d054462574e33994",
+        "file_unique_id": "AgAD7q4xG3vGYEQ",
+        "pokemon_name": "Hakamo-o"
+    },
+    {
+        "_id": "67966fb0d054462574e33995",
+        "file_unique_id": "AgADPa4xG4uDYUQ",
+        "pokemon_name": "Clawitzer"
+    },
+    {
+        "_id": "67966fb3d054462574e33996",
+        "file_unique_id": "AgADwK0xG5fYYEQ",
+        "pokemon_name": "Florges"
+    },
+    {
+        "_id": "67966fb6d054462574e33997",
+        "file_unique_id": "AgADNq0xG4wEYUQ",
+        "pokemon_name": "Landorus"
+    },
+    {
+        "_id": "67966fe8d054462574e33998",
+        "file_unique_id": "AgADdq8xG9oKYUQ",
+        "pokemon_name": "Volcarona"
+    },
+    {
+        "_id": "67966fefd054462574e33999",
+        "file_unique_id": "AgADeK0xG2c-YUQ",
+        "pokemon_name": "Trumbeak"
+    },
+    {
+        "_id": "67966ff2d054462574e3399a",
+        "file_unique_id": "AgADY60xG9RVYUQ",
+        "pokemon_name": "Suicune"
+    },
+    {
+        "_id": "67966ff8d054462574e3399b",
+        "file_unique_id": "AgADlq0xG2c-YUQ",
+        "pokemon_name": "Lombre"
+    },
+    {
+        "_id": "67966fffd054462574e3399c",
+        "file_unique_id": "AgAD6q4xG3vGYEQ",
+        "pokemon_name": "Dunsparce"
+    },
+    {
+        "_id": "6796702ed054462574e3399d",
+        "file_unique_id": "AgADy64xGxBYYUQ",
+        "pokemon_name": "Mr. Mime"
+    },
+    {
+        "_id": "67967032d054462574e3399e",
+        "file_unique_id": "AgADfa8xG9oKYUQ",
+        "pokemon_name": "Foongus"
+    },
+    {
+        "_id": "67967038d054462574e3399f",
+        "file_unique_id": "AgADT60xG9RVYUQ",
+        "pokemon_name": "Elekid"
+    },
+    {
+        "_id": "6796703ed054462574e339a0",
+        "file_unique_id": "AgADda0xG1lAYUQ",
+        "pokemon_name": "Carbink"
+    },
+    {
+        "_id": "67967048d054462574e339a1",
+        "file_unique_id": "AgADm7ExG1y6YEQ",
+        "pokemon_name": "Donphan"
+    },
+    {
+        "_id": "6796707ed054462574e339a2",
+        "file_unique_id": "AgADzq4xG3BSYUQ",
+        "pokemon_name": "Gardevoir"
+    },
+    {
+        "_id": "67967081d054462574e339a3",
+        "file_unique_id": "AgADhq8xG9oKYUQ",
+        "pokemon_name": "Jumpluff"
+    },
+    {
+        "_id": "67967084d054462574e339a4",
+        "file_unique_id": "AgADDK0xG8L_YEQ",
+        "pokemon_name": "Thievul"
+    },
+    {
+        "_id": "67967113d054462574e339a5",
+        "file_unique_id": "AgAD064xGxBYYUQ",
+        "pokemon_name": "Palkia"
+    },
+    {
+        "_id": "67967116d054462574e339a6",
+        "file_unique_id": "AgADJ64xG3mEYEQ",
+        "pokemon_name": "Gliscor"
+    },
+    {
+        "_id": "6796711ad054462574e339a7",
+        "file_unique_id": "AgAD_q0xG3-5YEQ",
+        "pokemon_name": "Toxicroak"
+    },
+    {
+        "_id": "67967120d054462574e339a8",
+        "file_unique_id": "AgADU64xG1VuYUQ",
+        "pokemon_name": "Totodile"
+    },
+    {
+        "_id": "67967156d054462574e339a9",
+        "file_unique_id": "AgADsK0xG4rNYEQ",
+        "pokemon_name": "Oricorio"
+    },
+    {
+        "_id": "67967159d054462574e339aa",
+        "file_unique_id": "AgADz64xG4uDWUQ",
+        "pokemon_name": "Dragonair"
+    },
+    {
+        "_id": "6796715cd054462574e339ab",
+        "file_unique_id": "AgADqq4xG4uDWUQ",
+        "pokemon_name": "Sunkern"
+    },
+    {
+        "_id": "6796719fd054462574e339ac",
+        "file_unique_id": "AgADnq0xG2c-YUQ",
+        "pokemon_name": "Sewaddle"
+    },
+    {
+        "_id": "679671afd054462574e339ad",
+        "file_unique_id": "AgADKa4xG3mEYEQ",
+        "pokemon_name": "Sentret"
+    },
+    {
+        "_id": "679671ebd054462574e339ae",
+        "file_unique_id": "AgADA64xG3-5YEQ",
+        "pokemon_name": "Pyroar"
+    },
+    {
+        "_id": "679671f1d054462574e339af",
+        "file_unique_id": "AgADnq0xG4rNYEQ",
+        "pokemon_name": "Haunter"
+    },
+    {
+        "_id": "679671f5d054462574e339b0",
+        "file_unique_id": "AgADaq0xG9RVYUQ",
+        "pokemon_name": "Lampent"
+    },
+    {
+        "_id": "679671f8d054462574e339b1",
+        "file_unique_id": "AgADDa0xG8L_YEQ",
+        "pokemon_name": "Skrelp"
+    },
+    {
+        "_id": "67967231d054462574e339b2",
+        "file_unique_id": "AgADYa0xG7ILYEQ",
+        "pokemon_name": "Kyurem"
+    },
+    {
+        "_id": "67967234d054462574e339b3",
+        "file_unique_id": "AgADvq4xG4uDWUQ",
+        "pokemon_name": "Unown"
+    },
+    {
+        "_id": "67967237d054462574e339b4",
+        "file_unique_id": "AgAD_qwxG8L_YEQ",
+        "pokemon_name": "Umbreon"
+    },
+    {
+        "_id": "67967247d054462574e339b5",
+        "file_unique_id": "AgADFa4xG0E8YUQ",
+        "pokemon_name": "Shelgon"
+    },
+    {
+        "_id": "67967277d054462574e339b6",
+        "file_unique_id": "AgAD1K4xGxBYYUQ",
+        "pokemon_name": "Regirock"
+    },
+    {
+        "_id": "67967284d054462574e339b7",
+        "file_unique_id": "AgADb60xG9RVYUQ",
+        "pokemon_name": "Chandelure"
+    },
+    {
+        "_id": "6796728ad054462574e339b8",
+        "file_unique_id": "AgAD064xG3vGYEQ",
+        "pokemon_name": "Grotle"
+    },
+    {
+        "_id": "679672c3d054462574e339b9",
+        "file_unique_id": "AgADRK0xG9RVYUQ",
+        "pokemon_name": "Roggenrola"
+    },
+    {
+        "_id": "6796730cd054462574e339ba",
+        "file_unique_id": "AgADAq0xG8L_YEQ",
+        "pokemon_name": "Yveltal"
+    },
+    {
+        "_id": "67967312d054462574e339bb",
+        "file_unique_id": "AgADKa0xG7AUYEQ",
+        "pokemon_name": "Diglett"
+    },
+    {
+        "_id": "67967316d054462574e339bc",
+        "file_unique_id": "AgADF64xG3-5YEQ",
+        "pokemon_name": "Tropius"
+    },
+    {
+        "_id": "67967516d054462574e339bd",
+        "file_unique_id": "AgADVq0xG7ILYEQ",
+        "pokemon_name": "Metagross"
+    },
+    {
+        "_id": "6796751cd054462574e339be",
+        "file_unique_id": "AgADm60xG2c-YUQ",
+        "pokemon_name": "Lickilicky"
+    },
+    {
+        "_id": "6796755bd054462574e339bf",
+        "file_unique_id": "AgADha0xG2c-YUQ",
+        "pokemon_name": "Palossand"
+    },
+    {
+        "_id": "6796755ed054462574e339c0",
+        "file_unique_id": "AgADua4xG3BSYUQ",
+        "pokemon_name": "Tyranitar"
+    },
+    {
+        "_id": "67967562d054462574e339c1",
+        "file_unique_id": "AgAD4q4xG2ywYEQ",
+        "pokemon_name": "Excadrill"
+    },
+    {
+        "_id": "67967565d054462574e339c2",
+        "file_unique_id": "AgADdq0xG2c-YUQ",
+        "pokemon_name": "Carracosta"
+    },
+    {
+        "_id": "6796756bd054462574e339c3",
+        "file_unique_id": "AgAD164xG4uDWUQ",
+        "pokemon_name": "Marowak"
+    },
+    {
+        "_id": "679675a4d054462574e339c4",
+        "file_unique_id": "AgADI98xGwt0YUQ",
+        "pokemon_name": "Bonsly"
+    },
+    {
+        "_id": "679675aed054462574e339c5",
+        "file_unique_id": "AgADZK0xG7ILYEQ",
+        "pokemon_name": "Spheal"
+    },
+    {
+        "_id": "679675b1d054462574e339c6",
+        "file_unique_id": "AgAD_64xG5XRYUQ",
+        "pokemon_name": "Delibird"
+    },
+    {
+        "_id": "679675e4d054462574e339c7",
+        "file_unique_id": "AgADw64xG3BSYUQ",
+        "pokemon_name": "Parasect"
+    },
+    {
+        "_id": "679675edd054462574e339c8",
+        "file_unique_id": "AgADza4xG3BSYUQ",
+        "pokemon_name": "Brionne"
+    },
+    {
+        "_id": "679675f0d054462574e339c9",
+        "file_unique_id": "AgADNq4xG3mEYEQ",
+        "pokemon_name": "Hatterene"
+    },
+    {
+        "_id": "679675f4d054462574e339ca",
+        "file_unique_id": "AgADJ60xG7AUYEQ",
+        "pokemon_name": "Torkoal"
+    },
+    {
+        "_id": "679675f7d054462574e339cb",
+        "file_unique_id": "AgADtq4xG3BSYUQ",
+        "pokemon_name": "Dubwool"
+    },
+    {
+        "_id": "679675fdd054462574e339cc",
+        "file_unique_id": "AgAD0K4xG4uDWUQ",
+        "pokemon_name": "Magearna"
+    },
+    {
+        "_id": "6796762dd054462574e339cd",
+        "file_unique_id": "AgADyq4xGxBYYUQ",
+        "pokemon_name": "Vanillish"
+    },
+    {
+        "_id": "67967636d054462574e339ce",
+        "file_unique_id": "AgAD1q4xGxBYYUQ",
+        "pokemon_name": "Rhyperior"
+    },
+    {
+        "_id": "67967675d054462574e339cf",
+        "file_unique_id": "AgAD-qwxG8L_YEQ",
+        "pokemon_name": "Klink"
+    },
+    {
+        "_id": "6796767cd054462574e339d0",
+        "file_unique_id": "AgADzK4xG3BSYUQ",
+        "pokemon_name": "Garchomp"
+    },
+    {
+        "_id": "67967685d054462574e339d1",
+        "file_unique_id": "AgADG60xG8L_YEQ",
+        "pokemon_name": "Furfrou"
+    },
+    {
+        "_id": "6796768cd054462574e339d2",
+        "file_unique_id": "AgADfa0xG2c-YUQ",
+        "pokemon_name": "Ekans"
+    },
+    {
+        "_id": "679676bed054462574e339d3",
+        "file_unique_id": "AgADvq4xGxBYYUQ",
+        "pokemon_name": "Tyrunt"
+    },
+    {
+        "_id": "679676c2d054462574e339d4",
+        "file_unique_id": "AgADGK4xG0E8YUQ",
+        "pokemon_name": "Emolga"
+    },
+    {
+        "_id": "679676d5d054462574e339d5",
+        "file_unique_id": "AgAD-K0xG3-5YEQ",
+        "pokemon_name": "Trapinch"
+    },
+    {
+        "_id": "679676d8d054462574e339d6",
+        "file_unique_id": "AgADo60xG2c-YUQ",
+        "pokemon_name": "Heatran"
+    },
+    {
+        "_id": "67967715d054462574e339d7",
+        "file_unique_id": "AgADsq4xG4uDWUQ",
+        "pokemon_name": "Zapdos"
+    },
+    {
+        "_id": "67967719d054462574e339d8",
+        "file_unique_id": "AgAD860xG3-5YEQ",
+        "pokemon_name": "Steenee"
+    },
+    {
+        "_id": "67967755d054462574e339d9",
+        "file_unique_id": "AgAD564xG3vGYEQ",
+        "pokemon_name": "Tsareena"
+    },
+    {
+        "_id": "6796775bd054462574e339da",
+        "file_unique_id": "AgADnK8xG9oKYUQ",
+        "pokemon_name": "Loudred"
+    },
+    {
+        "_id": "6796779ad054462574e339db",
+        "file_unique_id": "AgADBK0xG8L_YEQ",
+        "pokemon_name": "Kleavor"
+    },
+    {
+        "_id": "679677a1d054462574e339dc",
+        "file_unique_id": "AgADO60xG4wEYUQ",
+        "pokemon_name": "Toxtricity"
+    },
+    {
+        "_id": "679677a8d054462574e339dd",
+        "file_unique_id": "AgADUd8xGwt0YUQ",
+        "pokemon_name": "Liepard"
+    },
+    {
+        "_id": "679677e4d054462574e339de",
+        "file_unique_id": "AgADY60xG1lAYUQ",
+        "pokemon_name": "Snom"
+    },
+    {
+        "_id": "679677ead054462574e339df",
+        "file_unique_id": "AgADh60xG2c-YUQ",
+        "pokemon_name": "Mienshao"
+    },
+    {
+        "_id": "679677eed054462574e339e0",
+        "file_unique_id": "AgADna0xG2c-YUQ",
+        "pokemon_name": "Pincurchin"
+    },
+    {
+        "_id": "679677f1d054462574e339e1",
+        "file_unique_id": "AgADhK0xG1lAYUQ",
+        "pokemon_name": "Cryogonal"
+    },
+    {
+        "_id": "679677f4d054462574e339e2",
+        "file_unique_id": "AgADYK0xG9RVYUQ",
+        "pokemon_name": "Toxel"
+    },
+    {
+        "_id": "679677f7d054462574e339e3",
+        "file_unique_id": "AgADfK8xG7c2YUQ",
+        "pokemon_name": "Heatmor"
+    },
+    {
+        "_id": "679677fed054462574e339e4",
+        "file_unique_id": "AgADka0xG2c-YUQ",
+        "pokemon_name": "Sandile"
+    },
+    {
+        "_id": "67967833d054462574e339e5",
+        "file_unique_id": "AgADga0xG2c-YUQ",
+        "pokemon_name": "Chewtle"
+    },
+    {
+        "_id": "67967846d054462574e339e6",
+        "file_unique_id": "AgADg60xG1lAYUQ",
+        "pokemon_name": "Turtwig"
+    },
+    {
+        "_id": "6796787cd054462574e339e7",
+        "file_unique_id": "AgAD264xG3vGYEQ",
+        "pokemon_name": "Stantler"
+    },
+    {
+        "_id": "67967886d054462574e339e8",
+        "file_unique_id": "AgADw60xG5fYYEQ",
+        "pokemon_name": "Psyduck"
+    },
+    {
+        "_id": "6796788fd054462574e339e9",
+        "file_unique_id": "AgADZ60xG2c-YUQ",
+        "pokemon_name": "Swellow"
+    },
+    {
+        "_id": "679678c5d054462574e339ea",
+        "file_unique_id": "AgADQq0xG4wEYUQ",
+        "pokemon_name": "Gabite"
+    },
+    {
+        "_id": "679678d0d054462574e339eb",
+        "file_unique_id": "AgADCa4xG3-5YEQ",
+        "pokemon_name": "Amoonguss"
+    },
+    {
+        "_id": "679678d6d054462574e339ec",
+        "file_unique_id": "AgADUq0xG4wEYUQ",
+        "pokemon_name": "Dewpider"
+    },
+    {
+        "_id": "67967908d054462574e339ed",
+        "file_unique_id": "AgADcq8xG7c2YUQ",
+        "pokemon_name": "Scrafty"
+    },
+    {
+        "_id": "6796790bd054462574e339ee",
+        "file_unique_id": "AgADvK4xG4uDWUQ",
+        "pokemon_name": "Patrat"
+    },
+    {
+        "_id": "67967911d054462574e339ef",
+        "file_unique_id": "AgAD5K4xG3vGYEQ",
+        "pokemon_name": "Lunala"
+    },
+    {
+        "_id": "67967922d054462574e339f0",
+        "file_unique_id": "AgADGq0xG8L_YEQ",
+        "pokemon_name": "Mawile"
+    },
+    {
+        "_id": "67967951d054462574e339f1",
+        "file_unique_id": "AgADRd8xGwt0YUQ",
+        "pokemon_name": "Swinub"
+    },
+    {
+        "_id": "6796795ed054462574e339f2",
+        "file_unique_id": "AgADPa4xG3mEYEQ",
+        "pokemon_name": "Claydol"
+    },
+    {
+        "_id": "67967964d054462574e339f3",
+        "file_unique_id": "AgADva4xG9WBYEQ",
+        "pokemon_name": "Bulbasaur"
+    },
+    {
+        "_id": "67967967d054462574e339f4",
+        "file_unique_id": "AgAD_a0xG3-5YEQ",
+        "pokemon_name": "Rotom"
+    },
+    {
+        "_id": "6796799ad054462574e339f5",
+        "file_unique_id": "AgAD0q4xG4uDWUQ",
+        "pokemon_name": "Quagsire"
+    },
+    {
+        "_id": "679679a1d054462574e339f6",
+        "file_unique_id": "AgADuq4xG3BSYUQ",
+        "pokemon_name": "Tauros"
+    },
+    {
+        "_id": "679679aad054462574e339f7",
+        "file_unique_id": "AgADg60xG2c-YUQ",
+        "pokemon_name": "Polteageist"
+    },
+    {
+        "_id": "679679add054462574e339f8",
+        "file_unique_id": "AgADD60xG8L_YEQ",
+        "pokemon_name": "Luxio"
+    },
+    {
+        "_id": "679679b4d054462574e339f9",
+        "file_unique_id": "AgADMq4xG0E8YUQ",
+        "pokemon_name": "Shaymin"
+    },
+    {
+        "_id": "679679e6d054462574e339fa",
+        "file_unique_id": "AgAD8a0xG3-5YEQ",
+        "pokemon_name": "Meowth"
+    },
+    {
+        "_id": "679679fad054462574e339fb",
+        "file_unique_id": "AgAD3a4xGxBYYUQ",
+        "pokemon_name": "Kartana"
+    },
+    {
+        "_id": "67967a33d054462574e339fc",
+        "file_unique_id": "AgADP60xG7AUYEQ",
+        "pokemon_name": "Sealeo"
+    },
+    {
+        "_id": "67967a85d054462574e339fd",
+        "file_unique_id": "AgADX60xG7ILYEQ",
+        "pokemon_name": "Arctovish"
+    },
+    {
+        "_id": "67967a8fd054462574e339fe",
+        "file_unique_id": "AgADXa0xG9RVYUQ",
+        "pokemon_name": "Raikou"
+    },
+    {
+        "_id": "67967ac7d054462574e339ff",
+        "file_unique_id": "AgADs64xG4uDWUQ",
+        "pokemon_name": "Lopunny"
+    },
+    {
+        "_id": "67967acbd054462574e33a00",
+        "file_unique_id": "AgADsa4xG4uDWUQ",
+        "pokemon_name": "Drifloon"
+    },
+    {
+        "_id": "67967aced054462574e33a01",
+        "file_unique_id": "AgADLK0xG7AUYEQ",
+        "pokemon_name": "Togetic"
+    },
+    {
+        "_id": "67967ad8d054462574e33a02",
+        "file_unique_id": "AgADwK4xG4uDWUQ",
+        "pokemon_name": "Lunatone"
+    },
+    {
+        "_id": "67967b0ad054462574e33a03",
+        "file_unique_id": "AgADOt8xGwt0YUQ",
+        "pokemon_name": "Cleffa"
+    },
+    {
+        "_id": "67967b1ad054462574e33a04",
+        "file_unique_id": "AgADfK0xG7ILYEQ",
+        "pokemon_name": "Bronzong"
+    },
+    {
+        "_id": "67967b53d054462574e33a05",
+        "file_unique_id": "AgADWa0xG9RVYUQ",
+        "pokemon_name": "Vivillon"
+    },
+    {
+        "_id": "67967b59d054462574e33a06",
+        "file_unique_id": "AgADTq0xG9RVYUQ",
+        "pokemon_name": "Oshawott"
+    },
+    {
+        "_id": "67967b60d054462574e33a07",
+        "file_unique_id": "AgADP60xG4wEYUQ",
+        "pokemon_name": "Empoleon"
+    },
+    {
+        "_id": "67967b63d054462574e33a08",
+        "file_unique_id": "AgAD0a4xG4uDWUQ",
+        "pokemon_name": "Chansey"
+    },
+    {
+        "_id": "67967b6ad054462574e33a09",
+        "file_unique_id": "AgADJN8xGwt0YUQ",
+        "pokemon_name": "Goldeen"
+    },
+    {
+        "_id": "67967b9cd054462574e33a0a",
+        "file_unique_id": "AgAD_K0xG3-5YEQ",
+        "pokemon_name": "Dottler"
+    },
+    {
+        "_id": "67967ba6d054462574e33a0b",
+        "file_unique_id": "AgADMK4xG3mEYEQ",
+        "pokemon_name": "Eevee"
+    },
+    {
+        "_id": "67967bb0d054462574e33a0c",
+        "file_unique_id": "AgADXa0xG7ILYEQ",
+        "pokemon_name": "Scatterbug"
+    },
+    {
+        "_id": "67967c32d054462574e33a0d",
+        "file_unique_id": "AgADTK0xG4wEYUQ",
+        "pokemon_name": "Chatot"
+    },
+    {
+        "_id": "67967c3cd054462574e33a0e",
+        "file_unique_id": "AgADW60xG9RVYUQ",
+        "pokemon_name": "Petilil"
+    },
+    {
+        "_id": "67967c8bd054462574e33a0f",
+        "file_unique_id": "AgADua4xG4uDWUQ",
+        "pokemon_name": "Nidoran"
+    },
+    {
+        "_id": "67967cbed054462574e33a10",
+        "file_unique_id": "AgADQq0xG7AUYEQ",
+        "pokemon_name": "Panpour"
+    },
+    {
+        "_id": "67967d07d054462574e33a11",
+        "file_unique_id": "AgADc68xG7c2YUQ",
+        "pokemon_name": "Arcanine"
+    },
+    {
+        "_id": "67967d0dd054462574e33a12",
+        "file_unique_id": "AgADgK8xG7c2YUQ",
+        "pokemon_name": "Duskull"
+    },
+    {
+        "_id": "67967d53d054462574e33a13",
+        "file_unique_id": "AgADKq0xG7AUYEQ",
+        "pokemon_name": "Pignite"
+    },
+    {
+        "_id": "67967d9fd054462574e33a14",
+        "file_unique_id": "AgAD5q4xG3vGYEQ",
+        "pokemon_name": "Eiscue"
+    },
+    {
+        "_id": "67967da5d054462574e33a15",
+        "file_unique_id": "AgAD2K4xGxBYYUQ",
+        "pokemon_name": "Azumarill"
+    },
+    {
+        "_id": "67967dafd054462574e33a16",
+        "file_unique_id": "AgADZq8xG7c2YUQ",
+        "pokemon_name": "Eldegoss"
+    },
+    {
+        "_id": "67967db2d054462574e33a17",
+        "file_unique_id": "AgADYa0xG1lAYUQ",
+        "pokemon_name": "Nidorina"
+    },
+    {
+        "_id": "67967de2d054462574e33a18",
+        "file_unique_id": "AgADza4xGxBYYUQ",
+        "pokemon_name": "Rowlet"
+    },
+    {
+        "_id": "67967de8d054462574e33a19",
+        "file_unique_id": "AgADaK0xG7ILYEQ",
+        "pokemon_name": "Simisage"
+    },
+    {
+        "_id": "67967df2d054462574e33a1a",
+        "file_unique_id": "AgAD1a4xG3vGYEQ",
+        "pokemon_name": "Magikarp"
+    },
+    {
+        "_id": "67967e2ad054462574e33a1b",
+        "file_unique_id": "AgADu60xG5fYYEQ",
+        "pokemon_name": "Cubchoo"
+    },
+    {
+        "_id": "67967e34d054462574e33a1c",
+        "file_unique_id": "AgADOd8xGwt0YUQ",
+        "pokemon_name": "Magnezone"
+    },
+    {
+        "_id": "67967e3ad054462574e33a1d",
+        "file_unique_id": "AgADCK0xG8L_YEQ",
+        "pokemon_name": "Zarude"
+    },
+    {
+        "_id": "67967e41d054462574e33a1e",
+        "file_unique_id": "AgADIK4xG3-5YEQ",
+        "pokemon_name": "Cyndaquil"
+    },
+    {
+        "_id": "67967e44d054462574e33a1f",
+        "file_unique_id": "AgADEq4xG3mEYEQ",
+        "pokemon_name": "Lickitung"
+    },
+    {
+        "_id": "67967ed2d054462574e33a20",
+        "file_unique_id": "AgADHK4xG0E8YUQ",
+        "pokemon_name": "Binacle"
+    },
+    {
+        "_id": "67967ed6d054462574e33a21",
+        "file_unique_id": "AgADTa0xG4wEYUQ",
+        "pokemon_name": "Seismitoad"
+    },
+    {
+        "_id": "67967f05d054462574e33a22",
+        "file_unique_id": "AgADj68xG9oKYUQ",
+        "pokemon_name": "Ralts"
+    },
+    {
+        "_id": "67967f0bd054462574e33a23",
+        "file_unique_id": "AgADc60xG1lAYUQ",
+        "pokemon_name": "Stoutland"
+    },
+    {
+        "_id": "67967f1bd054462574e33a24",
+        "file_unique_id": "AgAD96wxG8L_YEQ",
+        "pokemon_name": "Noivern"
+    },
+    {
+        "_id": "67967f51d054462574e33a25",
+        "file_unique_id": "AgADlq8xG9oKYUQ",
+        "pokemon_name": "Pidgeotto"
+    },
+    {
+        "_id": "67967f96d054462574e33a26",
+        "file_unique_id": "AgADH60xG7AUYEQ",
+        "pokemon_name": "Litten"
+    },
+    {
+        "_id": "67967f99d054462574e33a27",
+        "file_unique_id": "AgADb60xG2c-YUQ",
+        "pokemon_name": "Omastar"
+    },
+    {
+        "_id": "67967fa6d054462574e33a28",
+        "file_unique_id": "AgADbq0xG1lAYUQ",
+        "pokemon_name": "Lanturn"
+    },
+    {
+        "_id": "67967fa9d054462574e33a29",
+        "file_unique_id": "AgADBK4xG3-5YEQ",
+        "pokemon_name": "Mime Jr."
+    },
+    {
+        "_id": "67967fe9d054462574e33a2a",
+        "file_unique_id": "AgADta4xG3BSYUQ",
+        "pokemon_name": "Zamazenta"
+    },
+    {
+        "_id": "67967fecd054462574e33a2b",
+        "file_unique_id": "AgADf68xG7c2YUQ",
+        "pokemon_name": "Bronzor"
+    },
+    {
+        "_id": "67967ff6d054462574e33a2c",
+        "file_unique_id": "AgADK98xGwt0YUQ",
+        "pokemon_name": "Magmortar"
+    },
+    {
+        "_id": "67968028d054462574e33a2d",
+        "file_unique_id": "AgADN64xG3mEYEQ",
+        "pokemon_name": "Ducklett"
+    },
+    {
+        "_id": "6796803fd054462574e33a2e",
+        "file_unique_id": "AgADwq4xG3BSYUQ",
+        "pokemon_name": "Zygarde"
+    },
+    {
+        "_id": "6796807bd054462574e33a2f",
+        "file_unique_id": "AgAD3q4xG3BSYUQ",
+        "pokemon_name": "Throh"
+    },
+    {
+        "_id": "6796808bd054462574e33a30",
+        "file_unique_id": "AgADFq4xG0E8YUQ",
+        "pokemon_name": "Persian"
+    },
+    {
+        "_id": "67968110d054462574e33a31",
+        "file_unique_id": "AgADVa0xG9RVYUQ",
+        "pokemon_name": "Whimsicott"
+    },
+    {
+        "_id": "67968119d054462574e33a32",
+        "file_unique_id": "AgAD3K4xGxBYYUQ",
+        "pokemon_name": "Mareep"
+    },
+    {
+        "_id": "6796814cd054462574e33a33",
+        "file_unique_id": "AgADla8xG9oKYUQ",
+        "pokemon_name": "Buneary"
+    },
+    {
+        "_id": "67968159d054462574e33a34",
+        "file_unique_id": "AgADM64xG4uDYUQ",
+        "pokemon_name": "Darumaka"
+    },
+    {
+        "_id": "67968168d054462574e33a35",
+        "file_unique_id": "AgADQK4xG3mEYEQ",
+        "pokemon_name": "Minccino"
+    },
+    {
+        "_id": "6796819fd054462574e33a36",
+        "file_unique_id": "AgADbK0xG9RVYUQ",
+        "pokemon_name": "Anorith"
+    },
+    {
+        "_id": "679681a2d054462574e33a37",
+        "file_unique_id": "AgADqK0xG4rNYEQ",
+        "pokemon_name": "Onix"
+    },
+    {
+        "_id": "679681a8d054462574e33a38",
+        "file_unique_id": "AgADZa8xG7c2YUQ",
+        "pokemon_name": "Primarina"
+    },
+    {
+        "_id": "679681ded054462574e33a39",
+        "file_unique_id": "AgADwK0xG4rNYEQ",
+        "pokemon_name": "Latios"
+    },
+    {
+        "_id": "679681e1d054462574e33a3a",
+        "file_unique_id": "AgADaK8xG7c2YUQ",
+        "pokemon_name": "Mareanie"
+    },
+    {
+        "_id": "679681f4d054462574e33a3b",
+        "file_unique_id": "AgADJK4xG3mEYEQ",
+        "pokemon_name": "Sandslash"
+    },
+    {
+        "_id": "67968273d054462574e33a3c",
+        "file_unique_id": "AgADLt8xGwt0YUQ",
+        "pokemon_name": "Teddiursa"
+    },
+    {
+        "_id": "67968279d054462574e33a3d",
+        "file_unique_id": "AgADHq0xG7AUYEQ",
+        "pokemon_name": "Bayleef"
+    },
+    {
+        "_id": "67968283d054462574e33a3e",
+        "file_unique_id": "AgADL64xG3mEYEQ",
+        "pokemon_name": "Jellicent"
+    },
+    {
+        "_id": "67968286d054462574e33a3f",
+        "file_unique_id": "AgADgq8xG7c2YUQ",
+        "pokemon_name": "Ledian"
+    },
+    {
+        "_id": "679682bcd054462574e33a40",
+        "file_unique_id": "AgADYq0xG1lAYUQ",
+        "pokemon_name": "Lairon"
+    },
+    {
+        "_id": "67968302d054462574e33a41",
+        "file_unique_id": "AgADEK4xG0E8YUQ",
+        "pokemon_name": "Gyarados"
+    },
+    {
+        "_id": "67968305d054462574e33a42",
+        "file_unique_id": "AgAErjEbf7lgRA",
+        "pokemon_name": "Pheromosa"
+    },
+    {
+        "_id": "67968354d054462574e33a43",
+        "file_unique_id": "AgADtq4xG4uDWUQ",
+        "pokemon_name": "Remoraid"
+    },
+    {
+        "_id": "67968397d054462574e33a44",
+        "file_unique_id": "AgADUK0xG9RVYUQ",
+        "pokemon_name": "Surskit"
+    },
+    {
+        "_id": "679683a7d054462574e33a45",
+        "file_unique_id": "AgADvK4xGxBYYUQ",
+        "pokemon_name": "Pyukumuku"
+    },
+    {
+        "_id": "679683aad054462574e33a46",
+        "file_unique_id": "AgADF60xG8L_YEQ",
+        "pokemon_name": "Gengar"
+    },
+    {
+        "_id": "679683ddd054462574e33a47",
+        "file_unique_id": "AgADYK0xG7ILYEQ",
+        "pokemon_name": "Corvisquire"
+    },
+    {
+        "_id": "679683ead054462574e33a48",
+        "file_unique_id": "AgADeK0xG1lAYUQ",
+        "pokemon_name": "Kirlia"
+    },
+    {
+        "_id": "679683edd054462574e33a49",
+        "file_unique_id": "AgADwq4xG4uDWUQ",
+        "pokemon_name": "Mimikyu"
+    },
+    {
+        "_id": "67968426d054462574e33a4a",
+        "file_unique_id": "AgADPq4xG3mEYEQ",
+        "pokemon_name": "Dhelmise"
+    },
+    {
+        "_id": "67968478d054462574e33a4c",
+        "file_unique_id": "AgADHq4xG3mEYEQ",
+        "pokemon_name": "Dewgong"
+    },
+    {
+        "_id": "67968507d054462574e33a4d",
+        "file_unique_id": "AgADoK0xG4rNYEQ",
+        "pokemon_name": "Munchlax"
+    },
+    {
+        "_id": "6796854dd054462574e33a4e",
+        "file_unique_id": "AgADyK4xG3BSYUQ",
+        "pokemon_name": "Raboot"
+    },
+    {
+        "_id": "67968563d054462574e33a4f",
+        "file_unique_id": "AgADRa0xG9RVYUQ",
+        "pokemon_name": "Probopass"
+    },
+    {
+        "_id": "679685e8d054462574e33a50",
+        "file_unique_id": "AgADxa4xG4uDWUQ",
+        "pokemon_name": "Cofagrigus"
+    },
+    {
+        "_id": "67968628d054462574e33a51",
+        "file_unique_id": "AgADWK0xG9RVYUQ",
+        "pokemon_name": "Finneon"
+    },
+    {
+        "_id": "6796862ed054462574e33a52",
+        "file_unique_id": "AgADPN8xGwt0YUQ",
+        "pokemon_name": "Forretress"
+    },
+    {
+        "_id": "67968684d054462574e33a53",
+        "file_unique_id": "AgADe68xG7c2YUQ",
+        "pokemon_name": "Pancham"
+    },
+    {
+        "_id": "679686bdd054462574e33a54",
+        "file_unique_id": "AgADNd8xGwt0YUQ",
+        "pokemon_name": "Cascoon"
+    },
+    {
+        "_id": "67968711d054462574e33a55",
+        "file_unique_id": "AgAD9K0xG3-5YEQ",
+        "pokemon_name": "Shiinotic"
+    },
+    {
+        "_id": "67968718d054462574e33a56",
+        "file_unique_id": "AgADHK0xG7AUYEQ",
+        "pokemon_name": "Perrserker"
+    },
+    {
+        "_id": "6796871bd054462574e33a57",
+        "file_unique_id": "AgADkK0xG2c-YUQ",
+        "pokemon_name": "Meloetta"
+    },
+    {
+        "_id": "67968751d054462574e33a58",
+        "file_unique_id": "AgADNa4xG4uDYUQ",
+        "pokemon_name": "Ninetales"
+    },
+    {
+        "_id": "67968794d054462574e33a59",
+        "file_unique_id": "AgAD664xG3vGYEQ",
+        "pokemon_name": "Spinda"
+    },
+    {
+        "_id": "679687a7d054462574e33a5a",
+        "file_unique_id": "AgADSK0xG7ILYEQ",
+        "pokemon_name": "Marill"
+    },
+    {
+        "_id": "679687add054462574e33a5b",
+        "file_unique_id": "AgADaK0xG2c-YUQ",
+        "pokemon_name": "Bewear"
+    },
+    {
+        "_id": "679687e6d054462574e33a5c",
+        "file_unique_id": "AgADg68xG7c2YUQ",
+        "pokemon_name": "Hoothoot"
+    },
+    {
+        "_id": "679687ecd054462574e33a5d",
+        "file_unique_id": "AgADWd8xGwt0YUQ",
+        "pokemon_name": "Deoxys"
+    },
+    {
+        "_id": "67968828d054462574e33a5e",
+        "file_unique_id": "AgADUa0xG7ILYEQ",
+        "pokemon_name": "Meowstic"
+    },
+    {
+        "_id": "67968835d054462574e33a5f",
+        "file_unique_id": "AgADGK0xG7AUYEQ",
+        "pokemon_name": "Emboar"
+    },
+    {
+        "_id": "6796883cd054462574e33a60",
+        "file_unique_id": "AgAD-q0xG3-5YEQ",
+        "pokemon_name": "Indeedee"
+    },
+    {
+        "_id": "6796883fd054462574e33a61",
+        "file_unique_id": "AgADoa8xG9oKYUQ",
+        "pokemon_name": "Azelf"
+    },
+    {
+        "_id": "6796886ed054462574e33a62",
+        "file_unique_id": "AgADG60xG7AUYEQ",
+        "pokemon_name": "Articuno"
+    },
+    {
+        "_id": "6796887ed054462574e33a63",
+        "file_unique_id": "AgADdK0xG7ILYEQ",
+        "pokemon_name": "Togedemaru"
+    },
+    {
+        "_id": "67968881d054462574e33a64",
+        "file_unique_id": "AgADYd8xGwt0YUQ",
+        "pokemon_name": "Ho-oh"
+    },
+    {
+        "_id": "679688bdd054462574e33a65",
+        "file_unique_id": "AgADba0xG1lAYUQ",
+        "pokemon_name": "Flaaffy"
+    },
+    {
+        "_id": "67968903d054462574e33a66",
+        "file_unique_id": "AgADsa0xG4rNYEQ",
+        "pokemon_name": "Celesteela"
+    },
+    {
+        "_id": "6796895cd054462574e33a67",
+        "file_unique_id": "AgADM60xG4wEYUQ",
+        "pokemon_name": "Steelix"
+    },
+    {
+        "_id": "67968998d054462574e33a68",
+        "file_unique_id": "AgADWq0xG9RVYUQ",
+        "pokemon_name": "Golduck"
+    },
+    {
+        "_id": "6796899fd054462574e33a69",
+        "file_unique_id": "AgADya0xG5fYYEQ",
+        "pokemon_name": "Dragonite"
+    },
+    {
+        "_id": "67968a6dd054462574e33a6a",
+        "file_unique_id": "AgADLd8xGwt0YUQ",
+        "pokemon_name": "Gothitelle"
+    },
+    {
+        "_id": "67968a7ad054462574e33a6b",
+        "file_unique_id": "AgADrK8xG1w5YUQ",
+        "pokemon_name": "Applin"
+    },
+    {
+        "_id": "67968a83d054462574e33a6c",
+        "file_unique_id": "AgADxK4xG3BSYUQ",
+        "pokemon_name": "Phanpy"
+    },
+    {
+        "_id": "67968abfd054462574e33a6d",
+        "file_unique_id": "AgADuq4xGxBYYUQ",
+        "pokemon_name": "Happiny"
+    },
+    {
+        "_id": "67968b12d054462574e33a6e",
+        "file_unique_id": "AgADR60xG7ILYEQ",
+        "pokemon_name": "Tentacool"
+    },
+    {
+        "_id": "67968b19d054462574e33a6f",
+        "file_unique_id": "AgADQd8xGwt0YUQ",
+        "pokemon_name": "Manectric"
+    },
+    {
+        "_id": "67968b51d054462574e33a70",
+        "file_unique_id": "AgADyq4xG4uDWUQ",
+        "pokemon_name": "Granbull"
+    },
+    {
+        "_id": "67968be1d054462574e33a71",
+        "file_unique_id": "AgAD-a0xG3-5YEQ",
+        "pokemon_name": "Paras"
+    },
+    {
+        "_id": "67968be4d054462574e33a72",
+        "file_unique_id": "AgAD8a4xG3vGYEQ",
+        "pokemon_name": "Noctowl"
+    },
+    {
+        "_id": "67968bead054462574e33a73",
+        "file_unique_id": "AgADHa4xG0E8YUQ",
+        "pokemon_name": "Marshadow"
+    },
+    {
+        "_id": "67968c2fd054462574e33a74",
+        "file_unique_id": "AgADS98xGwt0YUQ",
+        "pokemon_name": "Incineroar"
+    },
+    {
+        "_id": "67968c7bd054462574e33a75",
+        "file_unique_id": "AgADSq0xG4wEYUQ",
+        "pokemon_name": "Weavile"
+    },
+    {
+        "_id": "67968cb7d054462574e33a76",
+        "file_unique_id": "AgADBq0xG8L_YEQ",
+        "pokemon_name": "Golisopod"
+    },
+    {
+        "_id": "67968d49d054462574e33a77",
+        "file_unique_id": "AgADJq4xG3-5YEQ",
+        "pokemon_name": "Doublade"
+    },
+    {
+        "_id": "67968d4cd054462574e33a78",
+        "file_unique_id": "AgADR60xG4wEYUQ",
+        "pokemon_name": "Lumineon"
+    },
+    {
+        "_id": "67968d50d054462574e33a79",
+        "file_unique_id": "AgADha8xG7c2YUQ",
+        "pokemon_name": "Azurill"
+    },
+    {
+        "_id": "67968d53d054462574e33a7a",
+        "file_unique_id": "AgADHa4xG3-5YEQ",
+        "pokemon_name": "Escavalier"
+    },
+    {
+        "_id": "67968dfdd054462574e33a7b",
+        "file_unique_id": "AgADL60xG7AUYEQ",
+        "pokemon_name": "Golett"
+    },
+    {
+        "_id": "67968e7bd054462574e33a7c",
+        "file_unique_id": "AgADHq4xG0E8YUQ",
+        "pokemon_name": "Electrike"
+    },
+    {
+        "_id": "67968e95d054462574e33a7d",
+        "file_unique_id": "AgADZq0xG1lAYUQ",
+        "pokemon_name": "Butterfree"
+    },
+    {
+        "_id": "67968f15d054462574e33a7e",
+        "file_unique_id": "AgADma8xG9oKYUQ",
+        "pokemon_name": "Bouffalant"
+    },
+    {
+        "_id": "67968f29d054462574e33a7f",
+        "file_unique_id": "AgADWa0xG7ILYEQ",
+        "pokemon_name": "Quilava"
+    },
+    {
+        "_id": "67968f6ed054462574e33a80",
+        "file_unique_id": "AgADdK0xG1lAYUQ",
+        "pokemon_name": "Sobble"
+    },
+    {
+        "_id": "67968fb4d054462574e33a81",
+        "file_unique_id": "AgADTK0xG9RVYUQ",
+        "pokemon_name": "Charmander"
+    },
+    {
+        "_id": "6796904ad054462574e33a82",
+        "file_unique_id": "AgADtq0xG4rNYEQ",
+        "pokemon_name": "Magby"
+    },
+    {
+        "_id": "6796904ed054462574e33a83",
+        "file_unique_id": "AgADUt8xGwt0YUQ",
+        "pokemon_name": "Rillaboom"
+    },
+    {
+        "_id": "6796907dd054462574e33a84",
+        "file_unique_id": "AgADva0xG5fYYEQ",
+        "pokemon_name": "Squirtle"
+    },
+    {
+        "_id": "67969080d054462574e33a85",
+        "file_unique_id": "AgAD364xG3vGYEQ",
+        "pokemon_name": "Houndoom"
+    },
+    {
+        "_id": "6796908dd054462574e33a86",
+        "file_unique_id": "AgADIq4xG0E8YUQ",
+        "pokemon_name": "Barboach"
+    },
+    {
+        "_id": "679690cdd054462574e33a87",
+        "file_unique_id": "AgADSd8xGwt0YUQ",
+        "pokemon_name": "Chikorita"
+    },
+    {
+        "_id": "67969158d054462574e33a88",
+        "file_unique_id": "AgADpq0xG2c-YUQ",
+        "pokemon_name": "Morpeko"
+    },
+    {
+        "_id": "679691abd054462574e33a89",
+        "file_unique_id": "AgADjq8xG9oKYUQ",
+        "pokemon_name": "Cobalion"
+    },
+    {
+        "_id": "679691f1d054462574e33a8a",
+        "file_unique_id": "AgADLq4xG3mEYEQ",
+        "pokemon_name": "Krookodile"
+    },
+    {
+        "_id": "67969236d054462574e33a8b",
+        "file_unique_id": "AgADJq4xG3mEYEQ",
+        "pokemon_name": "Copperajah"
+    },
+    {
+        "_id": "67969282d054462574e33a8c",
+        "file_unique_id": "AgADjK0xG3pjYUQ",
+        "pokemon_name": "Entei"
+    },
+    {
+        "_id": "679692c8d054462574e33a8d",
+        "file_unique_id": "AgADda0xG2c-YUQ",
+        "pokemon_name": "Banette"
+    },
+    {
+        "_id": "679692cfd054462574e33a8e",
+        "file_unique_id": "AgADw64xGxBYYUQ",
+        "pokemon_name": "Chimchar"
+    },
+    {
+        "_id": "6796930ed054462574e33a8f",
+        "file_unique_id": "AgADC64xG3-5YEQ",
+        "pokemon_name": "Ditto"
+    },
+    {
+        "_id": "6796931bd054462574e33a90",
+        "file_unique_id": "AgADMq0xG4wEYUQ",
+        "pokemon_name": "Dustox"
+    },
+    {
+        "_id": "679693acd054462574e33a91",
+        "file_unique_id": "AgADY60xG4wEYUQ",
+        "pokemon_name": "Leavanny"
+    },
+    {
+        "_id": "679693b3d054462574e33a92",
+        "file_unique_id": "AgADTt8xGwt0YUQ",
+        "pokemon_name": "Seadra"
+    },
+    {
+        "_id": "679693ecd054462574e33a93",
+        "file_unique_id": "AgADKK4xG0E8YUQ",
+        "pokemon_name": "Shelmet"
+    },
+    {
+        "_id": "679693efd054462574e33a94",
+        "file_unique_id": "AgAD0K4xG3BSYUQ",
+        "pokemon_name": "Rookidee"
+    },
+    {
+        "_id": "679693f8d054462574e33a95",
+        "file_unique_id": "AgAD1q4xG3vGYEQ",
+        "pokemon_name": "Beartic"
+    },
+    {
+        "_id": "67969435d054462574e33a96",
+        "file_unique_id": "AgADR64xG1VuYUQ",
+        "pokemon_name": "Victini"
+    },
+    {
+        "_id": "6796947ed054462574e33a97",
+        "file_unique_id": "AgADM64xG3mEYEQ",
+        "pokemon_name": "Greedent"
+    },
+    {
+        "_id": "67969494d054462574e33a98",
+        "file_unique_id": "AgADOq0xG7AUYEQ",
+        "pokemon_name": "Glastrier"
+    },
+    {
+        "_id": "6796950cd054462574e33a99",
+        "file_unique_id": "AgADaK0xG9RVYUQ",
+        "pokemon_name": "Stonjourner"
+    },
+    {
+        "_id": "679695aed054462574e33a9a",
+        "file_unique_id": "AgADoq0xG2c-YUQ",
+        "pokemon_name": "Buizel"
+    },
+    {
+        "_id": "679695f1d054462574e33a9b",
+        "file_unique_id": "AgADWa0xG1lAYUQ",
+        "pokemon_name": "Bidoof"
+    },
+    {
+        "_id": "679696d2d054462574e33a9c",
+        "file_unique_id": "AgADFK4xG3mEYEQ",
+        "pokemon_name": "Leafeon"
+    },
+    {
+        "_id": "67969718d054462574e33a9d",
+        "file_unique_id": "AgADd68xG9oKYUQ",
+        "pokemon_name": "Bastiodon"
+    },
+    {
+        "_id": "67969767d054462574e33a9e",
+        "file_unique_id": "AgADh68xG7c2YUQ",
+        "pokemon_name": "Sylveon"
+    },
+    {
+        "_id": "679697a4d054462574e33a9f",
+        "file_unique_id": "AgADFK4xG0E8YUQ",
+        "pokemon_name": "Genesect"
+    },
+    {
+        "_id": "679697b4d054462574e33aa0",
+        "file_unique_id": "AgADIq4xG3mEYEQ",
+        "pokemon_name": "Flapple"
+    },
+    {
+        "_id": "67969836d054462574e33aa1",
+        "file_unique_id": "AgAD764xG3vGYEQ",
+        "pokemon_name": "Stunky"
+    },
+    {
+        "_id": "679698c5d054462574e33aa2",
+        "file_unique_id": "AgADPa0xG4wEYUQ",
+        "pokemon_name": "Alomomola"
+    },
+    {
+        "_id": "6796995ad054462574e33aa3",
+        "file_unique_id": "AgADva4xG4uDWUQ",
+        "pokemon_name": "Poipole"
+    },
+    {
+        "_id": "679699a6d054462574e33aa4",
+        "file_unique_id": "AgADNN8xGwt0YUQ",
+        "pokemon_name": "Lurantis"
+    },
+    {
+        "_id": "679699f2d054462574e33aa5",
+        "file_unique_id": "AgADcK8xG7c2YUQ",
+        "pokemon_name": "Beldum"
+    },
+    {
+        "_id": "67969a84d054462574e33aa6",
+        "file_unique_id": "AgADx64xG3BSYUQ",
+        "pokemon_name": "Mothim"
+    },
+    {
+        "_id": "67969acdd054462574e33aa7",
+        "file_unique_id": "AgADPq0xG4wEYUQ",
+        "pokemon_name": "Uxie"
+    },
+    {
+        "_id": "67969b16d054462574e33aa8",
+        "file_unique_id": "AgADua0xG4rNYEQ",
+        "pokemon_name": "Buzzwole"
+    },
+    {
+        "_id": "67969bebd054462574e33aa9",
+        "file_unique_id": "AgADVK0xG9RVYUQ",
+        "pokemon_name": "Shellos"
+    },
+    {
+        "_id": "67969c30d054462574e33aaa",
+        "file_unique_id": "AgADIa4xG0E8YUQ",
+        "pokemon_name": "Chinchou"
+    },
+    {
+        "_id": "67969c89d054462574e33aab",
+        "file_unique_id": "AgAD0a4xG3vGYEQ",
+        "pokemon_name": "Nidoking"
+    },
+    {
+        "_id": "67969d0ed054462574e33aac",
+        "file_unique_id": "AgADHa4xG3mEYEQ",
+        "pokemon_name": "Drapion"
+    },
+    {
+        "_id": "67969df9d054462574e33aad",
+        "file_unique_id": "AgADOK4xG3mEYEQ",
+        "pokemon_name": "Slakoth"
+    },
+    {
+        "_id": "67969e45d054462574e33aae",
+        "file_unique_id": "AgADoK0xG2c-YUQ",
+        "pokemon_name": "Venipede"
+    },
+    {
+        "_id": "67969f0dd054462574e33aaf",
+        "file_unique_id": "AgADJq0xG7AUYEQ",
+        "pokemon_name": "Lycanroc"
+    },
+    {
+        "_id": "67969f1dd054462574e33ab0",
+        "file_unique_id": "AgADKq4xG3mEYEQ",
+        "pokemon_name": "Musharna"
+    },
+    {
+        "_id": "67969f21d054462574e33ab1",
+        "file_unique_id": "AgADVd8xGwt0YUQ",
+        "pokemon_name": "Lotad"
+    },
+    {
+        "_id": "67969f6fd054462574e33ab2",
+        "file_unique_id": "AgADba0xG7ILYEQ",
+        "pokemon_name": "Shinx"
+    },
+    {
+        "_id": "6796a002d054462574e33ab3",
+        "file_unique_id": "AgADZa0xG2c-YUQ",
+        "pokemon_name": "Flareon"
+    },
+    {
+        "_id": "6796a04fd054462574e33ab4",
+        "file_unique_id": "AgADvK0xG5fYYEQ",
+        "pokemon_name": "Nickit"
+    },
+    {
+        "_id": "6796a052d054462574e33ab5",
+        "file_unique_id": "AgAD164xG3vGYEQ",
+        "pokemon_name": "Mudsdale"
+    },
+    {
+        "_id": "6796a0e4d054462574e33ab6",
+        "file_unique_id": "AgADza4xG3vGYEQ",
+        "pokemon_name": "Mew"
+    },
+    {
+        "_id": "6796a141d054462574e33ab7",
+        "file_unique_id": "AgADoK0xG9XpYEQ",
+        "pokemon_name": "Latias"
+    },
+    {
+        "_id": "6796a205d054462574e33ab8",
+        "file_unique_id": "AgADuK4xGxBYYUQ",
+        "pokemon_name": "Grubbin"
+    },
+    {
+        "_id": "6796a2cdd054462574e33ab9",
+        "file_unique_id": "AgADDa4xG3-5YEQ",
+        "pokemon_name": "Lillipup"
+    },
+    {
+        "_id": "6796a376d054462574e33aba",
+        "file_unique_id": "AgADT60xG4wEYUQ",
+        "pokemon_name": "Magnemite"
+    },
+    {
+        "_id": "6796a5f5d054462574e33abb",
+        "file_unique_id": "AgAD1a4xG4uDWUQ",
+        "pokemon_name": "Darkrai"
+    },
+    {
+        "_id": "6796a5f8d054462574e33abc",
+        "file_unique_id": "AgADtK4xGxBYYUQ",
+        "pokemon_name": "Kangaskhan"
+    },
+    {
+        "_id": "6796a602d054462574e33abd",
+        "file_unique_id": "AgADyK0xG5fYYEQ",
+        "pokemon_name": "Exeggcute"
+    },
+    {
+        "_id": "6796a721d054462574e33abe",
+        "file_unique_id": "AgAD0q4xG3vGYEQ",
+        "pokemon_name": "Nidorino"
+    },
+    {
+        "_id": "6796a823d054462574e33abf",
+        "file_unique_id": "AgADK64xG0E8YUQ",
+        "pokemon_name": "Dugtrio"
+    },
+    {
+        "_id": "6796a826d054462574e33ac0",
+        "file_unique_id": "AgADoa0xG2c-YUQ",
+        "pokemon_name": "Tympole"
+    },
+    {
+        "_id": "6796a839d054462574e33ac1",
+        "file_unique_id": "AgADz64xGxBYYUQ",
+        "pokemon_name": "Rattata"
+    },
+    {
+        "_id": "6796a8c7d054462574e33ac2",
+        "file_unique_id": "AgADZK0xG1lAYUQ",
+        "pokemon_name": "Sliggoo"
+    },
+    {
+        "_id": "6796a8cbd054462574e33ac3",
+        "file_unique_id": "AgADbq0xG7ILYEQ",
+        "pokemon_name": "Keldeo"
+    },
+    {
+        "_id": "6796a927d054462574e33ac4",
+        "file_unique_id": "AgAD9K4xG3vGYEQ",
+        "pokemon_name": "Kingdra"
+    },
+    {
+        "_id": "6796a96dd054462574e33ac5",
+        "file_unique_id": "AgADMq4xG4uDYUQ",
+        "pokemon_name": "Joltik"
+    },
+    {
+        "_id": "6796a9acd054462574e33ac6",
+        "file_unique_id": "AgADGa0xG8L_YEQ",
+        "pokemon_name": "Cosmog"
+    },
+    {
+        "_id": "6796ab1cd054462574e33ac7",
+        "file_unique_id": "AgADdq8xG7c2YUQ",
+        "pokemon_name": "Basculin"
+    },
+    {
+        "_id": "6796abaed054462574e33ac8",
+        "file_unique_id": "AgAD360xG6nWYEQ",
+        "pokemon_name": "Registeel"
+    },
+    {
+        "_id": "6796abead054462574e33ac9",
+        "file_unique_id": "AgADNq4xG0E8YUQ",
+        "pokemon_name": "Rockruff"
+    },
+    {
+        "_id": "6796ac3ad054462574e33aca",
+        "file_unique_id": "AgADZa0xG4wEYUQ",
+        "pokemon_name": "Popplio"
+    },
+    {
+        "_id": "6796acdfd054462574e33acb",
+        "file_unique_id": "AgAD_awxG8L_YEQ",
+        "pokemon_name": "Linoone"
+    },
+    {
+        "_id": "6796ad25d054462574e33acc",
+        "file_unique_id": "AgADEa4xG0E8YUQ",
+        "pokemon_name": "Salandit"
+    },
+    {
+        "_id": "6796ad28d054462574e33acd",
+        "file_unique_id": "AgAD2q4xGxBYYUQ",
+        "pokemon_name": "Bellsprout"
+    },
+    {
+        "_id": "6796ad66d054462574e33ace",
+        "file_unique_id": "AgADMd8xGwt0YUQ",
+        "pokemon_name": "Jynx"
+    },
+    {
+        "_id": "6796ad73d054462574e33acf",
+        "file_unique_id": "AgADxK0xG5fYYEQ",
+        "pokemon_name": "Blastoise"
+    },
+    {
+        "_id": "6796aea3d054462574e33ad0",
+        "file_unique_id": "AgADnLExG1y6YEQ",
+        "pokemon_name": "Slowbro"
+    },
+    {
+        "_id": "6796af0bd054462574e33ad1",
+        "file_unique_id": "AgADxq0xG5fYYEQ",
+        "pokemon_name": "Armaldo"
+    },
+    {
+        "_id": "6796b350d054462574e33ad2",
+        "file_unique_id": "AgADma0xG2c-YUQ",
+        "pokemon_name": "Voltorb"
+    },
+    {
+        "_id": "6796b439d054462574e33ad3",
+        "file_unique_id": "AgADTq4xG3mEYEQ",
+        "pokemon_name": "Golurk"
+    },
+    {
+        "_id": "6796b56cd054462574e33ad4",
+        "file_unique_id": "AgADmK8xG9oKYUQ",
+        "pokemon_name": "Zebstrika"
+    },
+    {
+        "_id": "6796b5afd054462574e33ad5",
+        "file_unique_id": "AgADiq8xG9oKYUQ",
+        "pokemon_name": "Girafarig"
+    },
+    {
+        "_id": "6796b7d3d054462574e33ad6",
+        "file_unique_id": "AgADeK8xG7c2YUQ",
+        "pokemon_name": "Pineco"
+    },
+    {
+        "_id": "6796b922d054462574e33ad7",
+        "file_unique_id": "AgADEa0xG8L_YEQ",
+        "pokemon_name": "Enamorus"
+    },
+    {
+        "_id": "6796bcb7d054462574e33ad8",
+        "file_unique_id": "AgADl60xG2c-YUQ",
+        "pokemon_name": "Ludicolo"
+    },
+    {
+        "_id": "6796bd7bd054462574e33ad9",
+        "file_unique_id": "AgADkK8xG9oKYUQ",
+        "pokemon_name": "Mienfoo"
+    },
+    {
+        "_id": "6796bda7d054462574e33ada",
+        "file_unique_id": "AgADsq0xG4rNYEQ",
+        "pokemon_name": "Rufflet"
+    },
+    {
+        "_id": "6796be7fd054462574e33adb",
+        "file_unique_id": "AgADaa0xG2c-YUQ",
+        "pokemon_name": "Turtonator"
+    },
+    {
+        "_id": "6796bed7d054462574e33adc",
+        "file_unique_id": "AgADca8xG7c2YUQ",
+        "pokemon_name": "Appletun"
+    },
+    {
+        "_id": "6796bf22d054462574e33add",
+        "file_unique_id": "AgADQ60xG9RVYUQ",
+        "pokemon_name": "Gossifleur"
+    },
+    {
+        "_id": "6796bff6d054462574e33ade",
+        "file_unique_id": "AgADUa0xG4wEYUQ",
+        "pokemon_name": "Kadabra"
+    },
+    {
+        "_id": "6796c26fd054462574e33adf",
+        "file_unique_id": "AgADoq0xG4rNYEQ",
+        "pokemon_name": "Aurorus"
+    },
+    {
+        "_id": "6796c2c7d054462574e33ae0",
+        "file_unique_id": "AgAD864xG3vGYEQ",
+        "pokemon_name": "Obstagoon"
+    },
+    {
+        "_id": "6796c2ddd054462574e33ae1",
+        "file_unique_id": "AgADta4xGxBYYUQ",
+        "pokemon_name": "Overqwil"
+    },
+    {
+        "_id": "6796c37ad054462574e33ae2",
+        "file_unique_id": "AgADZK0xG4wEYUQ",
+        "pokemon_name": "Spiritomb"
+    },
+    {
+        "_id": "6796c49ed054462574e33ae3",
+        "file_unique_id": "AgADu64xG9WBYEQ",
+        "pokemon_name": "Omanyte"
+    },
+    {
+        "_id": "6796c669d054462574e33ae4",
+        "file_unique_id": "AgADwK4xGxBYYUQ",
+        "pokemon_name": "Beheeyem"
+    },
+    {
+        "_id": "6796c7b0d054462574e33ae5",
+        "file_unique_id": "AgADCq0xG8L_YEQ",
+        "pokemon_name": "Ariados"
+    },
+    {
+        "_id": "6796c7b9d054462574e33ae6",
+        "file_unique_id": "AgADt64xG3BSYUQ",
+        "pokemon_name": "Gible"
+    },
+    {
+        "_id": "6796c8f2d054462574e33ae7",
+        "file_unique_id": "AgADEK4xG3mEYEQ",
+        "pokemon_name": "Torchic"
+    },
+    {
+        "_id": "6796cd58d054462574e33ae8",
+        "file_unique_id": "AgADQK0xG4wEYUQ",
+        "pokemon_name": "Hatenna"
+    },
+    {
+        "_id": "6796cf22d054462574e33ae9",
+        "file_unique_id": "AgADMK4xG4uDYUQ",
+        "pokemon_name": "Wishiwashi"
+    },
+    {
+        "_id": "6796d257d054462574e33aea",
+        "file_unique_id": "AgADla0xG2c-YUQ",
+        "pokemon_name": "Sceptile"
+    },
+    {
+        "_id": "6796d393d054462574e33aeb",
+        "file_unique_id": "AgADbq0xG2c-YUQ",
+        "pokemon_name": "Farfetch'd"
+    },
+    {
+        "_id": "6796d8d2d054462574e33aec",
+        "file_unique_id": "AgADbq8xG7c2YUQ",
+        "pokemon_name": "Simipour"
+    },
+    {
+        "_id": "6796dbebd054462574e33aed",
+        "file_unique_id": "AgADWK0xG4wEYUQ",
+        "pokemon_name": "Honchkrow"
+    }
+]
