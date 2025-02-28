@@ -35,6 +35,22 @@ server = Flask(__name__)
 def home():
     return "Bot is running"
 
+import json
+
+POKEMON_DATA = {}
+POKEMON_FILE = "pokemon.json"
+
+def load_pokemon_data():
+    global POKEMON_DATA
+    try:
+        with open(POKEMON_FILE, "r", encoding="utf-8") as f:
+            POKEMON_DATA = {entry["file_unique_id"]: entry["pokemon_name"] for entry in json.load(f)}
+        print(f"Loaded {len(POKEMON_DATA)} Pokémon entries from {POKEMON_FILE}")
+    except Exception as e:
+        print(f"Error loading Pokémon data: {e}")
+
+load_pokemon_data()
+
 auto_reply_enabled = True
 auto_response_groups = {}
 
@@ -43,48 +59,15 @@ async def handle_hexa_bot(client, message):
     try:
         if auto_reply_enabled and message.chat.id in auto_response_groups:
             file_unique_id = message.photo.file_unique_id
-            existing_doc = hexa_db_collection.find_one({"file_unique_id": file_unique_id})
 
-            if existing_doc:
-                pokemon_name = existing_doc.get("pokemon_name")
-
-                if pokemon_name:
-                    await message.reply(f"{pokemon_name}")
-                else:
-                    print(f"No Pokémon name found for file_unique_id: {file_unique_id}")
+            if file_unique_id in POKEMON_DATA:
+                pokemon_name = POKEMON_DATA[file_unique_id]
+                await message.reply(f"{pokemon_name}")
             else:
-                print(f"File unique ID not found in DB: {file_unique_id}")
+                print(f"File unique ID not found in JSON: {file_unique_id}")
     
     except Exception as e:
         print(f"Error handling hexa_bot: {e}")
-
-async def capture_pokemon_data(client, message):
-    try:
-        if auto_reply_enabled and message.chat.id in auto_response_groups:
-            if message.reply_to_message and message.reply_to_message.photo:
-                replied_message = message.reply_to_message
-                file_unique_id = replied_message.photo.file_unique_id
-
-                if "The pokemon was" in message.text:
-                    pokemon_name_match = re.search(r"The pokemon was (.*)", message.text)
-                    if pokemon_name_match:
-                        pokemon_name = pokemon_name_match.group(1).strip()
-                        pokemon_name = re.sub(r"(\*{2})(.*?)(\*{2})", r"\2", pokemon_name)
-                        pokemon_name = re.sub(r"(\*{1})(.*?)(\*{1})", r"\2", pokemon_name)
-
-                        existing_doc = hexa_db_collection.find_one({"file_unique_id": file_unique_id})
-                        if existing_doc:
-                            await message.reply(f"The file unique ID `{file_unique_id}` already exists in DB!")
-                        else:
-                            hexa_db_collection.update_one(
-                                {"file_unique_id": file_unique_id},
-                                {"$set": {"file_unique_id": file_unique_id, "pokemon_name": pokemon_name}},
-                                upsert=True
-                            )
-                            await message.reply(f"Stored `{file_unique_id}` with Pokémon name `{pokemon_name}` in DB!")
-    except Exception as e:
-        await message.reply("An error occurred while processing the request.")
-        print(f"Error in capture_pokemon_data: {e}")
 
 @app.on_message(filters.command("add", HANDLER) & filters.me)
 async def add_auto_response_group(client, message):
