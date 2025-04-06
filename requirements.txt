@@ -8,3 +8,4 @@ pymongo
 imagehash
 flask
 aiohttp
+beautifulsoup4
