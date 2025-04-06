@@ -9,9 +9,12 @@ from urllib.parse import quote
 app = Client("terabox_bot", api_id="25321403", api_hash="0024ae3c978ba534b1a9bffa29e9cc9b", bot_token="7997809826:AAGUMLWI54X7wmdXq6cKqfhNKPsimHAiMfk")
 
 async def get_download_link(terabox_link):
-    """Extract the download link from teraboxfast.com player page."""
+    """Extract the download link from teraboxfast.com player page with detailed debugging."""
+    # Use the specific link provided
+    terabox_link = "https://www.terabox.com/s/1zQHncRVFFzooLP6qnCNKIw"
     encoded_link = quote(terabox_link, safe='')
     player_url = f"https://www.teraboxfast.com/p/video-player.html?q={encoded_link}"
+    print(f"Encoded URL: {player_url}")  # Debug the exact URL
     
     try:
         headers = {
@@ -20,23 +23,33 @@ async def get_download_link(terabox_link):
         }
         response = requests.get(player_url, headers=headers, timeout=10)
         response.raise_for_status()
+        print(f"Response status: {response.status_code}")  # Debug status
+        print(f"Raw HTML length: {len(response.text)}")  # Debug HTML size
+        print(f"First 1000 chars of HTML: {response.text[:1000]}")  # Debug content
         
         soup = BeautifulSoup(response.text, 'html.parser')
         
-        # Look for the download link near file size (MB or GB) or video file name
+        # Enhanced search for download link
         download_link = None
-        size_elements = soup.find_all(text=lambda text: isinstance(text, str) and ("MB" in text or "GB" in text))
-        for element in size_elements:
-            parent = element.find_parent('a')
-            if parent and 'href' in parent.attrs:
-                download_link = parent['href']
-                break
+        size_elements = soup.find_all(string=lambda text: text and ("MB" in text or "GB" in text))
+        if size_elements:
+            print(f"Found size elements: {len(size_elements)}")
+            for element in size_elements:
+                parent = element.find_parent(['a', 'div', 'button'])  # Broader parent search
+                if parent and 'href' in parent.attrs:
+                    download_link = parent['href']
+                    print(f"Found link near size: {download_link}")
+                    break
+                elif parent and 'onclick' in parent.attrs:
+                    print(f"Found onclick: {parent['onclick']}")
         
         if not download_link:
-            # Fallback: Check for any downloadable link (e.g., video file)
-            video_links = soup.find_all('a', href=lambda href: href and any(ext in href for ext in ['.mp4', '.mkv', '.zip']))
-            if video_links:
-                download_link = video_links[0]['href']
+            # Fallback: Search for video file links
+            video_extensions = ('.mp4', '.mkv', '.avi', '.zip')
+            links = soup.find_all('a', href=lambda href: href and any(ext in href for ext in video_extensions))
+            if links:
+                download_link = links[0]['href']
+                print(f"Found fallback link: {download_link}")
         
         if download_link and not download_link.startswith('http'):
             download_link = f"https://www.teraboxfast.com{download_link}"
@@ -93,13 +106,14 @@ async def download_file(client, message):
         return
     
     terabox_link = message.command[1]
+    # Force using the provided link for testing
+    terabox_link = "https://www.terabox.com/s/1zQHncRVFFzooLP6qnCNKIw"
     await message.reply("Processing the TeraBox link via teraboxfast.com... Please wait.")
     
     download_link = await get_download_link(terabox_link)
     
     if download_link:
         await message.reply(f"Download link found: {download_link}\nDownloading the file...")
-        # Use a generic temp file name based on extension or .tmp
         temp_file = f"temp_file_{message.chat.id}.{download_link.split('.')[-1] if '.' in download_link.split('/')[-1] else 'tmp'}"
         
         downloaded_file = await download_file_from_url(download_link, temp_file)
@@ -131,6 +145,6 @@ async def download_file(client, message):
         else:
             await message.reply("Failed to download the file.")
     else:
-        await message.reply("Couldn’t extract a valid download link. Please check the TeraBox link or try again later.")
+        await message.reply("Couldn’t extract a valid download link. Please try again later. (Debug: Check console for details)")
 
 app.run()
