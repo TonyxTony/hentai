@@ -3,6 +3,8 @@ import aiohttp
 import asyncio
 import os
 
+app = Client("terabox_bot", api_id="25321403", api_hash="0024ae3c978ba534b1a9bffa29e9cc9b", bot_token="7997809826:AAGUMLWI54X7wmdXq6cKqfhNKPsimHAiMfk")
+
 async def get_download_url(terabox_link):
     # Construct the processing URL
     processing_url = f"https://teraboxdownloader.in/video-downloader?link={terabox_link}"
