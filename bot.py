@@ -1,140 +1,58 @@
 from pyrogram import Client, filters
-import aiohttp
+import requests
+from bs4 import BeautifulSoup
 import asyncio
 import os
+import aiohttp
 from urllib.parse import quote
 
 app = Client("terabox_bot", api_id="25321403", api_hash="0024ae3c978ba534b1a9bffa29e9cc9b", bot_token="7997809826:AAGUMLWI54X7wmdXq6cKqfhNKPsimHAiMfk")
 
-async def get_config(session):
-    """Fetch the mode from the get_config endpoint."""
-    url = "https://teradl-api.dapuntaratya.com/get_config"
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-    }
+async def get_download_link(terabox_link):
+    """Extract the download link from teraboxfast.com player page."""
+    encoded_link = quote(terabox_link, safe='')
+    player_url = f"https://www.teraboxfast.com/p/video-player.html?q={encoded_link}"
+    
     try:
-        async with session.get(url, headers=headers) as response:
-            if response.status == 200:
-                config_data = await response.json()
-                print(f"Config response: {config_data}")
-                return config_data.get("mode")
-            else:
-                print(f"Config request failed: Status {response.status}, Text: {await response.text()}")
-                return 1  # Default to Mode 1 if config fails
-    except Exception as e:
-        print(f"Config error: {e}")
-        return 1
-
-async def generate_file(session, terabox_link, mode):
-    """Generate file data including fs_id or direct link."""
-    url = "https://teradl-api.dapuntaratya.com/generate_file"
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-    }
-    payload = {
-        "url": terabox_link,
-        "mode": mode
-    }
-    try:
-        async with session.post(url, headers=headers, json=payload) as response:
-            if response.status == 200:
-                file_data = await response.json()
-                print(f"Generate file response: {file_data}")
-                return file_data
-            else:
-                print(f"Generate file request failed: Status {response.status}, Text: {await response.text()}")
-                return None
-    except Exception as e:
-        print(f"Generate file error: {e}")
-        return None
-
-async def generate_link(session, terabox_link, mode, file_data):
-    """Generate the final download link."""
-    url = "https://teradl-api.dapuntaratya.com/generate_link"
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-        "Accept": "application/json",
-        "Content-Type": "application/json",
-    }
-    if mode == 1:
-        # Mode 1: Use fs_id from generate_file
-        fs_id = file_data["list"][0]["fs_id"] if file_data and file_data.get("list") else None
-        if not fs_id:
-            print("No fs_id found in Mode 1 response")
-            return None
-        payload = {
-            "mode": mode,
-            "js_token": file_data["js_token"],
-            "cookie": file_data["cookie"],
-            "sign": file_data["sign"],
-            "timestamp": file_data["timestamp"],
-            "shareid": file_data["shareid"],
-            "uk": file_data["uk"],
-            "fs_id": fs_id
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
         }
-    else:  # Mode 2
-        # Mode 2: Use link from generate_file
-        link = file_data["list"][0]["link"] if file_data and file_data.get("list") else None
-        if not link:
-            print("No link found in Mode 2 response")
-            return None
-        payload = {
-            "mode": mode,
-            "url": link
-        }
-    try:
-        async with session.post(url, headers=headers, json=payload) as response:
-            if response.status == 200:
-                link_data = await response.json()
-                print(f"Generate link response: {link_data}")
-                download_url = link_data.get("download_link", {}).get("url_1")  # Prefer url_1 as base download
-                if download_url:
-                    return download_url
-                else:
-                    return None
-            else:
-                print(f"Generate link request failed: Status {response.status}, Text: {await response.text()}")
-                return None
-    except Exception as e:
-        print(f"Generate link error: {e}")
-        return None
-
-async def get_download_url(terabox_link):
-    """Get the download URL using the API workflow."""
-    async with aiohttp.ClientSession() as session:
-        # Step 1: Get mode
-        mode = await get_config(session)
-        print(f"Using mode: {mode}")
-
-        # Step 2: Generate file data
-        file_data = await generate_file(session, terabox_link, mode)
-        if not file_data or file_data.get("status") != "success":
-            print("Generate file failed or invalid response")
-            return None
-
-        # Step 3: Generate download link
-        download_url = await generate_link(session, terabox_link, mode, file_data)
-        return download_url
-
-@app.on_message(filters.command("download"))
-async def download_file(client, message):
-    if len(message.command) < 2:
-        await message.reply("Please provide a TeraBox link! Usage: /download <terabox_link>")
-        return
-    
-    terabox_link = message.command[1]
-    await message.reply("Processing the TeraBox link via API... Please wait.")
-    
-    download_url = await get_download_url(terabox_link)
-    
-    if download_url:
-        await message.reply(f"Download link found: {download_url}\nDownloading and sending the file...")
-        temp_file = f"temp_video_{message.chat.id}.mkv"
+        response = requests.get(player_url, headers=headers, timeout=10)
+        response.raise_for_status()
         
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Look for the download link near file size (MB or GB) or video file name
+        download_link = None
+        size_elements = soup.find_all(text=lambda text: isinstance(text, str) and ("MB" in text or "GB" in text))
+        for element in size_elements:
+            parent = element.find_parent('a')
+            if parent and 'href' in parent.attrs:
+                download_link = parent['href']
+                break
+        
+        if not download_link:
+            # Fallback: Check for any downloadable link (e.g., video file)
+            video_links = soup.find_all('a', href=lambda href: href and any(ext in href for ext in ['.mp4', '.mkv', '.zip']))
+            if video_links:
+                download_link = video_links[0]['href']
+        
+        if download_link and not download_link.startswith('http'):
+            download_link = f"https://www.teraboxfast.com{download_link}"
+        
+        return download_link if download_link else None
+    
+    except requests.RequestException as e:
+        print(f"Error fetching player page: {e}")
+        return None
+    except Exception as e:
+        print(f"Error parsing page: {e}")
+        return None
+
+async def download_file_from_url(download_url, temp_file):
+    """Download the file (video or zip) from the URL."""
+    try:
         async with aiohttp.ClientSession() as session:
             async with session.get(download_url) as resp:
                 if resp.status == 200:
@@ -144,20 +62,74 @@ async def download_file(client, message):
                             if not chunk:
                                 break
                             f.write(chunk)
-                    
-                    file_size = os.path.getsize(temp_file)
-                    if file_size > 50 * 1024 * 1024:
-                        await message.reply("File size exceeds 50 MB. Please use a premium bot or download manually.")
-                        os.remove(temp_file)
-                    else:
-                        await client.send_video(
-                            chat_id=message.chat.id,
-                            video=temp_file,
-                            caption="Here’s your video!"
-                        )
-                        os.remove(temp_file)
+                    return temp_file
                 else:
-                    await message.reply(f"Failed to download the file. Status: {resp.status}")
+                    raise Exception(f"Failed to download: Status {resp.status}")
+    except Exception as e:
+        print(f"Download error: {e}")
+        return None
+
+async def extract_if_zip(file_path):
+    """Extract video from .zip if applicable, otherwise return the file."""
+    if file_path.lower().endswith('.zip'):
+        extracted_dir = file_path.replace('.zip', '_extracted')
+        os.makedirs(extracted_dir, exist_ok=True)
+        try:
+            with zipfile.ZipFile(file_path, 'r') as zip_ref:
+                zip_ref.extractall(extracted_dir)
+            for file in os.listdir(extracted_dir):
+                if file.lower().endswith(('.mp4', '.mkv', '.avi')):
+                    return os.path.join(extracted_dir, file)
+            raise Exception("No video file found in .zip")
+        except Exception as e:
+            print(f"Extraction error: {e}")
+            return None
+    return file_path
+
+@app.on_message(filters.command("download"))
+async def download_file(client, message):
+    if len(message.command) < 2:
+        await message.reply("Please provide a TeraBox link! Usage: /download <terabox_link>")
+        return
+    
+    terabox_link = message.command[1]
+    await message.reply("Processing the TeraBox link via teraboxfast.com... Please wait.")
+    
+    download_link = await get_download_link(terabox_link)
+    
+    if download_link:
+        await message.reply(f"Download link found: {download_link}\nDownloading the file...")
+        # Use a generic temp file name based on extension or .tmp
+        temp_file = f"temp_file_{message.chat.id}.{download_link.split('.')[-1] if '.' in download_link.split('/')[-1] else 'tmp'}"
+        
+        downloaded_file = await download_file_from_url(download_link, temp_file)
+        if downloaded_file:
+            video_file = await extract_if_zip(downloaded_file)
+            if video_file and os.path.exists(video_file):
+                file_size = os.path.getsize(video_file)
+                if file_size > 50 * 1024 * 1024:
+                    await message.reply("File size exceeds 50 MB. Please download manually or use a premium bot.")
+                    os.remove(video_file)
+                    if os.path.exists(os.path.dirname(video_file)):
+                        for f in os.listdir(os.path.dirname(video_file)):
+                            os.remove(os.path.join(os.path.dirname(video_file), f))
+                        os.rmdir(os.path.dirname(video_file))
+                else:
+                    await client.send_video(
+                        chat_id=message.chat.id,
+                        video=video_file,
+                        caption=f"Here’s your video: {os.path.basename(video_file)}"
+                    )
+                    os.remove(video_file)
+                    if os.path.exists(os.path.dirname(video_file)):
+                        for f in os.listdir(os.path.dirname(video_file)):
+                            os.remove(os.path.join(os.path.dirname(video_file), f))
+                        os.rmdir(os.path.dirname(video_file))
+            else:
+                await message.reply("Failed to process the file as a video.")
+                os.remove(downloaded_file)
+        else:
+            await message.reply("Failed to download the file.")
     else:
         await message.reply("Couldn’t extract a valid download link. Please check the TeraBox link or try again later.")
 
