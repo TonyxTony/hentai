@@ -8,13 +8,10 @@ from urllib.parse import quote
 
 app = Client("terabox_bot", api_id="25321403", api_hash="0024ae3c978ba534b1a9bffa29e9cc9b", bot_token="7997809826:AAGUMLWI54X7wmdXq6cKqfhNKPsimHAiMfk")
 
-async def get_download_link(terabox_link):
-    """Extract the download link from teraboxfast.com player page with detailed debugging."""
-    # Use the specific link provided
-    terabox_link = "https://www.terabox.com/s/1zQHncRVFFzooLP6qnCNKIw"
-    encoded_link = quote(terabox_link, safe='')
-    player_url = f"https://www.teraboxfast.com/p/video-player.html?q={encoded_link}"
-    print(f"Encoded URL: {player_url}")  # Debug the exact URL
+async def get_download_link():
+    """Extract the download link from the hardcoded teraboxfast.com player page with debugging."""
+    player_url = "https://www.teraboxfast.com/p/video-player.html?q=https%3A%2F%2Fwww.terabox.com%2Fs%2F1zQHncRVFFzooLP6qnCNKIw"
+    print(f"Processing URL: {player_url}")  # Debug the URL
     
     try:
         headers = {
@@ -101,16 +98,9 @@ async def extract_if_zip(file_path):
 
 @app.on_message(filters.command("download"))
 async def download_file(client, message):
-    if len(message.command) < 2:
-        await message.reply("Please provide a TeraBox link! Usage: /download <terabox_link>")
-        return
+    await message.reply("Processing the video from teraboxfast.com... Please wait.")
     
-    terabox_link = message.command[1]
-    # Force using the provided link for testing
-    terabox_link = "https://www.terabox.com/s/1zQHncRVFFzooLP6qnCNKIw"
-    await message.reply("Processing the TeraBox link via teraboxfast.com... Please wait.")
-    
-    download_link = await get_download_link(terabox_link)
+    download_link = await get_download_link()
     
     if download_link:
         await message.reply(f"Download link found: {download_link}\nDownloading the file...")
@@ -145,6 +135,6 @@ async def download_file(client, message):
         else:
             await message.reply("Failed to download the file.")
     else:
-        await message.reply("Couldn’t extract a valid download link. Please try again later. (Debug: Check console for details)")
+        await message.reply("Couldn’t extract a valid download link. (Debug: Check console for details)")
 
 app.run()
