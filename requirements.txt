@@ -1,11 +1,3 @@
-pyrogram
-motor
 tgcrypto
-Pillow
-requests
-python-dotenv
-pymongo
-imagehash
 flask
-aiohttp
-beautifulsoup4
+telethon
