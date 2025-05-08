@@ -63,50 +63,47 @@ async def handle_video(client: Client, message: Message):
 
 @app.on_message(filters.private & filters.command("createlink"))
 async def create_link(client: Client, message: Message):
-    if message.from_user.id != OWNER_ID:
-        return await message.reply_text("Only the bot owner can create links.")
+    try:
+        if message.from_user.id != OWNER_ID:
+            return await message.reply_text("Only the bot owner can create links.")
 
-    if message.from_user.id not in last_video:
-        return await message.reply_text("Please send a video *with a caption* first.")
+        video = last_video.get(message.from_user.id)
+        if not video:
+            return await message.reply_text("Please send a video *with a caption* first.")
 
-    video = last_video[message.from_user.id]
+        if not video.get("caption"):
+            return await message.reply_text("This video has no caption. Please send a new one with a caption.")
 
-    # Ensure the video has a caption
-    if not video.get("caption"):
-        return await message.reply_text("This video has no caption. Please send a captioned video.")
+        # Check if the video already has a code
+        existing = collection.find_one({"file_unique_id": video["file_unique_id"]})
+        if existing:
+            bot_username = (await client.get_me()).username
+            link = f"https://t.me/{bot_username}?start={existing['code']}"
+            return await message.reply_text(f"This video already has a link:\n\n{link}")
 
-    # Check if video already exists
-    existing = collection.find_one({"file_unique_id": video["file_unique_id"]})
-    bot_username = (await client.get_me()).username
+        # Generate a truly unique code
+        while True:
+            code = "".join(choice(CHARACTERS) for _ in range(12))
+            if not collection.find_one({"code": code}):
+                break
 
-    if existing:
-        code = existing["code"]
+        # Insert into DB
+        collection.insert_one({
+            "code": code,
+            "file_unique_id": video["file_unique_id"],
+            "file_id": video["file_id"],
+            "caption": video["caption"]
+        })
+
+        bot_username = (await client.get_me()).username
         link = f"https://t.me/{bot_username}?start={code}"
-        return await message.reply_text(
-            f"This video was already saved!\n\nHere is the link:",
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Copy Link", url=link)]])
-        )
+        await message.reply_text(f"Link created successfully:\n\n{link}")
 
-    # Generate unique code
-    while True:
-        code = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
-        if not collection.find_one({"code": code}):
-            break
+        del last_video[message.from_user.id]
 
-    # Save video to MongoDB
-    collection.insert_one({
-        "code": code,
-        "file_unique_id": video["file_unique_id"],
-        "file_id": video["file_id"],
-        "caption": video["caption"]
-    })
-
-    link = f"https://t.me/{bot_username}?start={code}"
-    await message.reply_text(
-        f"Link created successfully!\n\nHere is your link:",
-        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Copy Link", url=link)]])
-    )
-    del last_video[message.from_user.id]
+    except Exception as e:
+        await message.reply_text("An error occurred while creating the link.")
+        await message.reply_text(f"`{str(e)}`")
 
 @app.on_message(filters.private & filters.command("start"))
 async def start_command(client: Client, message: Message):
