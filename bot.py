@@ -3,6 +3,8 @@ from pyrogram.types import Message
 import pymongo
 from secrets import choice
 import string
+from threading import Thread
+from flask import Flask
 
 API_ID = 27184163
 API_HASH = "4cf380dd354edc4dc4664f2d4f697393"
@@ -12,12 +14,28 @@ MONGO_URI = "mongodb+srv://Alisha:Alisha123@cluster0.yqcpftw.mongodb.net/?retryW
 DB_NAME = "anime_bot"
 COLLECTION_NAME = "video_links"
 
+# MongoDB Setup
 mongo_client = pymongo.MongoClient(MONGO_URI)
 db = mongo_client[DB_NAME]
 collection = db[COLLECTION_NAME]
 
+# Pyrogram Bot Client
 app = Client("AnimeBot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
+# Flask App
+server = Flask(__name__)
+
+@server.route("/")
+def home():
+    return "Bot is running"
+
+def run_flask():
+    server.run(host="0.0.0.0", port=8893)
+
+# Start Flask in a separate thread
+Thread(target=run_flask).start()
+
+# Utility
 CHARACTERS = string.ascii_letters + string.digits
 
 def generate_code():
@@ -30,7 +48,10 @@ last_video = {}
 
 @app.on_message(filters.private & filters.video)
 async def handle_video(client: Client, message: Message):
-    last_video[message.from_user.id] = {"file_unique_id": message.video.file_unique_id, "file_id": message.video.file_id}
+    last_video[message.from_user.id] = {
+        "file_unique_id": message.video.file_unique_id,
+        "file_id": message.video.file_id
+    }
     await message.reply_text("Video received! Use /createlink to generate a link.")
 
 @app.on_message(filters.private & filters.command("createlink"))
@@ -44,8 +65,9 @@ async def create_link(client: Client, message: Message):
         return
     video = last_video[user_id]
     code = generate_code()
-    collection.insert_one({"code": code, "file_unique_id": video["file_unique_id"]})
-    link = f"https://t.me/{(await client.get_me()).username}?start={code}"
+    collection.insert_one({"code": code, "file_unique_id": video["file_unique_id"], "file_id": video["file_id"]})
+    bot_info = await client.get_me()
+    link = f"https://t.me/{bot_info.username}?start={code}"
     await message.reply_text(f"Link created: {link}")
     del last_video[user_id]
 
@@ -56,15 +78,12 @@ async def start_command(client: Client, message: Message):
         code = args[1]
         item = collection.find_one({"code": code})
         if item:
-            video = next((msg.video for msg in (await client.get_messages(message.chat.id, message_ids=[m.message_id for m in (await client.get_history(message.chat.id, limit=100)) if m.video and m.video.file_unique_id == item["file_unique_id"]])), None)
-            if video:
-                await message.reply_video(video.file_id, caption="Enjoy your anime video!")
-            else:
-                await message.reply_text("Video not found!")
+            await message.reply_video(item["file_id"], caption="Enjoy your anime video!")
         else:
             await message.reply_text("Invalid or expired link!")
     else:
         await message.reply_text("Welcome! Use a link with a code to access anime videos.")
 
+# Run the bot
 print("Bot is running...")
 app.run()
