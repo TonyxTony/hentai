@@ -1,51 +1,70 @@
-from telethon import TelegramClient
-from telethon.sessions import StringSession
-import asyncio
-import time
-from threading import Thread
-from flask import Flask
+from pyrogram import Client, filters
+from pyrogram.types import Message
+import pymongo
+from secrets import choice
+import string
 
-API_ID = 20321575
-API_HASH = "2d4ec904c4e3fa9e3c9ed543a1b852db"
-STRING_SESSION = "1BVtsOI0BuzNK9FxskzAP5WRkZeWukmMPAT9NsScus0nMstASvKIldWXkx0QRRETA3U6Mzppsxlcc87BB4XVIlJtHDxF5CJIoCcsvHTD0k3p8BVSxsY7fNuYJsNI6_BmNv-C896Tcg649_yXO5BTCg6CfBu0SSuLdUATPmRvh0nKYYVplxamGh9_kcWdP60flpooqeSga0i8M9qfuhrUQq1Atl3IS652EKcjs1mQVrCnFQMXVNCXX0CGwrGK3nGXuk_501-IGKdR1eEmb6hpZcfbPT4CPv7NUkCcgfG5lbF8CEYWlnGsXyXJ2FELvyo10rpRb7eObdr_UF4maa8MuwwgkuscGl_8="
-BOT_USERNAME = "patrickstarsrobot"
-BUTTON_TEXT = "✨ Кликер"
+API_ID = 27184163
+API_HASH = "4cf380dd354edc4dc4664f2d4f697393"
+BOT_TOKEN = "7554171418:AAFW7TW7twbMcKNFr8PFIun0y7AAkh647PU"
+OWNER_ID = 6600178606
+MONGO_URI = "mongodb+srv://Alisha:Alisha123@cluster0.yqcpftw.mongodb.net/?retryWrites=true&w=majority"
+DB_NAME = "anime_bot"
+COLLECTION_NAME = "video_links"
 
-client = TelegramClient(StringSession(STRING_SESSION), API_ID, API_HASH)
+mongo_client = pymongo.MongoClient(MONGO_URI)
+db = mongo_client[DB_NAME]
+collection = db[COLLECTION_NAME]
 
-server = Flask(__name__)
+app = Client("AnimeBot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
-@server.route("/")
-def home():
-    return "Bot is running"
+CHARACTERS = string.ascii_letters + string.digits
 
-def run_flask():
-    server.run(host="0.0.0.0", port=8080)
-
-async def press_clicker():
-    try:
-        async for msg in client.iter_messages(BOT_USERNAME, limit=5):
-            if msg.buttons:
-                for row in msg.buttons:
-                    for i, button in enumerate(row):
-                        if button.text.strip() == BUTTON_TEXT.strip():
-                            await msg.click(i)
-                            return True
-        return False
-    except:
-        return False
-
-async def main():
-    await client.start()
+def generate_code():
     while True:
-        found = await press_clicker()
-        if not found:
-            await client.send_message(BOT_USERNAME, "/start")
-            await asyncio.sleep(5)
-            await press_clicker()
-        await asyncio.sleep(605)
+        code = "".join(choice(CHARACTERS) for _ in range(12))
+        if not collection.find_one({"code": code}):
+            return code
 
-if __name__ == "__main__":
-    Thread(target=run_flask).start()
-    with client:
-        client.loop.run_until_complete(main())
+last_video = {}
+
+@app.on_message(filters.private & filters.video)
+async def handle_video(client: Client, message: Message):
+    last_video[message.from_user.id] = {"file_unique_id": message.video.file_unique_id, "file_id": message.video.file_id}
+    await message.reply_text("Video received! Use /createlink to generate a link.")
+
+@app.on_message(filters.private & filters.command("createlink"))
+async def create_link(client: Client, message: Message):
+    if message.from_user.id != OWNER_ID:
+        await message.reply_text("Only the bot owner can create links!")
+        return
+    user_id = message.from_user.id
+    if user_id not in last_video:
+        await message.reply_text("Please send a video first!")
+        return
+    video = last_video[user_id]
+    code = generate_code()
+    collection.insert_one({"code": code, "file_unique_id": video["file_unique_id"]})
+    link = f"https://t.me/{(await client.get_me()).username}?start={code}"
+    await message.reply_text(f"Link created: {link}")
+    del last_video[user_id]
+
+@app.on_message(filters.command("start"))
+async def start_command(client: Client, message: Message):
+    args = message.text.split()
+    if len(args) > 1:
+        code = args[1]
+        item = collection.find_one({"code": code})
+        if item:
+            video = next((msg.video for msg in (await client.get_messages(message.chat.id, message_ids=[m.message_id for m in (await client.get_history(message.chat.id, limit=100)) if m.video and m.video.file_unique_id == item["file_unique_id"]])), None)
+            if video:
+                await message.reply_video(video.file_id, caption="Enjoy your anime video!")
+            else:
+                await message.reply_text("Video not found!")
+        else:
+            await message.reply_text("Invalid or expired link!")
+    else:
+        await message.reply_text("Welcome! Use a link with a code to access anime videos.")
+
+print("Bot is running...")
+app.run()
