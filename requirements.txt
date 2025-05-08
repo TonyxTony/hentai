@@ -2,3 +2,4 @@ tgcrypto
 flask
 telethon
 pymongo
+pyrogram
