@@ -71,19 +71,29 @@ async def create_link(client: Client, message: Message):
 
     video = last_video[message.from_user.id]
 
+    # Ensure the video has a caption
+    if not video.get("caption"):
+        return await message.reply_text("This video has no caption. Please send a captioned video.")
+
+    # Check if video already exists
     existing = collection.find_one({"file_unique_id": video["file_unique_id"]})
     bot_username = (await client.get_me()).username
 
     if existing:
         code = existing["code"]
         link = f"https://t.me/{bot_username}?start={code}"
-        return await message.reply_text(f"This video was already saved!\nLink: {link}")
+        return await message.reply_text(
+            f"This video was already saved!\n\nHere is the link:",
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Copy Link", url=link)]])
+        )
 
+    # Generate unique code
     while True:
         code = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
         if not collection.find_one({"code": code}):
             break
 
+    # Save video to MongoDB
     collection.insert_one({
         "code": code,
         "file_unique_id": video["file_unique_id"],
@@ -92,7 +102,10 @@ async def create_link(client: Client, message: Message):
     })
 
     link = f"https://t.me/{bot_username}?start={code}"
-    await message.reply_text(f"Link created: {link}")
+    await message.reply_text(
+        f"Link created successfully!\n\nHere is your link:",
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Copy Link", url=link)]])
+    )
     del last_video[message.from_user.id]
 
 @app.on_message(filters.private & filters.command("start"))
