@@ -74,20 +74,17 @@ async def create_link(client: Client, message: Message):
         if not video.get("caption"):
             return await message.reply_text("This video has no caption. Please send a new one with a caption.")
 
-        # Check if the video already has a code
         existing = collection.find_one({"file_unique_id": video["file_unique_id"]})
         if existing:
             bot_username = (await client.get_me()).username
             link = f"https://t.me/{bot_username}?start={existing['code']}"
             return await message.reply_text(f"This video already has a link:\n\n{link}")
 
-        # Generate a truly unique code
         while True:
             code = "".join(choice(CHARACTERS) for _ in range(12))
             if not collection.find_one({"code": code}):
                 break
 
-        # Insert into DB
         collection.insert_one({
             "code": code,
             "file_unique_id": video["file_unique_id"],
