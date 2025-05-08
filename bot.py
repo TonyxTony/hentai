@@ -7,7 +7,6 @@ from secrets import choice
 import string
 from threading import Thread
 
-# === Configuration ===
 API_ID = 27184163
 API_HASH = "4cf380dd354edc4dc4664f2d4f697393"
 BOT_TOKEN = "7554171418:AAFW7TW7twbMcKNFr8PFIun0y7AAkh647PU"
@@ -18,7 +17,6 @@ MONGO_URI = "mongodb+srv://Alisha:Alisha123@cluster0.yqcpftw.mongodb.net/?retryW
 DB_NAME = "anime_bot"
 COLLECTION_NAME = "video_links"
 
-# === Setup ===
 app = Client("AnimeBot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 server = Flask(__name__)
 
@@ -29,7 +27,6 @@ collection = db[COLLECTION_NAME]
 CHARACTERS = string.ascii_letters + string.digits
 last_video = {}
 
-# === Flask ===
 @server.route("/")
 def home():
     return "Bot is running"
@@ -37,7 +34,6 @@ def home():
 def run_flask():
     server.run(host="0.0.0.0", port=8893)
 
-# === Utility ===
 def generate_code():
     while True:
         code = "".join(choice(CHARACTERS) for _ in range(12))
@@ -53,7 +49,6 @@ async def is_joined(client: Client, user_id: int) -> bool:
     except Exception:
         return False
 
-# === Bot Handlers ===
 @app.on_message(filters.private & filters.video)
 async def handle_video(client: Client, message: Message):
     last_video[message.from_user.id] = {
@@ -108,7 +103,24 @@ async def start_command(client: Client, message: Message):
         else:
             await message.reply_text("Invalid or expired link.")
     else:
-        await message.reply_text("Welcome! Send me a link with a code to get your video.")
+        buttons = InlineKeyboardMarkup([
+            [
+                InlineKeyboardButton("Our Channel", url=JOIN_LINK),
+                InlineKeyboardButton("Support", url="https://t.me/ruxhiiiii")
+            ],
+            [InlineKeyboardButton("Close", callback_data="close_msg")]
+        ])
+
+        await message.reply_photo(
+            photo="https://i.ibb.co/67WkkKrj/photo-2025-05-08-14-46-55-7502086450427461668.jpg",
+            caption=(
+                f"**Hey !** [{user.first_name}](tg://user?id={user.id})\n\n"
+                "**Welcome To our Bot!**\n"
+                "Please Start the bot With link Provided in Channel\n"
+                "and Enjoy your Anime Journey With US."
+            ),
+            reply_markup=buttons
+        )
 
 @app.on_callback_query(filters.regex(r"^verify:(.+)"))
 async def verify_join(client: Client, callback_query):
@@ -118,14 +130,17 @@ async def verify_join(client: Client, callback_query):
     if await is_joined(client, user_id):
         item = collection.find_one({"code": code})
         if item:
-            await callback_query.message.edit_text("Verified! Sending your video...")
-            await callback_query.message.reply_video(item["file_id"], caption="Enjoy your anime video!")
+            await callback_query.message.edit_text("Thanks! To Be part of Our Channel Sending your video...")
+            await callback_query.message.reply_video(item["file_id"], caption="Enjoy video!")
         else:
             await callback_query.message.edit_text("Invalid or expired link.")
     else:
         await callback_query.answer("You're not joined yet!", show_alert=True)
 
-# === Main ===
+@app.on_callback_query(filters.regex("close_msg"))
+async def close_msg_handler(client: Client, callback_query):
+    await callback_query.message.delete()
+
 if __name__ == "__main__":
     Thread(target=run_flask).start()
     print("Bot is running...")
