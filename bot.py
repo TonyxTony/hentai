@@ -36,7 +36,7 @@ def run_flask():
 
 def generate_code():
     while True:
-        code = "".join(choice(CHARACTERS) for _ in range(12))
+        code = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
         if not collection.find_one({"code": code}):
             return code
 
@@ -51,28 +51,46 @@ async def is_joined(client: Client, user_id: int) -> bool:
 
 @app.on_message(filters.private & filters.video)
 async def handle_video(client: Client, message: Message):
+    if not message.caption:
+        return await message.reply_text("Please send a video *with a caption* to create a link.")
+    
     last_video[message.from_user.id] = {
         "file_unique_id": message.video.file_unique_id,
-        "file_id": message.video.file_id
+        "file_id": message.video.file_id,
+        "caption": message.caption
     }
-    await message.reply_text("Video received! Use /createlink to generate a link.")
+    await message.reply_text("Video received with caption! Now use /createlink to generate a link.")
 
 @app.on_message(filters.private & filters.command("createlink"))
 async def create_link(client: Client, message: Message):
     if message.from_user.id != OWNER_ID:
         return await message.reply_text("Only the bot owner can create links.")
-    
+
     if message.from_user.id not in last_video:
-        return await message.reply_text("Please send a video first.")
+        return await message.reply_text("Please send a video *with a caption* first.")
 
     video = last_video[message.from_user.id]
-    code = generate_code()
+
+    existing = collection.find_one({"file_unique_id": video["file_unique_id"]})
+    bot_username = (await client.get_me()).username
+
+    if existing:
+        code = existing["code"]
+        link = f"https://t.me/{bot_username}?start={code}"
+        return await message.reply_text(f"This video was already saved!\nLink: {link}")
+
+    while True:
+        code = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+        if not collection.find_one({"code": code}):
+            break
+
     collection.insert_one({
         "code": code,
         "file_unique_id": video["file_unique_id"],
-        "file_id": video["file_id"]
+        "file_id": video["file_id"],
+        "caption": video["caption"]
     })
-    bot_username = (await client.get_me()).username
+
     link = f"https://t.me/{bot_username}?start={code}"
     await message.reply_text(f"Link created: {link}")
     del last_video[message.from_user.id]
@@ -99,7 +117,7 @@ async def start_command(client: Client, message: Message):
 
         item = collection.find_one({"code": code})
         if item:
-            await message.reply_video(item["file_id"], caption="Enjoy your anime video!")
+            await message.reply_video(item["file_id"], caption=item.get("caption", ""))
         else:
             await message.reply_text("Invalid or expired link.")
     else:
@@ -131,7 +149,7 @@ async def verify_join(client: Client, callback_query):
         item = collection.find_one({"code": code})
         if item:
             await callback_query.message.edit_text("Thanks! To Be part of Our Channel Sending your video...")
-            await callback_query.message.reply_video(item["file_id"], caption="Enjoy video!")
+            await callback_query.message.reply_video(item["file_id"], caption=item.get("caption", ""))
         else:
             await callback_query.message.edit_text("Invalid or expired link.")
     else:
