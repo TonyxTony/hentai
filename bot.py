@@ -27,6 +27,12 @@ collection = db[COLLECTION_NAME]
 CHARACTERS = string.ascii_letters + string.digits
 last_video = {}
 
+BOT_USERNAMES = {
+    "480p": "Anime_spectrum420_bot",
+    "720p": "Anime_spectrum720_bot",
+    "1080p": "Anime_spectrum1080_bot"
+}
+
 @server.route("/")
 def home():
     return "Bot is running"
@@ -52,7 +58,7 @@ async def is_joined(client: Client, user_id: int) -> bool:
 @app.on_message(filters.private & filters.video)
 async def handle_video(client: Client, message: Message):
     if not message.caption:
-        return await message.reply_text("Please send a video *with a caption* to create a link.")
+        return await message.reply_text("Please send a video **with a caption** to create a link.")
     
     last_video[message.from_user.id] = {
         "file_unique_id": message.video.file_unique_id,
@@ -63,44 +69,57 @@ async def handle_video(client: Client, message: Message):
 
 @app.on_message(filters.private & filters.command("createlink"))
 async def create_link(client: Client, message: Message):
-    try:
-        if message.from_user.id != OWNER_ID:
-            return await message.reply_text("Only the bot owner can create links.")
+    if message.from_user.id != OWNER_ID:
+        return await message.reply_text("Only the bot owner can create links.")
+    
+    if message.from_user.id not in last_video:
+        return await message.reply_text("Please send a video with caption first.")
 
-        video = last_video.get(message.from_user.id)
-        if not video:
-            return await message.reply_text("Please send a video *with a caption* first.")
+    buttons = [
+        [
+            InlineKeyboardButton("480p", callback_data="quality:480p"),
+            InlineKeyboardButton("720p", callback_data="quality:720p"),
+            InlineKeyboardButton("1080p", callback_data="quality:1080p")
+        ]
+    ]
+    await message.reply_text("Choose the video quality to generate a link:", reply_markup=InlineKeyboardMarkup(buttons))
 
-        if not video.get("caption"):
-            return await message.reply_text("This video has no caption. Please send a new one with a caption.")
+@app.on_callback_query(filters.regex(r"^quality:(.+)"))
+async def handle_quality_selection(client: Client, callback_query):
+    quality = callback_query.data.split(":")[1]
+    user_id = callback_query.from_user.id
 
-        existing = collection.find_one({"file_unique_id": video["file_unique_id"]})
-        if existing:
-            bot_username = (await client.get_me()).username
-            link = f"https://t.me/{bot_username}?start={existing['code']}"
-            return await message.reply_text(f"This video already has a link:\n\n{link}")
+    if user_id not in last_video:
+        return await callback_query.message.edit_text("Video info missing. Please send a video again.")
 
-        while True:
-            code = "".join(choice(CHARACTERS) for _ in range(12))
-            if not collection.find_one({"code": code}):
-                break
+    video = last_video[user_id]
 
-        collection.insert_one({
-            "code": code,
-            "file_unique_id": video["file_unique_id"],
-            "file_id": video["file_id"],
-            "caption": video["caption"]
-        })
+    existing = collection.find_one({"file_unique_id": video["file_unique_id"], "quality": quality})
+    if existing:
+        bot_username = BOT_USERNAMES[quality]
+        link = f"https://t.me/{bot_username}?start={existing['code']}"
+        return await callback_query.message.edit_text(f"Link already exists:\n{link}")
+        
+    for _ in range(10):
+        code = "".join(choice(CHARACTERS) for _ in range(12))
+        if not collection.find_one({"code": code}):
+            break
+    else:
+        return await callback_query.message.edit_text("Failed to generate a unique code. Try again.")
 
-        bot_username = (await client.get_me()).username
-        link = f"https://t.me/{bot_username}?start={code}"
-        await message.reply_text(f"Link created successfully:\n\n{link}")
+    collection.insert_one({
+        "code": code,
+        "file_unique_id": video["file_unique_id"],
+        "file_id": video["file_id"],
+        "caption": video["caption"],
+        "quality": quality
+    })
 
-        del last_video[message.from_user.id]
+    bot_username = BOT_USERNAMES[quality]
+    link = f"https://t.me/{bot_username}?start={code}"
+    await callback_query.message.edit_text(f"Link created:\n{link}")
 
-    except Exception as e:
-        await message.reply_text("An error occurred while creating the link.")
-        await message.reply_text(f"`{str(e)}`")
+    del last_video[user_id]
 
 @app.on_message(filters.private & filters.command("start"))
 async def start_command(client: Client, message: Message):
