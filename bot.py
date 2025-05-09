@@ -6,18 +6,19 @@ from flask import Flask
 from secrets import choice
 import string
 from threading import Thread
+import asyncio
 
 API_ID = 27184163
 API_HASH = "4cf380dd354edc4dc4664f2d4f697393"
-BOT_TOKEN = "8036873523:AAFfjLtsMDIQz0bczvadLapf92a_VQT1wjM"
+BOT_TOKEN = "7503376749:AAGAwgA7knAYww46-aUoYq2sOm14Q0X9pb0"
 OWNERS_ID = (6600178606, 7530506703, 7240796549, 7169672824)
 UPDATE_CHANNEL = -1002030424154
 JOIN_LINK = "https://t.me/+LgU79CrQZdY2ZGE1"
-MONGO_URI = "mongodb+srv://Alisha:Alisha123@cluster0.yqcpftw.mongodb.net/?retryWrites=true&w=majority"
-DB_NAME = "anime_bot"
-COLLECTION_NAME = "video_links"
+MONGO_URI = "mongodb+srv://Anime:Tony123@animedb.veb4qyk.mongodb.net/?retryWrites=true&w=majority"
+DB_NAME = "anime_stream"
+COLLECTION_NAME = "stream_db"
 
-app = Client("AnimeBot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+app = Client("AnimeBot2", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 server = Flask(__name__)
 
 mongo_client = pymongo.MongoClient(MONGO_URI)
@@ -31,7 +32,7 @@ def home():
     return "Bot is running"
 
 def run_flask():
-    server.run(host="0.0.0.0", port=8893)
+    server.run(host="0.0.0.0", port=8894)
 
 async def is_joined(client: Client, user_id: int) -> bool:
     try:
@@ -41,6 +42,16 @@ async def is_joined(client: Client, user_id: int) -> bool:
         return False
     except Exception:
         return False
+
+async def send_video_with_expiry(client, chat_id, file_id, caption):
+    video_msg = await client.send_video(chat_id, file_id, caption=caption)
+    warning_msg = await client.send_message(chat_id, "**⚠️ This message will be deleted in 20 minutes. Please save it Somewhere.**")
+    await asyncio.sleep(900)
+    try:
+        await video_msg.delete()
+        await warning_msg.delete()
+    except Exception:
+        pass
 
 @app.on_message(filters.private & filters.command("createlink"))
 async def create_link(client: Client, message: Message):
@@ -99,14 +110,14 @@ async def start_command(client: Client, message: Message):
 
         item = collection.find_one({"code": code})
         if item:
-            await message.reply_video(item["file_id"], caption=item.get("caption", ""))
+            await send_video_with_expiry(client, message.chat.id, item["file_id"], item.get("caption", ""))
         else:
             await message.reply_text("**Iɴᴠᴀʟɪᴅ ᴏʀ ᴇxᴘɪʀᴇᴅ ʟɪɴᴋ.**")
     else:
         buttons = InlineKeyboardMarkup([
             [
                 InlineKeyboardButton("Oᴜʀ Cʜᴀɴɴᴇʟ", url=JOIN_LINK),
-                InlineKeyboardButton("Sᴜᴘᴘᴏʀᴛ", url="https://t.me/ruxhiiiii")
+                InlineKeyboardButton("Sᴜᴘᴘᴏʀᴛ", url="https://t.me/+STCT2ywFAA0yYjM1")
             ],
             [InlineKeyboardButton("Cʟᴏsᴇ", callback_data="close_msg")]
         ])
@@ -114,10 +125,10 @@ async def start_command(client: Client, message: Message):
         await message.reply_photo(
             photo="https://i.ibb.co/67WkkKrj/photo-2025-05-08-14-46-55-7502086450427461668.jpg",
             caption=(
-                f"**Hey !** [{user.first_name}](tg://user?id={user.id})\n\n"
-                "**Welcome To our Bot!**\n"
-                "Please Start the bot With link Provided in Channel\n"
-                "and Enjoy your Anime Journey With US."
+                f"**Hᴇʏ !** [{user.first_name}](tg://user?id={user.id})\n\n"
+                "**Wᴇʟᴄᴏᴍᴇ Tᴏ ᴏᴜʀ Sᴛʀᴇᴀᴍɪɴɢ Bᴏᴛ!**\n"
+                "Pʟᴇᴀsᴇ Sᴛᴀʀᴛ ᴛʜᴇ ʙᴏᴛ Wɪᴛʜ ʟɪɴᴋ Pʀᴏᴠɪᴅᴇᴅ ɪɴ Cʜᴀɴɴᴇʟ\n"
+                "ᴀɴᴅ EɴJᴏʏ ʏᴏᴜʀ Aɴɪᴍᴇ Jᴏᴜʀɴᴇʏ Wɪᴛʜ US."
             ),
             reply_markup=buttons
         )
@@ -131,11 +142,11 @@ async def verify_join(client: Client, callback_query):
         item = collection.find_one({"code": code})
         if item:
             await callback_query.message.edit_text("**Tʜᴀɴᴋs! Tᴏ Bᴇ ᴘᴀʀᴛ ᴏғ Oᴜʀ Cʜᴀɴɴᴇʟ Sᴇɴᴅɪɴɢ ʏᴏᴜʀ ᴠɪᴅᴇᴏ...**")
-            await callback_query.message.reply_video(item["file_id"], caption=item.get("caption", ""))
+            await send_video_with_expiry(client, callback_query.message.chat.id, item["file_id"], item.get("caption", ""))
         else:
             await callback_query.message.edit_text("**Iɴᴠᴀʟɪᴅ ᴏʀ ᴇxᴘɪʀᴇᴅ ʟɪɴᴋ.**")
     else:
-        await callback_query.answer("**Yᴏᴜ'ʀᴇ ɴᴏᴛ Jᴏɪɴᴇᴅ ʏᴇᴛ!**", show_alert=True)
+        await callback_query.answer("Yᴏᴜ'ʀᴇ ɴᴏᴛ Jᴏɪɴᴇᴅ ʏᴇᴛ!", show_alert=True)
 
 @app.on_callback_query(filters.regex("close_msg"))
 async def close_msg_handler(client: Client, callback_query):
