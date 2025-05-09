@@ -61,8 +61,8 @@ async def handle_video(client: Client, message: Message):
         return await message.reply_text("Please send a video **with a caption** to create a link.")
     
     last_video[message.from_user.id] = {
-        "file_unique_id": message.video.file_unique_id,
         "file_id": message.video.file_id,
+        "file_unique_id": message.video.file_unique_id,
         "caption": message.caption
     }
     await message.reply_text("Video received with caption! Now use /createlink to generate a link.")
@@ -85,7 +85,7 @@ async def create_link(client: Client, message: Message):
     await message.reply_text("Choose the video quality to generate a link:", reply_markup=InlineKeyboardMarkup(buttons))
 
 @app.on_callback_query(filters.regex(r"^quality:(.+)"))
-async def handle_quality_selection(client: Client, callback_query):
+async def handle_quality_selection(client: Client, callback_query: CallbackQuery):
     quality = callback_query.data.split(":")[1]
     user_id = callback_query.from_user.id
 
@@ -93,13 +93,13 @@ async def handle_quality_selection(client: Client, callback_query):
         return await callback_query.message.edit_text("Video info missing. Please send a video again.")
 
     video = last_video[user_id]
-
     existing = collection.find_one({"file_unique_id": video["file_unique_id"], "quality": quality})
+
     if existing:
         bot_username = BOT_USERNAMES[quality]
         link = f"https://t.me/{bot_username}?start={existing['code']}"
         return await callback_query.message.edit_text(f"Link already exists:\n{link}")
-        
+
     for _ in range(10):
         code = "".join(choice(CHARACTERS) for _ in range(12))
         if not collection.find_one({"code": code}):
@@ -109,8 +109,8 @@ async def handle_quality_selection(client: Client, callback_query):
 
     collection.insert_one({
         "code": code,
-        "file_unique_id": video["file_unique_id"],
         "file_id": video["file_id"],
+        "file_unique_id": video["file_unique_id"],
         "caption": video["caption"],
         "quality": quality
     })
