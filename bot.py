@@ -32,7 +32,7 @@ def home():
     return "Bot is running"
 
 def run_flask():
-    server.run(host="0.0.0.0", port=8894)
+    server.run(host="0.0.0.0", port=8891)
 
 async def is_joined(client: Client, user_id: int) -> bool:
     try:
