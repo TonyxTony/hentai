@@ -150,7 +150,7 @@ async def start_command(client: Client, message: Message):
         ])
 
         await message.reply_photo(
-            photo="https://i.ibb.co/67WkkKr/photo-2025-05-08-14-46-55-7502086450427461668.jpg",
+            photo="https://i.ibb.co/67WkkKrj/photo-2025-05-08-14-46-55-7502086450427461668.jpg",
             caption=(
                 f"**Hᴇʏ !** [{user.first_name}](tg://user?id={user.id})\n\n"
                 "**Wᴇʟᴄᴏᴍᴇ Tᴏ ᴏᴜʀ Sᴛʀᴇᴀᴍɪɴɢ Bᴏᴛ!**\n"
