@@ -70,12 +70,16 @@ async def send_video_with_expiry(client, chat_id, file_id, caption):
         ])
     )
 
-    await asyncio.sleep(1200)
-    try:
-        await video_msg.delete()
-        await warning_msg.delete()
-    except Exception:
-        pass
+    # Don't wait here — run in background
+    async def delete_later():
+        await asyncio.sleep(1200)
+        try:
+            await video_msg.delete()
+            await warning_msg.delete()
+        except:
+            pass
+
+    asyncio.create_task(delete_later())  # run in background
 
 @app.on_message(filters.private & filters.command("createlink"))
 async def create_link(client: Client, message: Message):
