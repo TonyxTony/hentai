@@ -4,7 +4,6 @@ from pyrogram.errors import UserNotParticipant
 import pymongo
 from random import choice
 from flask import Flask
-from secrets import choice
 import string
 from threading import Thread
 import asyncio
@@ -17,16 +16,19 @@ UPDATE_CHANNEL = -1002030424154
 UPDATE_CHANNEL_2 = -1002347205081
 JOIN_LINK_2 = "https://t.me/+x0Gg4rncPkQ3NGQ1"
 JOIN_LINK = "https://t.me/+LgU79CrQZdY2ZGE1"
+LOG_GROUP = -1002815905957
+
 MONGO_URI = "mongodb+srv://Anime:Tony123@animedb.veb4qyk.mongodb.net/?retryWrites=true&w=majority"
 DB_NAME = "anime_stream"
 COLLECTION_NAME = "stream_db"
 
-app = Client("AnimeBot3", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+app = Client("AnimeBot2", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 server = Flask(__name__)
 
 mongo_client = pymongo.MongoClient(MONGO_URI)
 db = mongo_client[DB_NAME]
 collection = db[COLLECTION_NAME]
+channel_episode = db["channel_episode"]
 
 CHARACTERS = string.ascii_letters + string.digits
 
@@ -70,7 +72,6 @@ async def send_video_with_expiry(client, chat_id, file_id, caption):
         ])
     )
 
-    # Don't wait here — run in background
     async def delete_later():
         await asyncio.sleep(1200)
         try:
@@ -79,7 +80,7 @@ async def send_video_with_expiry(client, chat_id, file_id, caption):
         except:
             pass
 
-    asyncio.create_task(delete_later())  # run in background
+    asyncio.create_task(delete_later())
 
 @app.on_message(filters.private & filters.command("createlink"))
 async def create_link(client: Client, message: Message):
@@ -142,8 +143,17 @@ async def start_command(client: Client, message: Message):
         item = collection.find_one({"code": code})
         if item:
             await send_video_with_expiry(client, message.chat.id, item["file_id"], item.get("caption", ""))
+            await client.send_message(
+                LOG_GROUP,
+                f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **720p**\nCᴏᴅᴇ = `{code}`\nTᴏ : [{user.first_name}](tg://user?id={user.id})"
+            )
         else:
+            exists = collection.find_one({"code": code}) is not None
             await message.reply_text("**Iɴᴠᴀʟɪᴅ ᴏʀ ᴇxᴘɪʀᴇᴅ ʟɪɴᴋ.**")
+            await client.send_message(
+                LOG_GROUP,
+                f"Bᴀʙʏ I ғᴏᴜɴᴅ A ʙʀᴏᴋᴇɴ Eᴘɪsᴏᴅᴇ\nCᴏᴅᴇ : `{code}`\nFᴏᴜɴᴅ Iɴ ᴅᴀᴛᴀʙᴀsᴇ : **{exists}**\n\n@O0_oo_O0_o0o @baki_lll**"
+            )
     else:
         buttons = InlineKeyboardMarkup([
             [
@@ -167,15 +177,24 @@ async def start_command(client: Client, message: Message):
 @app.on_callback_query(filters.regex(r"^verify:(.+)"))
 async def verify_join(client: Client, callback_query):
     code = callback_query.data.split(":")[1]
-    user_id = callback_query.from_user.id
+    user = callback_query.from_user
 
-    if await is_joined(client, user_id):
+    if await is_joined(client, user.id):
         item = collection.find_one({"code": code})
         if item:
             await callback_query.message.edit_text("**Tʜᴀɴᴋs! Tᴏ Bᴇ ᴘᴀʀᴛ ᴏғ Oᴜʀ Cʜᴀɴɴᴇʟ Sᴇɴᴅɪɴɢ ʏᴏᴜʀ ᴠɪᴅᴇᴏ...**")
             await send_video_with_expiry(client, callback_query.message.chat.id, item["file_id"], item.get("caption", ""))
+            await client.send_message(
+                LOG_GROUP,
+                f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **720p**\nCᴏᴅᴇ = `{code}`\nTᴏ : [{user.first_name}](tg://user?id={user.id})"
+            )
         else:
+            exists = collection.find_one({"code": code}) is not None
             await callback_query.message.edit_text("**Iɴᴠᴀʟɪᴅ ᴏʀ ᴇxᴘɪʀᴇᴅ ʟɪɴᴋ.**")
+            await client.send_message(
+                LOG_GROUP,
+                f"Bᴀʙʏ I ғᴏᴜɴᴅ A ʙʀᴏᴋᴇɴ Eᴘɪsᴏᴅᴇ\nCᴏᴅᴇ : `{code}`\nFᴏᴜɴᴅ Iɴ ᴅᴀᴛᴀʙᴀsᴇ : **{exists}**\n\n@O0_oo_O0_o0o @baki_lll**"
+            )
     else:
         await callback_query.answer("Yᴏᴜ'ʀᴇ ɴᴏᴛ Jᴏɪɴᴇᴅ ʏᴇᴛ!", show_alert=True)
 
@@ -183,6 +202,123 @@ async def verify_join(client: Client, callback_query):
 async def close_msg_handler(client: Client, callback_query):
     await callback_query.message.delete()
 
+@app.on_message(filters.command("check"))
+async def check_code(_, message):
+    if len(message.command) < 2:
+        return await message.reply_text("❌ Usage: `/check <code>`", quote=True)
+
+    code = message.text.split(None, 1)[1].strip()
+    data = collection.find_one({"code": code})  # <- no await for pymongo
+
+    if not data:
+        return await message.reply_text(f"❌ No video found with code: `{code}`", quote=True)
+
+    file_id = data.get("file_id")
+    caption = data.get("caption", "")
+
+    await message.reply_video(video=file_id, caption=caption)
+
+@app.on_message(filters.command("db"))
+async def db_stats(_, message: Message):
+    count = collection.count_documents({})
+    await message.reply_text(f"📁 Total Episodes videos stored in DB: `{count}`")
+
+@app.on_message(filters.command("backup"))
+async def backup_to_channel(client, message):
+    backup_channel_id = -1002703682373  # replace with your channel ID
+    all_docs = list(collection.find())
+    total = len(all_docs)
+
+    if total == 0:
+        return await message.reply("❌ No documents found in the collection.")
+
+    success = 0
+    failed = 0
+    checked = 0
+    last_msg_id = None
+
+    status = await message.reply(
+        f"📦 Total: `{total}`\n"
+        f"🔍 Checked: `{checked}`\n"
+        f"✅ Success: `{success}`\n"
+        f"❌ Failed: `{failed}`\n"
+        f"🆔 Last Msg ID: `...`"
+    )
+
+    for doc in all_docs:
+        code = doc.get("code")
+        checked += 1
+
+        if not code:
+            failed += 1
+            await status.edit(
+                f"📦 Total: `{total}`\n"
+                f"🔍 Checked: `{checked}`\n"
+                f"✅ Success: `{success}`\n"
+                f"❌ Failed: `{failed}`\n"
+                f"🆔 Last Msg ID: `{last_msg_id}`"
+            )
+            continue
+
+        data = collection.find_one({"code": code})
+        if not data:
+            failed += 1
+            await status.edit(
+                f"📦 Total: `{total}`\n"
+                f"🔍 Checked: `{checked}`\n"
+                f"✅ Success: `{success}`\n"
+                f"❌ Failed: `{failed}`\n"
+                f"🆔 Last Msg ID: `{last_msg_id}`"
+            )
+            continue
+
+        file_id = data.get("file_id")
+        caption = data.get("caption", "")
+        file_unique_id = data.get("file_unique_id")
+
+        try:
+            sent = await client.send_video(
+                chat_id=backup_channel_id,
+                video=file_id,
+                caption=caption
+            )
+            last_msg_id = sent.id
+
+            insert_data = {
+                "code": code,
+                "file_id": file_id,
+                "file_unique_id": file_unique_id,
+                "caption": caption,
+                "channel_id": str(backup_channel_id),
+                "message_id": sent.id
+            }
+
+            channel_episode.insert_one(insert_data)
+            success += 1
+
+        except Exception as e:
+            print(f"❌ Failed on code {code}: {e}")
+            failed += 1
+
+        await status.edit(
+            f"📦 Total: `{total}`\n"
+            f"🔍 Checked: `{checked}`\n"
+            f"✅ Success: `{success}`\n"
+            f"❌ Failed: `{failed}`\n"
+            f"🆔 Last Msg ID: `{last_msg_id}`"
+        )
+
+        await asyncio.sleep(5)
+
+    await status.edit(
+        f"✅ **Backup Completed**\n\n"
+        f"📦 Total: `{total}`\n"
+        f"🔍 Checked: `{checked}`\n"
+        f"✅ Success: `{success}`\n"
+        f"❌ Failed: `{failed}`\n"
+        f"🆔 Last Msg ID: `{last_msg_id}`"
+    )
+    
 if __name__ == "__main__":
     Thread(target=run_flask).start()
     print("Bot is running...")
