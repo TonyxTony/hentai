@@ -22,7 +22,7 @@ MONGO_URI = "mongodb+srv://Anime:Tony123@animedb.veb4qyk.mongodb.net/?retryWrite
 DB_NAME = "anime_stream"
 COLLECTION_NAME = "stream_db"
 
-app = Client("AnimeBot2", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+app = Client("AnimeBot3", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 server = Flask(__name__)
 
 mongo_client = pymongo.MongoClient(MONGO_URI)
@@ -106,6 +106,16 @@ async def create_link(client: Client, message: Message):
         if not collection.find_one({"code": code}):
             break
 
+    backup_channel_id = -1002703682373
+    try:
+        backup_msg = await client.send_video(
+            chat_id=backup_channel_id,
+            video=file_id,
+            caption=caption
+        )
+    except Exception as e:
+        return await message.reply_text(f"❌ Failed to send to backup channel:\n`{e}`")
+
     collection.insert_one({
         "code": code,
         "file_unique_id": file_unique_id,
@@ -113,9 +123,18 @@ async def create_link(client: Client, message: Message):
         "caption": caption
     })
 
+    channel_episode.insert_one({
+        "code": code,
+        "file_unique_id": file_unique_id,
+        "file_id": file_id,
+        "caption": caption,
+        "channel_id": backup_channel_id,
+        "message_id": backup_msg.id
+    })
+
     bot_username = (await client.get_me()).username
     link = f"https://t.me/{bot_username}?start={code}"
-    await message.reply_text(f"Link created successfully:\n{link}")
+    await message.reply_text(f"✅ Link created successfully:\n{link}")
 
 @app.on_message(filters.private & filters.command("start"))
 async def start_command(client: Client, message: Message):
@@ -145,7 +164,7 @@ async def start_command(client: Client, message: Message):
             await send_video_with_expiry(client, message.chat.id, item["file_id"], item.get("caption", ""))
             await client.send_message(
                 LOG_GROUP,
-                f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **720p**\nCᴏᴅᴇ = `{code}`\nTᴏ : [{user.first_name}](tg://user?id={user.id})"
+                f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **1080p**\nCᴏᴅᴇ = `{code}`\nTᴏ : [{user.first_name}](tg://user?id={user.id})"
             )
         else:
             exists = collection.find_one({"code": code}) is not None
@@ -186,7 +205,7 @@ async def verify_join(client: Client, callback_query):
             await send_video_with_expiry(client, callback_query.message.chat.id, item["file_id"], item.get("caption", ""))
             await client.send_message(
                 LOG_GROUP,
-                f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **720p**\nCᴏᴅᴇ = `{code}`\nTᴏ : [{user.first_name}](tg://user?id={user.id})"
+                f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **1080p**\nCᴏᴅᴇ = `{code}`\nTᴏ : [{user.first_name}](tg://user?id={user.id})"
             )
         else:
             exists = collection.find_one({"code": code}) is not None
@@ -223,7 +242,7 @@ async def db_stats(_, message: Message):
     count = collection.count_documents({})
     await message.reply_text(f"📁 Total Episodes videos stored in DB: `{count}`")
 
-@app.on_message(filters.command("backup"))
+@app.on_message(filters.command("backup720p"))
 async def backup_to_channel(client, message):
     backup_channel_id = -1002703682373  # replace with your channel ID
     all_docs = list(collection.find())
@@ -308,7 +327,7 @@ async def backup_to_channel(client, message):
             f"🆔 Last Msg ID: `{last_msg_id}`"
         )
 
-        await asyncio.sleep(5)
+        await asyncio.sleep(6)
 
     await status.edit(
         f"✅ **Backup Completed**\n\n"
