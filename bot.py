@@ -1,10 +1,12 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import UserNotParticipant
+from pyrogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 import pymongo
 from random import choice
 from flask import Flask
 import string
+import re
 from threading import Thread
 import asyncio
 
@@ -17,6 +19,7 @@ UPDATE_CHANNEL_2 = -1002347205081
 JOIN_LINK_2 = "https://t.me/+x0Gg4rncPkQ3NGQ1"
 JOIN_LINK = "https://t.me/+LgU79CrQZdY2ZGE1"
 LOG_GROUP = -1002815905957
+backup_channel_id = -1002703682373
 
 MONGO_URI = "mongodb+srv://Anime:Tony123@animedb.veb4qyk.mongodb.net/?retryWrites=true&w=majority"
 DB_NAME = "anime_stream"
@@ -82,59 +85,143 @@ async def send_video_with_expiry(client, chat_id, file_id, caption):
 
     asyncio.create_task(delete_later())
 
+def extract_episode_number(caption: str) -> str:
+    match = re.search(r"єριѕσ∂є\s*[-:]?\s*(\d+)", caption, re.IGNORECASE)
+    return match.group(1).zfill(2) if match else None
+    
+user_video_data = {}
+
 @app.on_message(filters.private & filters.command("createlink"))
 async def create_link(client: Client, message: Message):
     if message.from_user.id not in OWNERS_ID:
         return
+    user_id = message.from_user.id
+    user_video_data[user_id] = []
+    keyboard = ReplyKeyboardMarkup(
+        [
+            [KeyboardButton("Send videos"), KeyboardButton("Close")]
+        ],
+        resize_keyboard=True,
+        one_time_keyboard=True
+    )
+    await message.reply_text("Okie, now choose an option:", reply_markup=keyboard)
 
-    replied = message.reply_to_message
-    if not replied or not replied.video or not replied.caption:
-        return await message.reply_text("Please reply to a video message *with a caption*.")
-
-    file_unique_id = replied.video.file_unique_id
-    file_id = replied.video.file_id
-    caption = replied.caption
-
-    existing = collection.find_one({"file_unique_id": file_unique_id})
-    if existing:
-        bot_username = (await client.get_me()).username
-        link = f"https://t.me/{bot_username}?start={existing['code']}"
-        return await message.reply_text(f"This video already has a link:\n\n{link}")
-
-    while True:
-        code = "".join(choice(CHARACTERS) for _ in range(12))
-        if not collection.find_one({"code": code}):
-            break
-
-    backup_channel_id = -1002703682373
-    try:
-        backup_msg = await client.send_video(
-            chat_id=backup_channel_id,
-            video=file_id,
-            caption=caption
+@app.on_message(filters.private & filters.text & filters.regex("^(Send videos|Done|Cancel|Close)$"))
+async def handle_buttons(client: Client, message: Message):
+    user_id = message.from_user.id
+    if user_id not in OWNERS_ID:
+        return
+    text = message.text
+    if text == "Close" or text == "Cancel":
+        user_video_data.pop(user_id, None)
+        await message.reply_text("Cancellation Successful", reply_markup=ReplyKeyboardRemove())
+        return
+    if text == "Send videos":
+        keyboard = ReplyKeyboardMarkup(
+            [
+                [KeyboardButton("Done"), KeyboardButton("Cancel")]
+            ],
+            resize_keyboard=True,
+            one_time_keyboard=True
         )
-    except Exception as e:
-        return await message.reply_text(f"❌ Failed to send to backup channel:\n`{e}`")
+        await message.reply_text(
+            'Okie, send videos with captions, then tap "Done" when finished.',
+            reply_markup=keyboard
+        )
+        return
+    if text == "Done":
+        if user_id not in user_video_data or not user_video_data[user_id]:
+            await message.reply_text(
+                "No videos were sent. Process cancelled.",
+                reply_markup=ReplyKeyboardRemove()
+            )
+            user_video_data.pop(user_id, None)
+            return
 
-    collection.insert_one({
-        "code": code,
-        "file_unique_id": file_unique_id,
-        "file_id": file_id,
-        "caption": caption
+        bot_username = (await client.get_me()).username
+        episode_links = []
+
+        for video_data in user_video_data[user_id]:
+            file_unique_id = video_data["file_unique_id"]
+            file_id = video_data["file_id"]
+            caption = video_data["caption"]
+            message_id = video_data["message_id"]
+
+            existing = collection.find_one({"file_unique_id": file_unique_id})
+            if existing:
+                link = f"https://t.me/{bot_username}?start={existing['code']}"
+                episode_number = extract_episode_number(caption)
+                episode_links.append(f"Episode {episode_number}: {link}" if episode_number else f"{link}")
+                await message.reply_text(
+                    f"Video already has a link:\n\n{link}",
+                    reply_to_message_id=message_id
+                )
+                continue
+
+            while True:
+                code = "".join(choice(CHARACTERS) for _ in range(12))
+                if not collection.find_one({"code": code}):
+                    break
+
+            try:
+                backup_msg = await client.send_video(
+                    chat_id=backup_channel_id,
+                    video=file_id,
+                    caption=caption
+                )
+            except Exception as e:
+                await message.reply_text(
+                    f"❌ Failed to send to backup channel:\n`{e}`",
+                    reply_to_message_id=message_id
+                )
+                continue
+
+            collection.insert_one({
+                "code": code,
+                "file_unique_id": file_unique_id,
+                "file_id": file_id,
+                "caption": caption
+            })
+            channel_episode.insert_one({
+                "code": code,
+                "file_unique_id": file_unique_id,
+                "file_id": file_id,
+                "caption": caption,
+                "channel_id": backup_channel_id,
+                "message_id": backup_msg.id
+            })
+
+            link = f"https://t.me/{bot_username}?start={code}"
+            episode_number = extract_episode_number(caption)
+            episode_links.append(f"Episode {episode_number}: {link}" if episode_number else f"{link}")
+
+            await message.reply_text(
+                f"✅ Link created successfully:\n{link}",
+                reply_to_message_id=message_id
+            )
+
+        user_video_data.pop(user_id, None)
+
+        if episode_links:
+            result = "\n".join(episode_links)
+            await message.reply_text(f"{result}", reply_markup=ReplyKeyboardRemove())
+        else:
+            await message.reply_text("All videos processed but no links generated.", reply_markup=ReplyKeyboardRemove())
+            
+@app.on_message(filters.private & filters.video)
+async def collect_videos(client: Client, message: Message):
+    user_id = message.from_user.id
+    if user_id not in OWNERS_ID or user_id not in user_video_data:
+        return
+    if not message.caption:
+        await message.reply_text("Please include a caption with the video.")
+        return
+    user_video_data[user_id].append({
+        "file_unique_id": message.video.file_unique_id,
+        "file_id": message.video.file_id,
+        "caption": message.caption,
+        "message_id": message.id
     })
-
-    channel_episode.insert_one({
-        "code": code,
-        "file_unique_id": file_unique_id,
-        "file_id": file_id,
-        "caption": caption,
-        "channel_id": backup_channel_id,
-        "message_id": backup_msg.id
-    })
-
-    bot_username = (await client.get_me()).username
-    link = f"https://t.me/{bot_username}?start={code}"
-    await message.reply_text(f"✅ Link created successfully:\n{link}")
 
 @app.on_message(filters.private & filters.command("start"))
 async def start_command(client: Client, message: Message):
@@ -164,7 +251,7 @@ async def start_command(client: Client, message: Message):
             await send_video_with_expiry(client, message.chat.id, item["file_id"], item.get("caption", ""))
             await client.send_message(
                 LOG_GROUP,
-                f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **1080p**\nCᴏᴅᴇ = `{code}`\nTᴏ : [{user.first_name}](tg://user?id={user.id})"
+                f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **720p**\nCᴏᴅᴇ = `{code}`\nTᴏ : [{user.first_name}](tg://user?id={user.id})"
             )
         else:
             exists = collection.find_one({"code": code}) is not None
@@ -205,7 +292,7 @@ async def verify_join(client: Client, callback_query):
             await send_video_with_expiry(client, callback_query.message.chat.id, item["file_id"], item.get("caption", ""))
             await client.send_message(
                 LOG_GROUP,
-                f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **1080p**\nCᴏᴅᴇ = `{code}`\nTᴏ : [{user.first_name}](tg://user?id={user.id})"
+                f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **720p**\nCᴏᴅᴇ = `{code}`\nTᴏ : [{user.first_name}](tg://user?id={user.id})"
             )
         else:
             exists = collection.find_one({"code": code}) is not None
@@ -242,7 +329,7 @@ async def db_stats(_, message: Message):
     count = collection.count_documents({})
     await message.reply_text(f"📁 Total Episodes videos stored in DB: `{count}`")
 
-@app.on_message(filters.command("backup720p"))
+@app.on_message(filters.command("backup1080p"))
 async def backup_to_channel(client, message):
     backup_channel_id = -1002703682373  # replace with your channel ID
     all_docs = list(collection.find())
