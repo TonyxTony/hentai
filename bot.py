@@ -48,11 +48,12 @@ async def is_joined(client: Client, user_id: int) -> bool:
     async def check(channel_id):
         try:
             member = await client.get_chat_member(channel_id, user_id)
-            return member.status not in ("left", "kicked")
+            # Consider these statuses as "joined"
+            return member.status in ("member", "administrator", "creator", "restricted")
         except:
             return False
     return await check(UPDATE_CHANNEL) and await check(UPDATE_CHANNEL_2)
-
+    
 async def send_video_with_expiry(client, chat_id, file_id, caption):
     video_msg = await client.send_video(chat_id, file_id, caption=caption)
 
