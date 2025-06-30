@@ -12,14 +12,14 @@ import asyncio
 
 API_ID = 27184163
 API_HASH = "4cf380dd354edc4dc4664f2d4f697393"
-BOT_TOKEN = "7503376749:AAGAwgA7knAYww46-aUoYq2sOm14Q0X9pb0"
+BOT_TOKEN = "8185543792:AAH-94mnU2B8gRTr7Nt3X1MH1clLeCa4vvI"
 OWNERS_ID = (6600178606, 7893840561, 7530506703, 7240796549, 7169672824)
-UPDATE_CHANNEL = -1002030424154
-UPDATE_CHANNEL_2 = -1002347205081
-JOIN_LINK_2 = "https://t.me/+x0Gg4rncPkQ3NGQ1"
-JOIN_LINK = "https://t.me/+LgU79CrQZdY2ZGE1"
+UPDATE_CHANNEL = -1002623332025
+UPDATE_CHANNEL_2 = -1002799540890
+JOIN_LINK_2 = "https://t.me/+j9jofBdlxjQwY2Vl"
+JOIN_LINK = "https://t.me/+PngidWDJgiI2NjU1"
 LOG_GROUP = -1002815905957
-backup_channel_id = -1002703682373
+backup_channel_id = -1002815905957
 
 MONGO_URI = "mongodb+srv://Anime:Tony123@animedb.veb4qyk.mongodb.net/?retryWrites=true&w=majority"
 DB_NAME = "anime_stream"
@@ -32,6 +32,8 @@ mongo_client = pymongo.MongoClient(MONGO_URI)
 db = mongo_client[DB_NAME]
 collection = db[COLLECTION_NAME]
 channel_episode = db["channel_episode"]
+hentai_collection = db["hentai_db"]
+hentai_backup = db["hentai_backup"]
 
 CHARACTERS = string.ascii_letters + string.digits
 
@@ -56,14 +58,14 @@ async def send_video_with_expiry(client, chat_id, file_id, caption):
 
     button_choice = choice([
         {
-            "text": "Request Group 💌",
-            "url": "https://t.me/+STCT2ywFAA0yYjM1",
-            "message": "⚠️ This message will be deleted in 20 minutes. Please save it Somewhere.\nWant any anime? Just request it in the Request Group."
+            "text": "Overflow Season 2 💌",
+            "url": "https://t.me/+oPJAKgZ4_1QxYjZl",
+            "message": "⚠️ This message will be deleted in 20 minutes. Please save it Somewhere.."
         },
         {
-            "text": "More Anime 🍌",
-            "url": "https://t.me/addlist/KFp8zZlXXVZiYmI1",
-            "message": "⚠️ This message will be deleted in 20 minutes. Please save it Somewhere.\nJoin to watch more anime 👀💞"
+            "text": "More Hentai 🍌",
+            "url": "https://t.me/Anime_spectrum_official",
+            "message": "⚠️ This message will be deleted in 20 minutes. Please save it Somewhere.\nJoin to watch more hentai 💞"
         }
     ])
 
@@ -76,7 +78,7 @@ async def send_video_with_expiry(client, chat_id, file_id, caption):
     )
 
     async def delete_later():
-        await asyncio.sleep(1200)
+        await asyncio.sleep(1000)
         try:
             await video_msg.delete()
             await warning_msg.delete()
@@ -147,7 +149,7 @@ async def handle_buttons(client: Client, message: Message):
             caption = video_data["caption"]
             message_id = video_data["message_id"]
 
-            existing = collection.find_one({"file_unique_id": file_unique_id})
+            existing = hentai_collection.find_one({"file_unique_id": file_unique_id})
             if existing:
                 link = f"https://t.me/{bot_username}?start={existing['code']}"
                 episode_number = extract_episode_number(caption)
@@ -176,13 +178,13 @@ async def handle_buttons(client: Client, message: Message):
                 )
                 continue
 
-            collection.insert_one({
+            hentai_collection.insert_one({
                 "code": code,
                 "file_unique_id": file_unique_id,
                 "file_id": file_id,
                 "caption": caption
             })
-            channel_episode.insert_one({
+            hentai_backup.insert_one({
                 "code": code,
                 "file_unique_id": file_unique_id,
                 "file_id": file_id,
@@ -246,15 +248,15 @@ async def start_command(client: Client, message: Message):
                 reply_markup=InlineKeyboardMarkup(buttons)
             )
 
-        item = collection.find_one({"code": code})
+        item = hentai_collection.find_one({"code": code})
         if item:
             await send_video_with_expiry(client, message.chat.id, item["file_id"], item.get("caption", ""))
             await client.send_message(
                 LOG_GROUP,
-                f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **720p**\nCᴏᴅᴇ = `{code}`\nTᴏ : [{user.first_name}](tg://user?id={user.id})"
+                f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **hentai**\nCᴏᴅᴇ = `{code}`\nTᴏ : [{user.first_name}](tg://user?id={user.id})"
             )
         else:
-            exists = collection.find_one({"code": code}) is not None
+            exists = hentai_collection.find_one({"code": code}) is not None
             await message.reply_text("**Iɴᴠᴀʟɪᴅ ᴏʀ ᴇxᴘɪʀᴇᴅ ʟɪɴᴋ.**")
             await client.send_message(
                 LOG_GROUP,
@@ -292,10 +294,10 @@ async def verify_join(client: Client, callback_query):
             await send_video_with_expiry(client, callback_query.message.chat.id, item["file_id"], item.get("caption", ""))
             await client.send_message(
                 LOG_GROUP,
-                f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **720p**\nCᴏᴅᴇ = `{code}`\nTᴏ : [{user.first_name}](tg://user?id={user.id})"
+                f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **hentai**\nCᴏᴅᴇ = `{code}`\nTᴏ : [{user.first_name}](tg://user?id={user.id})"
             )
         else:
-            exists = collection.find_one({"code": code}) is not None
+            exists = hentai_collection.find_one({"code": code}) is not None
             await callback_query.message.edit_text("**Iɴᴠᴀʟɪᴅ ᴏʀ ᴇxᴘɪʀᴇᴅ ʟɪɴᴋ.**")
             await client.send_message(
                 LOG_GROUP,
@@ -314,7 +316,7 @@ async def check_code(_, message):
         return await message.reply_text("❌ Usage: `/check <code>`", quote=True)
 
     code = message.text.split(None, 1)[1].strip()
-    data = collection.find_one({"code": code})  # <- no await for pymongo
+    data = hentai_collection.find_one({"code": code})  # <- no await for pymongo
 
     if not data:
         return await message.reply_text(f"❌ No video found with code: `{code}`", quote=True)
@@ -326,12 +328,12 @@ async def check_code(_, message):
 
 @app.on_message(filters.command("db"))
 async def db_stats(_, message: Message):
-    count = collection.count_documents({})
+    count = hentai_collection.count_documents({})
     await message.reply_text(f"📁 Total Episodes videos stored in DB: `{count}`")
 
-@app.on_message(filters.command("backup1080p"))
+@app.on_message(filters.command("backuphentai"))
 async def backup_to_channel(client, message):
-    backup_channel_id = -1002703682373  # replace with your channel ID
+    backup_channel_id = -1002815905957  # replace with your channel ID
     all_docs = list(collection.find())
     total = len(all_docs)
 
@@ -399,7 +401,7 @@ async def backup_to_channel(client, message):
                 "message_id": sent.id
             }
 
-            channel_episode.insert_one(insert_data)
+            hentai_backup.insert_one(insert_data)
             success += 1
 
         except Exception as e:
