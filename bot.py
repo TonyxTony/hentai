@@ -286,7 +286,7 @@ async def verify_join(client: Client, callback_query):
     user = callback_query.from_user
 
     if await is_joined(client, user.id):
-        item = collection.find_one({"code": code})
+        item = hentai_collection.find_one({"code": code})
         if item:
             await callback_query.message.edit_text("**Tʜᴀɴᴋs! Tᴏ Bᴇ ᴘᴀʀᴛ ᴏғ Oᴜʀ Cʜᴀɴɴᴇʟ Sᴇɴᴅɪɴɢ ʏᴏᴜʀ ᴠɪᴅᴇᴏ...**")
             await send_video_with_expiry(client, callback_query.message.chat.id, item["file_id"], item.get("caption", ""))
