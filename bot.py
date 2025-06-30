@@ -334,7 +334,7 @@ async def db_stats(_, message: Message):
 @app.on_message(filters.command("backuphentai"))
 async def backup_to_channel(client, message):
     backup_channel_id = -1002815905957  # replace with your channel ID
-    all_docs = list(collection.find())
+    all_docs = list(hentai_collection.find())
     total = len(all_docs)
 
     if total == 0:
