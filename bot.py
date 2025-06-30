@@ -368,7 +368,7 @@ async def backup_to_channel(client, message):
             )
             continue
 
-        data = collection.find_one({"code": code})
+        data = hentai_collection.find_one({"code": code})
         if not data:
             failed += 1
             await status.edit(
