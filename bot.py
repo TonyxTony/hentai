@@ -51,35 +51,39 @@ async def is_joined(client: Client, user_id: int) -> bool:
     except:
         return False
         
-async def send_video_with_expiry(client, chat_id, file_id, caption):
+async def send_video_with_expiry(client, chat_id, file_id, caption, send_warning=True):
     video_msg = await client.send_video(chat_id, file_id, caption=caption)
 
-    button_choice = choice([
-        {
-            "text": "Overflow Season 2 💌",
-            "url": "https://t.me/+oPJAKgZ4_1QxYjZl",
-            "message": "⚠️ This message will be deleted in 20 minutes. Please save it Somewhere.."
-        },
-        {
-            "text": "More Hentai 🍌",
-            "url": "https://t.me/Anime_spectrum_official",
-            "message": "⚠️ This message will be deleted in 20 minutes. Please save it Somewhere.\nJoin to watch more hentai 💞"
-        }
-    ])
-
-    warning_msg = await client.send_message(
-        chat_id,
-        button_choice["message"],
-        reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton(button_choice["text"], url=button_choice["url"])]
+    if send_warning:
+        button_choice = choice([
+            {
+                "text": "Overflow Season 2 💌",
+                "url": "https://t.me/+oPJAKgZ4_1QxYjZl",
+                "message": "⚠️ This message will be deleted in 20 minutes. Please save it Somewhere.."
+            },
+            {
+                "text": "More Hentai 🍌",
+                "url": "https://t.me/Anime_spectrum_official",
+                "message": "⚠️ This message will be deleted in 20 minutes. Please save it Somewhere.\nJoin to watch more hentai 💞"
+            }
         ])
-    )
+
+        warning_msg = await client.send_message(
+            chat_id,
+            button_choice["message"],
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton(button_choice["text"], url=button_choice["url"])]
+            ])
+        )
+    else:
+        warning_msg = None
 
     async def delete_later():
         await asyncio.sleep(1000)
         try:
             await video_msg.delete()
-            await warning_msg.delete()
+            if warning_msg:
+                await warning_msg.delete()
         except:
             pass
 
@@ -281,26 +285,34 @@ async def start_command(client: Client, message: Message):
                 reply_markup=InlineKeyboardMarkup(buttons)
             )
 
+        # Fetch from DB
         item = hentai_collection.find_one({"code": code})
 
         if item:
+            # ✅ BATCH MODE
             if item.get("batch"):
-                for video in item["videos"]:
+                total = len(item["videos"])
+                for idx, video in enumerate(item["videos"]):
                     await send_video_with_expiry(
-                        client, message.chat.id,
+                        client,
+                        message.chat.id,
                         video["file_id"],
-                        video.get("caption", "")
+                        video.get("caption", ""),
+                        send_warning=(idx == total - 1)  # ✅ Only send warning on last video
                     )
 
                 await client.send_message(
                     LOG_GROUP,
-                    f"📦 Batch of {len(item['videos'])} videos sent.\n"
+                    f"📦 Batch of {total} videos sent.\n"
                     f"Code: `{code}`\n"
                     f"To: [{user.first_name}](tg://user?id={user.id})"
                 )
                 return
+
+            # ✅ SINGLE VIDEO MODE
             await send_video_with_expiry(
-                client, message.chat.id,
+                client,
+                message.chat.id,
                 item["file_id"],
                 item.get("caption", "")
             )
@@ -322,6 +334,7 @@ async def start_command(client: Client, message: Message):
                 f"@O0_oo_O0_o0o @baki_lll"
             )
     else:
+        # 🟢 Default start message
         buttons = InlineKeyboardMarkup([
             [
                 InlineKeyboardButton("Oᴜʀ Cʜᴀɴɴᴇʟ", url=JOIN_LINK),
@@ -340,7 +353,6 @@ async def start_command(client: Client, message: Message):
             ),
             reply_markup=buttons
         )
-
 @app.on_callback_query(filters.regex(r"^verify:(.+)"))
 async def verify_join(client: Client, callback_query):
     code = callback_query.data.split(":")[1]
