@@ -1,5 +1,6 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+import traceback
 
 API_ID = 27184163
 API_HASH = "4cf380dd354edc4dc4664f2d4f697393"
@@ -11,15 +12,15 @@ app = Client("inline_post_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_
 CHANNEL_ID = -1002840361612
 PHOTO_URL = "https://files.catbox.moe/v630fu.jpg"
 
-
+# Updated caption with <blockquote>
 CAPTION = (
     "<b>She found out that her husband is cheating on her by fcking her daughter and she can listen to their sx💦👁</b>\n"
     "➠ Episode: 1  20+min\n"
     "➠ Censorship: Censored\n"
     "➠ Rating: 69/10 NTR💋\n\n"
-    "<pre>(╭━━━━━━━━━━━━━━━━━━\n"
+    "<blockquote>(╭━━━━━━━━━━━━━━━━━━\n"
     "⍟ But her neighbour provokes her by making her wet listening to moans 🥵 and now she wants to fck someone too so now he helps her with the sx🫦💦\n"
-    "╰━━━━━━━━━━━━━━━━━━)</pre>"
+    "╰━━━━━━━━━━━━━━━━━━)</blockquote>"
 )
 
 BUTTONS = InlineKeyboardMarkup([
@@ -35,15 +36,15 @@ BUTTONS = InlineKeyboardMarkup([
 @app.on_message(filters.command("sendnow") & filters.private)
 async def send_post_to_channel(client, message):
     try:
-        await client.send_photo(
+        await app.send_photo(
             chat_id=CHANNEL_ID,
             photo=PHOTO_URL,
             caption=CAPTION,
-            parse_mode="HTML",  # Real formatting supported on VPS
+            parse_mode="html",
             reply_markup=BUTTONS
         )
         await message.reply("✅ Post sent to channel.")
     except Exception as e:
-        await message.reply(f"❌ Failed to send:\n<code>{e}</code>", parse_mode="HTML")
+        await message.reply(f"❌ Failed to send:\n<code>{e}\n{traceback.format_exc()}</code>", parse_mode="html")
 
 app.run()
