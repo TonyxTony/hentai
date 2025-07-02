@@ -1,5 +1,6 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.enums import ParseMode
 import traceback
 
 API_ID = 27184163
@@ -12,7 +13,7 @@ app = Client("inline_post_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_
 CHANNEL_ID = -1002840361612
 PHOTO_URL = "https://files.catbox.moe/v630fu.jpg"
 
-# Updated caption with <blockquote>
+# Caption with <blockquote>
 CAPTION = (
     "<b>She found out that her husband is cheating on her by fcking her daughter and she can listen to their sx💦👁</b>\n"
     "➠ Episode: 1  20+min\n"
@@ -40,11 +41,14 @@ async def send_post_to_channel(client, message):
             chat_id=CHANNEL_ID,
             photo=PHOTO_URL,
             caption=CAPTION,
-            parse_mode="html",
+            parse_mode=ParseMode.HTML,  # Use enum
             reply_markup=BUTTONS
         )
-        await message.reply("✅ Post sent to channel.")
+        await message.reply("✅ Post sent to channel.", parse_mode=ParseMode.HTML)
     except Exception as e:
-        await message.reply(f"❌ Failed to send:\n<code>{e}\n{traceback.format_exc()}</code>", parse_mode="html")
+        await message.reply(
+            f"❌ Failed to send:\n<code>{e}\n{traceback.format_exc()}</code>",
+            parse_mode=ParseMode.HTML
+        )
 
 app.run()
