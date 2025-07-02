@@ -362,17 +362,47 @@ async def verify_join(client: Client, callback_query):
         item = hentai_collection.find_one({"code": code})
         if item:
             await callback_query.message.edit_text("**Tʜᴀɴᴋs! Tᴏ Bᴇ ᴘᴀʀᴛ ᴏғ Oᴜʀ Cʜᴀɴɴᴇʟ Sᴇɴᴅɪɴɢ ʏᴏᴜʀ ᴠɪᴅᴇᴏ...**")
-            await send_video_with_expiry(client, callback_query.message.chat.id, item["file_id"], item.get("caption", ""))
-            await client.send_message(
-                LOG_GROUP,
-                f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **hentai**\nCᴏᴅᴇ = `{code}`\nTᴏ : [{user.first_name}](tg://user?id={user.id})"
-            )
+
+            # ✅ Handle batch
+            if item.get("batch"):
+                total = len(item["videos"])
+                for idx, video in enumerate(item["videos"]):
+                    await send_video_with_expiry(
+                        client,
+                        callback_query.message.chat.id,
+                        video["file_id"],
+                        video.get("caption", ""),
+                        send_warning=(idx == total - 1)
+                    )
+                await client.send_message(
+                    LOG_GROUP,
+                    f"📦 Batch of {total} videos sent via verify.\n"
+                    f"Code: `{code}`\n"
+                    f"To: [{user.first_name}](tg://user?id={user.id})"
+                )
+            else:
+                # ✅ Single video
+                await send_video_with_expiry(
+                    client,
+                    callback_query.message.chat.id,
+                    item["file_id"],
+                    item.get("caption", "")
+                )
+                await client.send_message(
+                    LOG_GROUP,
+                    f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **hentai**\n"
+                    f"Cᴏᴅᴇ = `{code}`\n"
+                    f"Tᴏ : [{user.first_name}](tg://user?id={user.id})"
+                )
         else:
             exists = hentai_collection.find_one({"code": code}) is not None
             await callback_query.message.edit_text("**Iɴᴠᴀʟɪᴅ ᴏʀ ᴇxᴘɪʀᴇᴅ ʟɪɴᴋ.**")
             await client.send_message(
                 LOG_GROUP,
-                f"Bᴀʙʏ I ғᴏᴜɴᴅ A ʙʀᴏᴋᴇɴ Eᴘɪsᴏᴅᴇ\nCᴏᴅᴇ : `{code}`\nFᴏᴜɴᴅ Iɴ ᴅᴀᴛᴀʙᴀsᴇ : **{exists}**\n\n@O0_oo_O0_o0o @baki_lll**"
+                f"Bᴀʙʏ I ғᴏᴜɴᴅ A ʙʀᴏᴋᴇɴ Eᴘɪsᴏᴅᴇ\n"
+                f"Cᴏᴅᴇ : `{code}`\n"
+                f"Fᴏᴜɴᴅ Iɴ ᴅᴀᴛᴀʙᴀsᴇ : **{exists}**\n\n"
+                f"@O0_oo_O0_o0o @baki_lll"
             )
     else:
         await callback_query.answer("Yᴏᴜ'ʀᴇ ɴᴏᴛ Jᴏɪɴᴇᴅ ʏᴇᴛ!", show_alert=True)
@@ -387,15 +417,22 @@ async def check_code(_, message):
         return await message.reply_text("❌ Usage: `/check <code>`", quote=True)
 
     code = message.text.split(None, 1)[1].strip()
-    data = hentai_collection.find_one({"code": code})  # <- no await for pymongo
+    data = hentai_collection.find_one({"code": code})  # pymongo, no await
 
     if not data:
         return await message.reply_text(f"❌ No video found with code: `{code}`", quote=True)
 
-    file_id = data.get("file_id")
-    caption = data.get("caption", "")
-
-    await message.reply_video(video=file_id, caption=caption)
+    if data.get("batch"):
+        for video in data["videos"]:
+            await message.reply_video(
+                video=video["file_id"],
+                caption=video.get("caption", "")
+            )
+    else:
+        await message.reply_video(
+            video=data["file_id"],
+            caption=data.get("caption", "")
+        )
 
 @app.on_message(filters.command("db"))
 async def db_stats(_, message: Message):
