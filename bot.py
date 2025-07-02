@@ -90,132 +90,167 @@ def extract_episode_number(caption: str) -> str:
     return match.group(1).zfill(2) if match else None
     
 user_video_data = {}
+user_batch_flags = {}
 
 @app.on_message(filters.private & filters.command("createlink"))
 async def create_link(client: Client, message: Message):
     if message.from_user.id not in OWNERS_ID:
         return
+
     user_id = message.from_user.id
     user_video_data[user_id] = []
-    keyboard = ReplyKeyboardMarkup(
-        [
-            [KeyboardButton("Send videos"), KeyboardButton("Close")]
-        ],
-        resize_keyboard=True,
-        one_time_keyboard=True
-    )
-    await message.reply_text("Okie, now choose an option:", reply_markup=keyboard)
+    user_batch_flags[user_id] = None
 
-@app.on_message(filters.private & filters.text & filters.regex("^(Send videos|Done|Cancel|Close)$"))
-async def handle_buttons(client: Client, message: Message):
+    keyboard = InlineKeyboardMarkup([
+        [InlineKeyboardButton("📥 Normal", callback_data="clink_normal"),
+         InlineKeyboardButton("📦 Batch", callback_data="clink_batch")]
+    ])
+    await message.reply_text("Choose upload mode:", reply_markup=keyboard)
+
+@app.on_callback_query(filters.regex(r"^clink_(normal|batch)$"))
+async def handle_createlink_mode(client: Client, callback_query):
+    user_id = callback_query.from_user.id
+    mode = callback_query.data.split("_")[1]
+
+    if mode == "normal":
+        user_batch_flags[user_id] = False
+        keyboard = ReplyKeyboardMarkup([
+            [KeyboardButton("Done"), KeyboardButton("Cancel")]
+        ], resize_keyboard=True, one_time_keyboard=True)
+
+        await callback_query.message.reply_text(
+            "Send videos with captions Tap **Done** when finished.",
+            reply_markup=keyboard
+        )
+
+    elif mode == "batch":
+        user_batch_flags[user_id] = True
+        keyboard = ReplyKeyboardMarkup([
+            [KeyboardButton("Done"), KeyboardButton("Cancel")]
+        ], resize_keyboard=True, one_time_keyboard=True)
+
+        await callback_query.message.reply_text(
+            "Batch mode enabled.\nSend multiple videos (with captions), then tap **Done**.",
+            reply_markup=keyboard
+        )
+
+    await callback_query.message.delete()
+
+@app.on_message(filters.private & filters.text & filters.regex("^(Done|Cancel)$"))
+async def handle_done_or_cancel(client: Client, message: Message):
     user_id = message.from_user.id
     if user_id not in OWNERS_ID:
         return
+
     text = message.text
-    if text == "Close" or text == "Cancel":
+
+    if text == "Cancel":
         user_video_data.pop(user_id, None)
-        await message.reply_text("Cancellation Successful", reply_markup=ReplyKeyboardRemove())
+        user_batch_flags.pop(user_id, None)
+        await message.reply_text("❌ Process cancelled.", reply_markup=ReplyKeyboardRemove())
         return
-    if text == "Send videos":
-        keyboard = ReplyKeyboardMarkup(
-            [
-                [KeyboardButton("Done"), KeyboardButton("Cancel")]
-            ],
-            resize_keyboard=True,
-            one_time_keyboard=True
-        )
-        await message.reply_text(
-            'Okie, send videos with captions, then tap "Done" when finished.',
-            reply_markup=keyboard
-        )
-        return
+
     if text == "Done":
-        if user_id not in user_video_data or not user_video_data[user_id]:
-            await message.reply_text(
-                "No videos were sent. Process cancelled.",
-                reply_markup=ReplyKeyboardRemove()
-            )
-            user_video_data.pop(user_id, None)
+        videos = user_video_data.get(user_id, [])
+        is_batch = user_batch_flags.get(user_id, False)
+
+        if not videos:
+            await message.reply_text("⚠️ No videos received.", reply_markup=ReplyKeyboardRemove())
             return
 
         bot_username = (await client.get_me()).username
-        episode_links = []
 
-        for video_data in user_video_data[user_id]:
-            file_unique_id = video_data["file_unique_id"]
-            file_id = video_data["file_id"]
-            caption = video_data["caption"]
-            message_id = video_data["message_id"]
+        if not is_batch:
+            # Normal Mode (existing logic)
+            for video_data in videos:
+                file_unique_id = video_data["file_unique_id"]
+                file_id = video_data["file_id"]
+                caption = video_data["caption"]
+                message_id = video_data["message_id"]
 
-            existing = hentai_collection.find_one({"file_unique_id": file_unique_id})
-            if existing:
-                link = f"https://t.me/{bot_username}?start={existing['code']}"
-                episode_number = extract_episode_number(caption)
-                episode_links.append(f"Episode {episode_number}: {link}" if episode_number else f"{link}")
-                await message.reply_text(
-                    f"Video already has a link:\n\n{link}",
-                    reply_to_message_id=message_id
-                )
-                continue
+                existing = hentai_collection.find_one({"file_unique_id": file_unique_id})
+                if existing:
+                    link = f"https://t.me/{bot_username}?start={existing['code']}"
+                    await message.reply_text(f"Video already has a link:\n\n{link}", reply_to_message_id=message_id)
+                    continue
 
+                while True:
+                    code = "".join(choice(CHARACTERS) for _ in range(12))
+                    if not hentai_collection.find_one({"code": code}):
+                        break
+
+                try:
+                    backup_msg = await client.send_video(backup_channel_id, file_id, caption=caption)
+                except Exception as e:
+                    await message.reply_text(f"❌ Backup failed:\n`{e}`", reply_to_message_id=message_id)
+                    continue
+
+                hentai_collection.insert_one({
+                    "code": code,
+                    "file_unique_id": file_unique_id,
+                    "file_id": file_id,
+                    "caption": caption
+                })
+                hentai_backup.insert_one({
+                    "code": code,
+                    "file_unique_id": file_unique_id,
+                    "file_id": file_id,
+                    "caption": caption,
+                    "channel_id": backup_channel_id,
+                    "message_id": backup_msg.id
+                })
+
+                link = f"https://t.me/{bot_username}?start={code}"
+                await message.reply_text(f"✅ Link created:\n{link}", reply_to_message_id=message_id)
+
+        else:
+            # Batch Mode
             while True:
                 code = "".join(choice(CHARACTERS) for _ in range(12))
-                if not collection.find_one({"code": code}):
+                if not hentai_collection.find_one({"code": code}):
                     break
 
-            try:
-                backup_msg = await client.send_video(
-                    chat_id=backup_channel_id,
-                    video=file_id,
-                    caption=caption
-                )
-            except Exception as e:
-                await message.reply_text(
-                    f"❌ Failed to send to backup channel:\n`{e}`",
-                    reply_to_message_id=message_id
-                )
-                continue
+            media_array = []
+
+            for video_data in videos:
+                file_id = video_data["file_id"]
+                caption = video_data["caption"]
+                file_unique_id = video_data["file_unique_id"]
+                try:
+                    backup_msg = await client.send_video(backup_channel_id, file_id, caption=caption)
+                except Exception as e:
+                    await message.reply_text(f"❌ Backup failed:\n`{e}`", reply_to_message_id=video_data["message_id"])
+                    continue
+
+                media_array.append({
+                    "file_id": file_id,
+                    "file_unique_id": file_unique_id,
+                    "caption": caption
+                })
 
             hentai_collection.insert_one({
                 "code": code,
-                "file_unique_id": file_unique_id,
-                "file_id": file_id,
-                "caption": caption
-            })
-            hentai_backup.insert_one({
-                "code": code,
-                "file_unique_id": file_unique_id,
-                "file_id": file_id,
-                "caption": caption,
-                "channel_id": backup_channel_id,
-                "message_id": backup_msg.id
+                "batch": True,
+                "videos": media_array
             })
 
             link = f"https://t.me/{bot_username}?start={code}"
-            episode_number = extract_episode_number(caption)
-            episode_links.append(f"Episode {episode_number}: {link}" if episode_number else f"{link}")
-
-            await message.reply_text(
-                f"✅ Link created successfully:\n{link}",
-                reply_to_message_id=message_id
-            )
+            await message.reply_text(f"✅ Batch link created:\n{link}")
 
         user_video_data.pop(user_id, None)
-
-        if episode_links:
-            result = "\n".join(episode_links)
-            await message.reply_text(f"{result}", reply_markup=ReplyKeyboardRemove())
-        else:
-            await message.reply_text("All videos processed but no links generated.", reply_markup=ReplyKeyboardRemove())
+        user_batch_flags.pop(user_id, None)
+        await message.reply("✅ All videos processed.", reply_markup=ReplyKeyboardRemove())
             
 @app.on_message(filters.private & filters.video)
 async def collect_videos(client: Client, message: Message):
     user_id = message.from_user.id
     if user_id not in OWNERS_ID or user_id not in user_video_data:
         return
+
     if not message.caption:
         await message.reply_text("Please include a caption with the video.")
         return
+
     user_video_data[user_id].append({
         "file_unique_id": message.video.file_unique_id,
         "file_id": message.video.file_id,
@@ -247,18 +282,44 @@ async def start_command(client: Client, message: Message):
             )
 
         item = hentai_collection.find_one({"code": code})
+
         if item:
-            await send_video_with_expiry(client, message.chat.id, item["file_id"], item.get("caption", ""))
+            if item.get("batch"):
+                for video in item["videos"]:
+                    await send_video_with_expiry(
+                        client, message.chat.id,
+                        video["file_id"],
+                        video.get("caption", "")
+                    )
+
+                await client.send_message(
+                    LOG_GROUP,
+                    f"📦 Batch of {len(item['videos'])} videos sent.\n"
+                    f"Code: `{code}`\n"
+                    f"To: [{user.first_name}](tg://user?id={user.id})"
+                )
+                return
+            await send_video_with_expiry(
+                client, message.chat.id,
+                item["file_id"],
+                item.get("caption", "")
+            )
             await client.send_message(
                 LOG_GROUP,
-                f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **hentai**\nCᴏᴅᴇ = `{code}`\nTᴏ : [{user.first_name}](tg://user?id={user.id})"
+                f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **hentai**\n"
+                f"Cᴏᴅᴇ = `{code}`\n"
+                f"Tᴏ : [{user.first_name}](tg://user?id={user.id})"
             )
+
         else:
             exists = hentai_collection.find_one({"code": code}) is not None
             await message.reply_text("**Iɴᴠᴀʟɪᴅ ᴏʀ ᴇxᴘɪʀᴇᴅ ʟɪɴᴋ.**")
             await client.send_message(
                 LOG_GROUP,
-                f"Bᴀʙʏ I ғᴏᴜɴᴅ A ʙʀᴏᴋᴇɴ Eᴘɪsᴏᴅᴇ\nCᴏᴅᴇ : `{code}`\nFᴏᴜɴᴅ Iɴ ᴅᴀᴛᴀʙᴀsᴇ : **{exists}**\n\n@O0_oo_O0_o0o @baki_lll**"
+                f"Bᴀʙʏ I ғᴏᴜɴᴅ A ʙʀᴏᴋᴇɴ Eᴘɪsᴏᴅᴇ\n"
+                f"Cᴏᴅᴇ : `{code}`\n"
+                f"Fᴏᴜɴᴅ Iɴ ᴅᴀᴛᴀʙᴀsᴇ : **{exists}**\n\n"
+                f"@O0_oo_O0_o0o @baki_lll"
             )
     else:
         buttons = InlineKeyboardMarkup([
