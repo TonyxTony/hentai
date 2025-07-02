@@ -11,26 +11,26 @@ app = Client("inline_post_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_
 
 # Your channel ID and image
 CHANNEL_ID = -1002840361612
-PHOTO_URL = "https://files.catbox.moe/v630fu.jpg"
+PHOTO_URL = "https://files.catbox.moe/najxt7.jpg"
 
 # Caption with <blockquote>
 CAPTION = (
-    "<b>She found out that her husband is cheating on her by fcking her daughter and she can listen to their sx💦👁</b>\n"
-    "➠ Episode: 1  20+min\n"
-    "➠ Censorship: Censored\n"
-    "➠ Rating: 69/10 NTR💋\n\n"
-    "<blockquote>(╭━━━━━━━━━━━━━━━━━━\n"
-    "⍟ But her neighbour provokes her by making her wet listening to moans 🥵 and now she wants to fck someone too so now he helps her with the sx🫦💦\n"
-    "╰━━━━━━━━━━━━━━━━━━)</blockquote>"
+    "<b>Its raining today and his shop keeper can't come so now he's alone so he starts watching p@rn in his computer but...🌚\n"
+    "➪ Episode: 01 [ 20+min ]\n"
+    "➪ Censorship: Censored/n"
+    "➪ Rating: 69/10 [ Fck bro she's damn hottttt🔥 ]\n"
+    "<blockquote>Highly #recommended\n"
+    "The prnstar comes in the shop and asks him to if she\n"
+    "can work in the shop for today</blockquote>"
 )
 
 BUTTONS = InlineKeyboardMarkup([
     [
-        InlineKeyboardButton("How to Open 💌", url="https://t.me/How_to_open_link5/6"),
+        InlineKeyboardButton("How to Open 💌", url="https://t.me/How_to_open_link5/7"),
         InlineKeyboardButton("Backup 🌚", url="https://t.me/+OIfvzRoudoA2Yjg1")
     ],
     [
-        InlineKeyboardButton("🔰 Download 🔰", url="https://adrinolinks.com/2bxE8jJg")
+        InlineKeyboardButton("🔰 Download 🔰", url="https://reel2earn.com/Ck0A2")
     ]
 ])
 
