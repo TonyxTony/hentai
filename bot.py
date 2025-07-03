@@ -52,9 +52,10 @@ async def is_joined(client: Client, user_id: int) -> bool:
     except:
         return False
         
-async def send_video_with_expiry(client, chat_id, file_id, caption, code=None, send_warning=True):
+async def send_video_with_expiry(client, chat_id, file_id, caption, send_warning=True, code=None):
     video_msg = await client.send_video(chat_id, file_id, caption=caption)
 
+    warning_msg = None
     if send_warning:
         button_choice = choice([
             {
@@ -68,7 +69,6 @@ async def send_video_with_expiry(client, chat_id, file_id, caption, code=None, s
                 "message": "⚠️ This message will be deleted in 20 minutes. Please save it Somewhere.\nJoin to watch more hentai 💞"
             }
         ])
-
         warning_msg = await client.send_message(
             chat_id,
             button_choice["message"],
@@ -76,11 +76,10 @@ async def send_video_with_expiry(client, chat_id, file_id, caption, code=None, s
                 [InlineKeyboardButton(button_choice["text"], url=button_choice["url"])]
             ])
         )
-    else:
-        warning_msg = None
 
     async def delete_later():
         await asyncio.sleep(1000)
+
         try:
             await video_msg.delete()
             if warning_msg:
@@ -89,19 +88,25 @@ async def send_video_with_expiry(client, chat_id, file_id, caption, code=None, s
             pass
 
         if code:
-            bot_username = (await client.get_me()).username
-            retrieve_msg = await client.send_message(
+            bot = await client.get_me()
+            start_link = f"https://t.me/{bot.username}?start={code}"
+
+            reget_msg = await client.send_message(
                 chat_id,
                 "📁 **Retrieve Deleted Files**\n\n🔓 This option is available for **24 hours only.**",
                 reply_markup=InlineKeyboardMarkup([
-                    [InlineKeyboardButton("🔁 Get Again", url=f"https://t.me/{bot_username}?start={code}")]
+                    [InlineKeyboardButton("🔁 Get Again", url=start_link)]
                 ])
             )
-            try:
-                await asyncio.sleep(40000)  # 12 hours
-                await retrieve_msg.delete()
-            except:
-                pass
+
+            async def delete_reget():
+                await asyncio.sleep(43200)  # 12 hours
+                try:
+                    await reget_msg.delete()
+                except:
+                    pass
+
+            asyncio.create_task(delete_reget())
 
     asyncio.create_task(delete_later())
 
@@ -547,7 +552,8 @@ async def start_command(client: Client, message: Message):
                         message.chat.id,
                         video["file_id"],
                         video.get("caption", ""),
-                        send_warning=(idx == total - 1)  # ✅ Only send warning on last video
+                        send_warning=(idx == total - 1),
+                        code=code
                     )
 
                 await client.send_message(
@@ -562,7 +568,8 @@ async def start_command(client: Client, message: Message):
                 client,
                 message.chat.id,
                 item["file_id"],
-                item.get("caption", "")
+                item.get("caption", ""),
+                code=code
             )
             await client.send_message(
                 LOG_GROUP,
@@ -570,7 +577,6 @@ async def start_command(client: Client, message: Message):
                 f"Cᴏᴅᴇ = `{code}`\n"
                 f"Tᴏ : [{user.first_name}](tg://user?id={user.id})"
             )
-
         else:
             exists = hentai_collection.find_one({"code": code}) is not None
             await message.reply_text("**Iɴᴠᴀʟɪᴅ ᴏʀ ᴇxᴘɪʀᴇᴅ ʟɪɴᴋ.**")
@@ -619,7 +625,8 @@ async def verify_join(client: Client, callback_query):
                         callback_query.message.chat.id,
                         video["file_id"],
                         video.get("caption", ""),
-                        send_warning=(idx == total - 1)
+                        send_warning=(idx == total - 1),
+                        code=code
                     )
                 await client.send_message(
                     LOG_GROUP,
@@ -632,7 +639,8 @@ async def verify_join(client: Client, callback_query):
                     client,
                     callback_query.message.chat.id,
                     item["file_id"],
-                    item.get("caption", "")
+                    item.get("caption", ""),
+                    code=code
                 )
                 await client.send_message(
                     LOG_GROUP,
