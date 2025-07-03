@@ -92,14 +92,13 @@ async def send_video_with_expiry(client, chat_id, file_id, caption, code=None, s
             bot_username = (await client.get_me()).username
             retrieve_msg = await client.send_message(
                 chat_id,
-                "📁 **Retrieve Deleted Files**\n⭐This Option is available for **24 hours Only**",
+                "📁 **Retrieve Deleted Files**\n\n🔓 This option is available for **24 hours only.**",
                 reply_markup=InlineKeyboardMarkup([
-                    [InlineKeyboardButton("🔁 Get Again", url=f"https://t.me/{bot_username}?start=retrieve_{code}")]
+                    [InlineKeyboardButton("🔁 Get Again", url=f"https://t.me/{bot_username}?start={code}")]
                 ])
             )
-
             try:
-                await asyncio.sleep(40000)
+                await asyncio.sleep(40000)  # 12 hours
                 await retrieve_msg.delete()
             except:
                 pass
@@ -518,15 +517,11 @@ async def collect_videos(client: Client, message: Message):
 async def start_command(client: Client, message: Message):
     user = message.from_user
     args = message.text.split()
-    is_retrieve = False
 
     if len(args) > 1:
         code = args[1]
-        if code.startswith("retrieve_"):
-            is_retrieve = True
-            code = code.replace("retrieve_", "")
-
         joined = await is_joined(client, user.id)
+
         if not joined:
             buttons = [
                 [
@@ -552,25 +547,29 @@ async def start_command(client: Client, message: Message):
                         message.chat.id,
                         video["file_id"],
                         video.get("caption", ""),
-                        code=code,
-                        send_warning=(idx == total - 1)
+                        send_warning=(idx == total - 1)  # ✅ Only send warning on last video
                     )
-            else:
-                await send_video_with_expiry(
-                    client,
-                    message.chat.id,
-                    item["file_id"],
-                    item.get("caption", ""),
-                    code=code
-                )
 
-            if is_retrieve:
                 await client.send_message(
                     LOG_GROUP,
-                    f"🔁 Retrieved via Button\n"
-                    f"Code = `{code}`\n"
-                    f"User: [{user.first_name}](tg://user?id={user.id})"
+                    f"📦 Batch of {total} videos sent.\n"
+                    f"Code: `{code}`\n"
+                    f"To: [{user.first_name}](tg://user?id={user.id})"
                 )
+                return
+
+            await send_video_with_expiry(
+                client,
+                message.chat.id,
+                item["file_id"],
+                item.get("caption", "")
+            )
+            await client.send_message(
+                LOG_GROUP,
+                f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **hentai**\n"
+                f"Cᴏᴅᴇ = `{code}`\n"
+                f"Tᴏ : [{user.first_name}](tg://user?id={user.id})"
+            )
 
         else:
             exists = hentai_collection.find_one({"code": code}) is not None
@@ -590,6 +589,7 @@ async def start_command(client: Client, message: Message):
             ],
             [InlineKeyboardButton("Cʟᴏsᴇ", callback_data="close_msg")]
         ])
+
         await message.reply_photo(
             photo="https://i.ibb.co/67WkkKrj/photo-2025-05-08-14-46-55-7502086450427461668.jpg",
             caption=(
@@ -610,6 +610,7 @@ async def verify_join(client: Client, callback_query):
         item = hentai_collection.find_one({"code": code})
         if item:
             await callback_query.message.edit_text("**Tʜᴀɴᴋs! Tᴏ Bᴇ ᴘᴀʀᴛ ᴏғ Oᴜʀ Cʜᴀɴɴᴇʟ Sᴇɴᴅɪɴɢ ʏᴏᴜʀ ᴠɪᴅᴇᴏ...**")
+
             if item.get("batch"):
                 total = len(item["videos"])
                 for idx, video in enumerate(item["videos"]):
@@ -618,24 +619,27 @@ async def verify_join(client: Client, callback_query):
                         callback_query.message.chat.id,
                         video["file_id"],
                         video.get("caption", ""),
-                        code=code,
                         send_warning=(idx == total - 1)
                     )
+                await client.send_message(
+                    LOG_GROUP,
+                    f"📦 Batch of {total} videos sent via verify.\n"
+                    f"Code: `{code}`\n"
+                    f"To: [{user.first_name}](tg://user?id={user.id})"
+                )
             else:
                 await send_video_with_expiry(
                     client,
                     callback_query.message.chat.id,
                     item["file_id"],
-                    item.get("caption", ""),
-                    code=code
+                    item.get("caption", "")
                 )
-
-            await client.send_message(
-                LOG_GROUP,
-                f"📁 File sent via Verify Button\n"
-                f"Cᴏᴅᴇ = `{code}`\n"
-                f"Tᴏ : [{user.first_name}](tg://user?id={user.id})"
-            )
+                await client.send_message(
+                    LOG_GROUP,
+                    f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **hentai**\n"
+                    f"Cᴏᴅᴇ = `{code}`\n"
+                    f"Tᴏ : [{user.first_name}](tg://user?id={user.id})"
+                )
         else:
             exists = hentai_collection.find_one({"code": code}) is not None
             await callback_query.message.edit_text("**Iɴᴠᴀʟɪᴅ ᴏʀ ᴇxᴘɪʀᴇᴅ ʟɪɴᴋ.**")
