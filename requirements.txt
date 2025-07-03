@@ -2,4 +2,4 @@ tgcrypto
 flask
 telethon
 pymongo
-git+https://github.com/TonyxTony/pyrogram@Tony
+pyrogram
