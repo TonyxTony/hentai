@@ -1,127 +1,39 @@
 from pyrogram import Client, filters
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-from pyrogram.errors import UserNotParticipant
-from pyrogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove, CallbackQuery
-import pymongo
-from random import choice
-from flask import Flask
-import string
+from pyrogram.types import (
+    Message,
+    InlineKeyboardMarkup,
+    InlineKeyboardButton,
+    CallbackQuery,
+    ReplyKeyboardMarkup,
+    KeyboardButton
+)
 import re
+from flask import Flask
 from threading import Thread
-import asyncio 
 
 API_ID = 27184163
 API_HASH = "4cf380dd354edc4dc4664f2d4f697393"
-BOT_TOKEN = "7644463386:AAH4Pp8r17q8OP1hUAYPh3e2u3SwBCHk6uI"
-OWNERS_ID = (6600178606, 7893840561, 7530506703, 7240796549, 7169672824)
-UPDATE_CHANNEL = -1002623332025
-UPDATE_CHANNEL_2 = -1002799540890
-JOIN_LINK_2 = "https://t.me/+j9jofBdlxjQwY2Vl"
-JOIN_LINK = "https://t.me/+PngidWDJgiI2NjU1"
-LOG_GROUP = -1002815905957
-backup_channel_id = -1002815905957
+BOT_TOKEN = "8185543792:AAH-94mnU2B8gRTr7Nt3X1MH1clLeCa4vvI"
 
-MONGO_URI = "mongodb+srv://Anime:Tony123@animedb.veb4qyk.mongodb.net/?retryWrites=true&w=majority"
-DB_NAME = "anime_stream"
-COLLECTION_NAME = "stream_db"
-
-app = Client("AnimeBot3", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+app = Client("create_button_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 server = Flask(__name__)
-
-mongo_client = pymongo.MongoClient(MONGO_URI)
-db = mongo_client[DB_NAME]
-collection = db[COLLECTION_NAME]
-channel_episode = db["channel_episode"]
-hentai_collection = db["hentai_db"]
-hentai_backup = db["hentai_backup"]
-hentai_post = db["hentai_post"]
-
-CHARACTERS = string.ascii_letters + string.digits
 
 @server.route("/")
 def home():
     return "Bot is running"
 
 def run_flask():
-    server.run(host="0.0.0.0", port=8894)
+    server.run(host="0.0.0.0", port=8897)
 
-async def is_joined(client: Client, user_id: int) -> bool:
-    try:
-        member = await client.get_chat_member(UPDATE_CHANNEL, user_id)
-        return member.status not in ("left", "kicked")
-    except:
-        return False
-        
-async def send_video_with_expiry(client, chat_id, file_id, caption, send_warning=True, code=None):
-    video_msg = await client.send_video(chat_id, file_id, caption=caption)
+user_sessions = {}
+saved_posts = {}
+post_counter = 2
 
-    warning_msg = None
-    if send_warning:
-        button_choice = choice([
-            {
-                "text": "Overflow Season 2 💌",
-                "url": "https://t.me/+oPJAKgZ4_1QxYjZl",
-                "message": "⚠️ This message will be deleted in 20 minutes. Please save it Somewhere.."
-            },
-            {
-                "text": "More Hentai 🍌",
-                "url": "https://t.me/Anime_spectrum_official",
-                "message": "⚠️ This message will be deleted in 20 minutes. Please save it Somewhere.\nJoin to watch more hentai 💞"
-            }
-        ])
-        warning_msg = await client.send_message(
-            chat_id,
-            button_choice["message"],
-            reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton(button_choice["text"], url=button_choice["url"])]
-            ])
-        )
-
-    async def delete_later():
-        await asyncio.sleep(1000)
-
-        try:
-            await video_msg.delete()
-            if warning_msg:
-                await warning_msg.delete()
-        except:
-            pass
-
-        if code:
-            bot = await client.get_me()
-            start_link = f"https://t.me/{bot.username}?start={code}"
-
-            reget_msg = await client.send_message(
-                chat_id,
-                "📁 **Retrieve Deleted Files**\n\n🔓 This option is available for **24 hours only.**",
-                reply_markup=InlineKeyboardMarkup([
-                    [InlineKeyboardButton("🔁 Get Again", url=start_link)]
-                ])
-            )
-
-            async def delete_reget():
-                await asyncio.sleep(43200)  # 12 hours
-                try:
-                    await reget_msg.delete()
-                except:
-                    pass
-
-            asyncio.create_task(delete_reget())
-
-    asyncio.create_task(delete_later())
-
-def extract_episode_number(caption: str) -> str:
-    match = re.search(r"єριѕσ∂є\s*[-:]?\s*(\d+)", caption, re.IGNORECASE)
-    return match.group(1).zfill(2) if match else None
-    
-user_video_data = {}
-user_batch_flags = {}
-hentai_session = {}
 
 @app.on_message(filters.command("create") & filters.private)
 async def start_create(client, message: Message):
     user_id = message.from_user.id
-    hentai_session[user_id] = {
+    user_sessions[user_id] = {
         "step": "awaiting_photo",
         "photo": None,
         "caption": None,
@@ -136,12 +48,11 @@ async def start_create(client, message: Message):
 @app.on_message(filters.photo & filters.private)
 async def receive_photo(client, message: Message):
     user_id = message.from_user.id
-    if user_id not in hentai_session or hentai_session[user_id]["step"] != "awaiting_photo":
+    if user_id not in user_sessions or user_sessions[user_id]["step"] != "awaiting_photo":
         return
 
-    session = hentai_session[user_id]
+    session = user_sessions[user_id]
     session["photo"] = message.photo.file_id
-    session["unique_id"] = message.photo.file_unique_id
     session["caption"] = message.caption or None
 
     if not session["caption"]:
@@ -163,10 +74,12 @@ async def receive_photo(client, message: Message):
 
 @app.on_message(filters.text & filters.private)
 async def handle_text(client, message: Message):
+    global post_counter
     user_id = message.from_user.id
-    if user_id not in hentai_session:
+    if user_id not in user_sessions:
         return
-    session = hentai_session[user_id]
+
+    session = user_sessions[user_id]
     text = message.text.strip()
 
     if session["step"] == "awaiting_caption":
@@ -195,20 +108,17 @@ async def handle_text(client, message: Message):
             await message.reply("✅ Button mode selected. Tap ➕ to begin adding buttons.")
         elif text.lower() == "manual":
             session["step"] = "awaiting_manual_buttons"
-            await message.reply("✍️ Send button list like:\n\n`Button 1 : https://link1.com`\n`Button 2 : https://link2.com`\n\nSeparate rows with empty lines.")
+            await message.reply(
+                "✍️ Send button list like:\n\n`Button 1 : https://link1.com`\n`Button 2 : https://link2.com`\n\nSeparate rows with empty lines."
+            )
         return
 
     if text.lower() == "done" and session["step"] == "adding_buttons":
-        latest_post = hentai_post.find_one(sort=[("post_id", -1)])
-        post_id = latest_post["post_id"] + 1 if latest_post else 1
-
-        hentai_post.insert_one({
-            "post_id": post_id,
-            "file_id": session["photo"],
-            "file_unique_id": session["unique_id"],
+        saved_posts[post_counter] = {
+            "photo": session["photo"],
             "caption": session["caption"],
             "buttons": session["buttons"]
-        })
+        }
 
         await client.send_photo(
             chat_id=message.chat.id,
@@ -219,8 +129,10 @@ async def handle_text(client, message: Message):
                 for row in session["buttons"]
             ])
         )
-        await message.reply(f"✅ Post saved as **#{post_id}**")
-        hentai_session.pop(user_id)
+
+        await message.reply(f"✅ Post saved as **#{post_counter}**")
+        post_counter += 1
+        user_sessions.pop(user_id)
         return
 
     if session["step"] == "awaiting_manual_buttons":
@@ -239,7 +151,7 @@ async def handle_text(client, message: Message):
             if match:
                 text_part = match.group(1).strip()
                 url_part = match.group(2).strip()
-                temp_row.append({"text": text_part, "url": url_part})
+                temp_row.append(InlineKeyboardButton(text=text_part, url=url_part))
 
         if temp_row:
             grouped.append(temp_row)
@@ -248,28 +160,22 @@ async def handle_text(client, message: Message):
             await message.reply("❌ No valid buttons found. Try again.")
             return
 
-        latest_post = hentai_post.find_one(sort=[("post_id", -1)])
-        post_id = latest_post["post_id"] + 1 if latest_post else 1
-
-        hentai_post.insert_one({
-            "post_id": post_id,
-            "file_id": session["photo"],
-            "file_unique_id": session["unique_id"],
+        saved_posts[post_counter] = {
+            "photo": session["photo"],
             "caption": session["caption"],
             "buttons": grouped
-        })
+        }
 
         await client.send_photo(
             chat_id=message.chat.id,
             photo=session["photo"],
             caption=session["caption"],
-            reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton(text=btn["text"], url=btn["url"]) for btn in row]
-                for row in grouped
-            ])
+            reply_markup=InlineKeyboardMarkup(grouped)
         )
-        await message.reply(f"✅ Post saved as **#{post_id}**")
-        hentai_session.pop(user_id)
+
+        await message.reply(f"✅ Post saved as **#{post_counter}**")
+        post_counter += 1
+        user_sessions.pop(user_id)
         return
 
     if session.get("state") == "awaiting_button_text":
@@ -298,12 +204,12 @@ async def handle_text(client, message: Message):
 @app.on_callback_query(filters.regex(r"^add_button:(\d+)$"))
 async def add_button(client: Client, query: CallbackQuery):
     user_id = query.from_user.id
-    if user_id not in hentai_session:
+    if user_id not in user_sessions:
         return await query.answer("Session expired. Use /create again.", show_alert=True)
 
     row_index = int(query.data.split(":")[1])
-    hentai_session[user_id]["state"] = "awaiting_button_text"
-    hentai_session[user_id]["add_to_row"] = row_index
+    user_sessions[user_id]["state"] = "awaiting_button_text"
+    user_sessions[user_id]["add_to_row"] = row_index
     await query.message.reply("✏️ Send the **button text**.")
     await query.answer()
 
@@ -322,7 +228,7 @@ def build_keyboard(buttons):
 
 
 async def send_preview(client, chat_id, user_id):
-    session = hentai_session[user_id]
+    session = user_sessions[user_id]
     await client.send_photo(
         chat_id,
         photo=session["photo"],
@@ -337,14 +243,13 @@ async def send_post_to_chat(client, message: Message):
         return await message.reply("❗ Usage: `/send 1`", quote=True)
 
     post_number = int(message.command[1])
-    post = hentai_post.find_one({"post_id": post_number})
-
-    if not post:
+    if post_number not in saved_posts:
         return await message.reply("❌ Post not found.", quote=True)
 
+    post = saved_posts[post_number]
     await client.send_photo(
         chat_id=message.chat.id,
-        photo=post["file_id"],
+        photo=post["photo"],
         caption=post["caption"],
         reply_markup=InlineKeyboardMarkup([
             [InlineKeyboardButton(text=btn["text"], url=btn["url"]) for btn in row]
@@ -352,347 +257,6 @@ async def send_post_to_chat(client, message: Message):
         ])
     )
 
-@app.on_message(filters.private & filters.command("createlink"))
-async def create_link(client: Client, message: Message):
-    if message.from_user.id not in OWNERS_ID:
-        return
-
-    user_id = message.from_user.id
-    user_video_data[user_id] = []
-    user_batch_flags[user_id] = None
-
-    keyboard = InlineKeyboardMarkup([
-        [InlineKeyboardButton("📥 Normal", callback_data="clink_normal"),
-         InlineKeyboardButton("📦 Batch", callback_data="clink_batch")]
-    ])
-    await message.reply_text("Choose upload mode:", reply_markup=keyboard)
-
-@app.on_callback_query(filters.regex(r"^clink_(normal|batch)$"))
-async def handle_createlink_mode(client: Client, callback_query):
-    user_id = callback_query.from_user.id
-    mode = callback_query.data.split("_")[1]
-
-    if mode == "normal":
-        user_batch_flags[user_id] = False
-        keyboard = ReplyKeyboardMarkup([
-            [KeyboardButton("Done"), KeyboardButton("Cancel")]
-        ], resize_keyboard=True, one_time_keyboard=True)
-
-        await callback_query.message.reply_text(
-            "Send videos with captions Tap **Done** when finished.",
-            reply_markup=keyboard
-        )
-
-    elif mode == "batch":
-        user_batch_flags[user_id] = True
-        keyboard = ReplyKeyboardMarkup([
-            [KeyboardButton("Done"), KeyboardButton("Cancel")]
-        ], resize_keyboard=True, one_time_keyboard=True)
-
-        await callback_query.message.reply_text(
-            "Batch mode enabled.\nSend multiple videos (with captions), then tap **Done**.",
-            reply_markup=keyboard
-        )
-
-    await callback_query.message.delete()
-
-@app.on_message(filters.private & filters.text & filters.regex("^(Done|Cancel)$"))
-async def handle_done_or_cancel(client: Client, message: Message):
-    user_id = message.from_user.id
-    if user_id not in OWNERS_ID:
-        return
-
-    text = message.text
-
-    if text == "Cancel":
-        user_video_data.pop(user_id, None)
-        user_batch_flags.pop(user_id, None)
-        await message.reply_text("❌ Process cancelled.", reply_markup=ReplyKeyboardRemove())
-        return
-
-    if text == "Done":
-        videos = user_video_data.get(user_id, [])
-        is_batch = user_batch_flags.get(user_id, False)
-
-        if not videos:
-            await message.reply_text("⚠️ No videos received.", reply_markup=ReplyKeyboardRemove())
-            return
-
-        bot_username = (await client.get_me()).username
-
-        if not is_batch:
-            # Normal Mode (existing logic)
-            for video_data in videos:
-                file_unique_id = video_data["file_unique_id"]
-                file_id = video_data["file_id"]
-                caption = video_data["caption"]
-                message_id = video_data["message_id"]
-
-                existing = hentai_collection.find_one({"file_unique_id": file_unique_id})
-                if existing:
-                    link = f"https://t.me/{bot_username}?start={existing['code']}"
-                    await message.reply_text(f"Video already has a link:\n\n{link}", reply_to_message_id=message_id)
-                    continue
-
-                while True:
-                    code = "".join(choice(CHARACTERS) for _ in range(12))
-                    if not hentai_collection.find_one({"code": code}):
-                        break
-
-                try:
-                    backup_msg = await client.send_video(backup_channel_id, file_id, caption=caption)
-                except Exception as e:
-                    await message.reply_text(f"❌ Backup failed:\n`{e}`", reply_to_message_id=message_id)
-                    continue
-
-                hentai_collection.insert_one({
-                    "code": code,
-                    "file_unique_id": file_unique_id,
-                    "file_id": file_id,
-                    "caption": caption
-                })
-                hentai_backup.insert_one({
-                    "code": code,
-                    "file_unique_id": file_unique_id,
-                    "file_id": file_id,
-                    "caption": caption,
-                    "channel_id": backup_channel_id,
-                    "message_id": backup_msg.id
-                })
-
-                link = f"https://t.me/{bot_username}?start={code}"
-                await message.reply_text(f"✅ Link created:\n{link}", reply_to_message_id=message_id)
-
-        else:
-            # Batch Mode
-            while True:
-                code = "".join(choice(CHARACTERS) for _ in range(12))
-                if not hentai_collection.find_one({"code": code}):
-                    break
-
-            media_array = []
-
-            for video_data in videos:
-                file_id = video_data["file_id"]
-                caption = video_data["caption"]
-                file_unique_id = video_data["file_unique_id"]
-                try:
-                    backup_msg = await client.send_video(backup_channel_id, file_id, caption=caption)
-                except Exception as e:
-                    await message.reply_text(f"❌ Backup failed:\n`{e}`", reply_to_message_id=video_data["message_id"])
-                    continue
-
-                media_array.append({
-                    "file_id": file_id,
-                    "file_unique_id": file_unique_id,
-                    "caption": caption
-                })
-
-            hentai_collection.insert_one({
-                "code": code,
-                "batch": True,
-                "videos": media_array
-            })
-
-            link = f"https://t.me/{bot_username}?start={code}"
-            await message.reply_text(f"✅ Batch link created:\n{link}")
-
-        user_video_data.pop(user_id, None)
-        user_batch_flags.pop(user_id, None)
-        await message.reply("✅ All videos processed.", reply_markup=ReplyKeyboardRemove())
-            
-@app.on_message(filters.private & filters.video)
-async def collect_videos(client: Client, message: Message):
-    user_id = message.from_user.id
-    if user_id not in OWNERS_ID or user_id not in user_video_data:
-        return
-
-    if not message.caption:
-        await message.reply_text("Please include a caption with the video.")
-        return
-
-    user_video_data[user_id].append({
-        "file_unique_id": message.video.file_unique_id,
-        "file_id": message.video.file_id,
-        "caption": message.caption,
-        "message_id": message.id
-    })
-
-@app.on_message(filters.private & filters.command("start"))
-async def start_command(client: Client, message: Message):
-    user = message.from_user
-    args = message.text.split()
-
-    if len(args) > 1:
-        code = args[1]
-        joined = await is_joined(client, user.id)
-
-        if not joined:
-            buttons = [
-                [
-                    InlineKeyboardButton("Jᴏɪɴ Cʜᴀɴɴᴇʟ", url=JOIN_LINK),
-                    InlineKeyboardButton("Jᴏɪɴ Nᴏᴡ", url=JOIN_LINK_2)
-                ],
-                [InlineKeyboardButton("✅ Vᴇʀɪғʏ 🕊️", callback_data=f"verify:{code}")]
-            ]
-            return await message.reply_text(
-                f"Hey [{user.first_name}](tg://user?id={user.id})\n\n"
-                "**Pʟᴇᴀsᴇ Jᴏɪɴ Aʟʟ Mʏ Uᴘᴅᴀᴛᴇ Cʜᴀɴɴᴇʟs Tᴏ Usᴇ Mᴇ!**",
-                reply_markup=InlineKeyboardMarkup(buttons)
-            )
-
-        item = hentai_collection.find_one({"code": code})
-
-        if item:
-            if item.get("batch"):
-                total = len(item["videos"])
-                for idx, video in enumerate(item["videos"]):
-                    await send_video_with_expiry(
-                        client,
-                        message.chat.id,
-                        video["file_id"],
-                        video.get("caption", ""),
-                        send_warning=(idx == total - 1),
-                        code=code
-                    )
-
-                await client.send_message(
-                    LOG_GROUP,
-                    f"📦 Batch of {total} videos sent.\n"
-                    f"Code: `{code}`\n"
-                    f"To: [{user.first_name}](tg://user?id={user.id})"
-                )
-                return
-
-            await send_video_with_expiry(
-                client,
-                message.chat.id,
-                item["file_id"],
-                item.get("caption", ""),
-                code=code
-            )
-            await client.send_message(
-                LOG_GROUP,
-                f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **hentai**\n"
-                f"Cᴏᴅᴇ = `{code}`\n"
-                f"Tᴏ : [{user.first_name}](tg://user?id={user.id})"
-            )
-        else:
-            exists = hentai_collection.find_one({"code": code}) is not None
-            await message.reply_text("**Iɴᴠᴀʟɪᴅ ᴏʀ ᴇxᴘɪʀᴇᴅ ʟɪɴᴋ.**")
-            await client.send_message(
-                LOG_GROUP,
-                f"Bᴀʙʏ I ғᴏᴜɴᴅ A ʙʀᴏᴋᴇɴ Eᴘɪsᴏᴅᴇ\n"
-                f"Cᴏᴅᴇ : `{code}`\n"
-                f"Fᴏᴜɴᴅ Iɴ ᴅᴀᴛᴀʙᴀsᴇ : **{exists}**\n\n"
-                f"@O0_oo_O0_o0o @baki_lll"
-            )
-    else:
-        buttons = InlineKeyboardMarkup([
-            [
-                InlineKeyboardButton("Oᴜʀ Cʜᴀɴɴᴇʟ", url=JOIN_LINK),
-                InlineKeyboardButton("Sᴜᴘᴘᴏʀᴛ", url="https://t.me/+STCT2ywFAA0yYjM1")
-            ],
-            [InlineKeyboardButton("Cʟᴏsᴇ", callback_data="close_msg")]
-        ])
-
-        await message.reply_photo(
-            photo="https://i.ibb.co/67WkkKrj/photo-2025-05-08-14-46-55-7502086450427461668.jpg",
-            caption=(
-                f"**Hᴇʏ !** [{user.first_name}](tg://user?id={user.id})\n\n"
-                "**Wᴇʟᴄᴏᴍᴇ Tᴏ ᴏᴜʀ Sᴛʀᴇᴀᴍɪɴɢ Bᴏᴛ!**\n"
-                "Pʟᴇᴀsᴇ Sᴛᴀʀᴛ ᴛʜᴇ ʙᴏᴛ Wɪᴛʜ ʟɪɴᴋ Pʀᴏᴠɪᴅᴇᴅ ɪɴ Cʜᴀɴɴᴇʟ\n"
-                "ᴀɴᴅ EɴJᴏʏ ʏᴏᴜʀ Aɴɪᴍᴇ Jᴏᴜʀɴᴇʏ Wɪᴛʜ US."
-            ),
-            reply_markup=buttons
-        )
-
-@app.on_callback_query(filters.regex(r"^verify:(.+)"))
-async def verify_join(client: Client, callback_query):
-    code = callback_query.data.split(":")[1]
-    user = callback_query.from_user
-
-    if await is_joined(client, user.id):
-        item = hentai_collection.find_one({"code": code})
-        if item:
-            await callback_query.message.edit_text("**Tʜᴀɴᴋs! Tᴏ Bᴇ ᴘᴀʀᴛ ᴏғ Oᴜʀ Cʜᴀɴɴᴇʟ Sᴇɴᴅɪɴɢ ʏᴏᴜʀ ᴠɪᴅᴇᴏ...**")
-
-            if item.get("batch"):
-                total = len(item["videos"])
-                for idx, video in enumerate(item["videos"]):
-                    await send_video_with_expiry(
-                        client,
-                        callback_query.message.chat.id,
-                        video["file_id"],
-                        video.get("caption", ""),
-                        send_warning=(idx == total - 1),
-                        code=code
-                    )
-                await client.send_message(
-                    LOG_GROUP,
-                    f"📦 Batch of {total} videos sent via verify.\n"
-                    f"Code: `{code}`\n"
-                    f"To: [{user.first_name}](tg://user?id={user.id})"
-                )
-            else:
-                await send_video_with_expiry(
-                    client,
-                    callback_query.message.chat.id,
-                    item["file_id"],
-                    item.get("caption", ""),
-                    code=code
-                )
-                await client.send_message(
-                    LOG_GROUP,
-                    f"A ɴᴇᴡ Vɪᴅᴇᴏ ɪs ᴘʀᴏᴠɪᴅᴇᴅ Bʏ **hentai**\n"
-                    f"Cᴏᴅᴇ = `{code}`\n"
-                    f"Tᴏ : [{user.first_name}](tg://user?id={user.id})"
-                )
-        else:
-            exists = hentai_collection.find_one({"code": code}) is not None
-            await callback_query.message.edit_text("**Iɴᴠᴀʟɪᴅ ᴏʀ ᴇxᴘɪʀᴇᴅ ʟɪɴᴋ.**")
-            await client.send_message(
-                LOG_GROUP,
-                f"Bᴀʙʏ I ғᴏᴜɴᴅ A ʙʀᴏᴋᴇɴ Eᴘɪsᴏᴅᴇ\n"
-                f"Cᴏᴅᴇ : `{code}`\n"
-                f"Fᴏᴜɴᴅ Iɴ ᴅᴀᴛᴀʙᴀsᴇ : **{exists}**\n\n"
-                f"@O0_oo_O0_o0o @baki_lll"
-            )
-    else:
-        await callback_query.answer("Yᴏᴜ'ʀᴇ ɴᴏᴛ Jᴏɪɴᴇᴅ ʏᴇᴛ!", show_alert=True)
-
-@app.on_callback_query(filters.regex("close_msg"))
-async def close_msg_handler(client: Client, callback_query):
-    await callback_query.message.delete()
-
-@app.on_message(filters.command("check"))
-async def check_code(_, message):
-    if len(message.command) < 2:
-        return await message.reply_text("❌ Usage: `/check <code>`", quote=True)
-
-    code = message.text.split(None, 1)[1].strip()
-    data = hentai_collection.find_one({"code": code})
-
-    if not data:
-        return await message.reply_text(f"❌ No video found with code: `{code}`", quote=True)
-
-    if data.get("batch"):
-        for video in data["videos"]:
-            await message.reply_video(
-                video=video["file_id"],
-                caption=video.get("caption", "")
-            )
-    else:
-        await message.reply_video(
-            video=data["file_id"],
-            caption=data.get("caption", "")
-        )
-
-@app.on_message(filters.command("db"))
-async def db_stats(_, message: Message):
-    count = hentai_collection.count_documents({})
-    await message.reply_text(f"📁 Total Episodes videos stored in DB: `{count}`")
-    
 if __name__ == "__main__":
     Thread(target=run_flask).start()
     print("Bot is running...")
