@@ -266,7 +266,7 @@ async def send_post_to_chat(client, message: Message):
     )
 
 
-@app.on_message(filters.command("setrange") & (filters.group | filters.channel | filters.private))
+@app.on_message(filters.command("setrange"))
 async def send_post_range(client, message: Message):
     if len(message.command) != 3:
         return
@@ -300,16 +300,20 @@ async def send_post_range(client, message: Message):
             pass  # Silently skip if a post fails
 
 
-@app.on_message(filters.forwarded & filters.photo & filters.private)
+@app.on_message(filters.forwarded & filters.photo & filters.chat(-1002815905957))
 async def save_forwarded_post(client, message: Message):
     global post_counter
 
-    if not message.reply_markup or not isinstance(message.reply_markup, InlineKeyboardMarkup):
-        return await message.reply("❌ Forwarded message doesn't have inline buttons.")
+    if not message.caption:
+        return  # No caption
 
+    if not message.reply_markup or not isinstance(message.reply_markup, InlineKeyboardMarkup):
+        return  # No inline buttons
+
+    # Save post
     saved_posts[post_counter] = {
         "photo": message.photo.file_id,
-        "caption": message.caption or "",
+        "caption": message.caption,
         "buttons": [
             [InlineKeyboardButton(text=btn.text, url=btn.url)]
             for row in message.reply_markup.inline_keyboard
