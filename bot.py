@@ -10,6 +10,7 @@ from pyrogram.types import (
 import re
 from flask import Flask
 from threading import Thread
+import asyncio
 
 API_ID = 27184163
 API_HASH = "4cf380dd354edc4dc4664f2d4f697393"
@@ -239,10 +240,17 @@ async def send_preview(client, chat_id, user_id):
 
 @app.on_message(filters.command("send") & (filters.group | filters.channel | filters.private))
 async def send_post_to_chat(client, message: Message):
-    if len(message.command) < 2 or not message.command[1].isdigit():
-        return await message.reply("❗ Usage: `/send 1`", quote=True)
+    if message.reply_to_message and message.reply_to_message.text:
+        match = re.search(r"#(\d+)", message.reply_to_message.text)
+        if match:
+            post_number = int(match.group(1))
+        else:
+            return await message.reply("❌ No post number found in the replied message.", quote=True)
+    elif len(message.command) >= 2 and message.command[1].isdigit():
+        post_number = int(message.command[1])
+    else:
+        return await message.reply("❗ Usage: `/send 1` or reply to a saved post.", quote=True)
 
-    post_number = int(message.command[1])
     if post_number not in saved_posts:
         return await message.reply("❌ Post not found.", quote=True)
 
@@ -256,6 +264,62 @@ async def send_post_to_chat(client, message: Message):
             for row in post["buttons"]
         ])
     )
+
+
+@app.on_message(filters.command("setrange") & (filters.group | filters.channel | filters.private))
+async def send_post_range(client, message: Message):
+    if len(message.command) != 3:
+        return
+
+    try:
+        start = int(message.command[1])
+        end = int(message.command[2])
+    except ValueError:
+        return
+
+    if start > end:
+        return
+
+    for post_number in range(start, end + 1):
+        post = saved_posts.get(post_number)
+        if not post:
+            continue
+
+        try:
+            await client.send_photo(
+                chat_id=message.chat.id,
+                photo=post["photo"],
+                caption=post["caption"],
+                reply_markup=InlineKeyboardMarkup([
+                    [InlineKeyboardButton(text=btn["text"], url=btn["url"]) for btn in row]
+                    for row in post["buttons"]
+                ])
+            )
+            await asyncio.sleep(4)  # 🕓 Add 4-second delay between each post
+        except:
+            pass  # Silently skip if a post fails
+
+
+@app.on_message(filters.forwarded & filters.photo & filters.private)
+async def save_forwarded_post(client, message: Message):
+    global post_counter
+
+    if not message.reply_markup or not isinstance(message.reply_markup, InlineKeyboardMarkup):
+        return await message.reply("❌ Forwarded message doesn't have inline buttons.")
+
+    saved_posts[post_counter] = {
+        "photo": message.photo.file_id,
+        "caption": message.caption or "",
+        "buttons": [
+            [InlineKeyboardButton(text=btn.text, url=btn.url)]
+            for row in message.reply_markup.inline_keyboard
+            for btn in row if btn.url
+        ]
+    }
+
+    await message.reply(f"✅ Forwarded post saved as **#{post_counter}**")
+    post_counter += 1
+
 
 if __name__ == "__main__":
     Thread(target=run_flask).start()
