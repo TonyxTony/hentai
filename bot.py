@@ -216,10 +216,10 @@ def build_keyboard(buttons):
     keyboard = []
     for i, row in enumerate(buttons):
         new_row = [InlineKeyboardButton(text=btn["text"], url=btn["url"]) for btn in row]
-        if len(new_row) < 3:  # Limit to 3 buttons per row
+        if len(new_row) < 3:
             new_row.append(InlineKeyboardButton("➕", callback_data=f"add_button:{i}"))
         keyboard.append(new_row)
-    if len(buttons) < 8:  # Telegram's max rows
+    if len(buttons) < 8:
         keyboard.append([InlineKeyboardButton("➕", callback_data=f"add_button:{len(buttons)}")])
     return InlineKeyboardMarkup(keyboard)
 
@@ -261,7 +261,6 @@ async def send_post_to_chat(client, message: Message):
                 for row in post["buttons"]
             ])
         )
-        await message.reply(f"✅ Sent post #{post_number}.", quote=True)
     except Exception as e:
         await message.reply(f"❌ Error sending post: {str(e)}", quote=True)
 
@@ -276,7 +275,6 @@ async def send_post_range(client, message: Message):
         if start > end:
             return await message.reply("❌ Start number must be less than or equal to end number.", quote=True)
 
-        sent_posts = []
         for post_number in range(start, end + 1):
             if post_number not in saved_posts:
                 continue
@@ -294,15 +292,10 @@ async def send_post_range(client, message: Message):
                         for row in post["buttons"]
                     ])
                 )
-                sent_posts.append(post_number)
-                await asyncio.sleep(5)  # 5-second delay to avoid flood limits
+                await asyncio.sleep(4)  # 4-second gap between posts
             except Exception as e:
                 await message.reply(f"⚠️ Failed to send post #{post_number}: {str(e)}", quote=True)
 
-        if sent_posts:
-            await message.reply(f"✅ Sent posts: {', '.join(map(str, sent_posts))}")
-        else:
-            await message.reply("❌ No valid posts found in the specified range.", quote=True)
     except ValueError:
         await message.reply("❌ Invalid range. Please use numbers.", quote=True)
     except Exception as e:
@@ -314,12 +307,11 @@ async def save_forwarded_post(client, message: Message):
     if not message.caption or not message.reply_markup or not isinstance(message.reply_markup, InlineKeyboardMarkup):
         return await message.reply("❌ Forwarded post must have a caption and inline buttons.")
 
-    # Convert buttons to standardized format
     buttons = []
     for row in message.reply_markup.inline_keyboard:
         button_row = []
         for btn in row:
-            if btn.url:  # Only include buttons with URLs
+            if btn.url:
                 button_row.append({"text": btn.text, "url": btn.url})
         if button_row:
             buttons.append(button_row)
