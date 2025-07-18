@@ -11,6 +11,7 @@ import re
 from flask import Flask
 from threading import Thread
 import asyncio
+import threading
 
 API_ID = 27184163
 API_HASH = "4cf380dd354edc4dc4664f2d4f697393"
@@ -28,6 +29,7 @@ def run_flask():
 
 user_sessions = {}
 saved_posts = {}
+post_counter_lock = threading.Lock()
 post_counter = 2
 
 @app.on_message(filters.command("create") & filters.private)
@@ -304,6 +306,7 @@ async def send_post_range(client, message: Message):
 @app.on_message(filters.forwarded & filters.photo & filters.chat(-1002815905957))
 async def save_forwarded_post(client, message: Message):
     global post_counter
+
     if not message.caption or not message.reply_markup or not isinstance(message.reply_markup, InlineKeyboardMarkup):
         return await message.reply("❌ Forwarded post must have a caption and inline buttons.")
 
@@ -319,13 +322,17 @@ async def save_forwarded_post(client, message: Message):
     if not buttons:
         return await message.reply("❌ No valid buttons found in the forwarded post.")
 
-    saved_posts[post_counter] = {
+    with post_counter_lock:
+        current_post_number = post_counter
+        post_counter += 1
+
+    saved_posts[current_post_number] = {
         "photo": message.photo.file_id,
         "caption": message.caption,
         "buttons": buttons
     }
-    await message.reply(f"✅ Forwarded post saved as **#{post_counter}**")
-    post_counter += 1
+
+    await message.reply(f"✅ Forwarded post saved as **#{current_post_number}**")
 
 if __name__ == "__main__":
     Thread(target=run_flask).start()
