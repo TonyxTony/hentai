@@ -12,6 +12,7 @@ from flask import Flask
 from threading import Thread
 import asyncio
 import threading
+from pyrogram.types import KeyboardButton, ReplyKeyboardMarkup
 
 API_ID = 27184163
 API_HASH = "4cf380dd354edc4dc4664f2d4f697393"
