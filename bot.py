@@ -16,8 +16,8 @@ BOT_TOKEN = "7644463386:AAH4Pp8r17q8OP1hUAYPh3e2u3SwBCHk6uI"
 OWNERS_ID = (6600178606, 7893840561, 7530506703, 7240796549, 7169672824)
 UPDATE_CHANNEL = -1002623332025
 UPDATE_CHANNEL_2 = -1002799540890
-UPDATE_CHANNEL_3 = -1002853740325
-JOIN_LINK_3 = "https://t.me/+1Kz--_LywP0xZTY1"
+UPDATE_CHANNEL_3 = -1002783239537
+JOIN_LINK_3 = "https://t.me/+lMKtVMRN4gdkOWU1"
 JOIN_LINK_2 = "https://t.me/+j9jofBdlxjQwY2Vl"
 JOIN_LINK = "https://t.me/+PngidWDJgiI2NjU1"
 
@@ -49,10 +49,9 @@ def run_flask():
 
 async def is_joined(client: Client, user_id: int) -> bool:
     try:
-        for channel in [UPDATE_CHANNEL, UPDATE_CHANNEL_3]:
-            member = await client.get_chat_member(channel, user_id)
-            if member.status in ("left", "kicked"):
-                return False
+        member = await client.get_chat_member(UPDATE_CHANNEL, user_id)
+        if member.status in ("left", "kicked"):
+            return False
         return True
     except:
         return False
