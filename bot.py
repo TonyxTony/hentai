@@ -1,4 +1,21 @@
 from pymongo import MongoClient
+from flask import Flask
+import threading
+
+# Flask app
+server = Flask(__name__)
+
+@server.route("/")
+def home():
+    return "Bot is running ✅"
+
+def run_flask():
+    server.run(host="0.0.0.0", port=8894)
+
+# Start Flask in a separate thread
+threading.Thread(target=run_flask).start()
+
+# ---------------- MongoDB Update Script ----------------
 
 # MongoDB connection details
 MONGO_URI = "mongodb+srv://Anime:Tony123@animedb.veb4qyk.mongodb.net/?retryWrites=true&w=majority"
