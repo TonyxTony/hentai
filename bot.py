@@ -115,6 +115,21 @@ async def send_video_with_expiry(client, chat_id, file_id, caption, send_warning
 
     asyncio.create_task(delete_later())
 
+async def is_user_joined(user_id: int, required_group: int):
+    try:
+        # Get all mutual/private groups between USERBOT and the USER
+        common_chats = await userbot.get_common_chats(user_id)
+
+        # We just check if required_group exists in common chats
+        for chat in common_chats:
+            if chat.id == required_group:
+                return True
+
+        return False
+
+    except Exception as e:
+        print("Membership check error:", e)
+        return False
 
 def extract_episode_number(caption: str) -> str:
     match = re.search(r"єριѕσ∂є\s*[-:]?\s*(\d+)", caption, re.IGNORECASE)
@@ -365,23 +380,6 @@ async def start_command(client: Client, message: Message):
         ),
         reply_markup=buttons
     )
-
-
-# ----------------- VERIFY HANDLER (uses userbot to check membership) -----------------
-# Note: userbot does NOT need to be admin to check membership in public/join-by-link groups.
-async def is_user_joined(user_id: int, chat_id: int):
-    try:
-        member = await userbot.get_chat_member(chat_id, user_id)
-        if member.status in ("left", "kicked"):
-            return False
-        return True
-    except UserNotParticipant:
-        return False
-    except Exception:
-        # Could be privacy/flood or other error; treat as not joined
-        logger.exception("Error checking membership via userbot")
-        return False
-
 
 @app.on_callback_query(filters.regex(r"^verify_new:(.+)"))
 async def verify_new(client, callback_query):
