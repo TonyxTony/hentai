@@ -44,8 +44,14 @@ COLLECTION_NAME = "stream_db"
 
 # Initialize bot client and userbot client
 app = Client("AnimeBot3", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
-# userbot will run as a secondary Pyrogram Client (uses a user account session string)
-userbot = Client("userbot", api_id=API_ID, api_hash=API_HASH, session_string=STRING_SESSION)
+
+userbot = Client(
+    "userbot",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    session_string=STRING_SESSION,
+    no_updates=True
+)
 
 # Flask server for uptime
 server = Flask(__name__)
